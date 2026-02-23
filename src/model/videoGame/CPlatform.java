@@ -9,6 +9,9 @@ import model.videoGame.rating.CTesterRating;
  */
 public class CPlatform {
 
+    /** The name of the platform */
+    private final String name;
+
     /** the year of release */
     private final Integer releaseYear;
 
@@ -24,8 +27,9 @@ public class CPlatform {
     /** the ratings from the players */
     private final CPlayerRating playerRating;
 
-    public CPlatform(Integer releaseYear, String developer, Float globalSale,
+    public CPlatform(String name, Integer releaseYear, String developer, Float globalSale,
                      CTesterRating testerRating, CPlayerRating playerRating){
+        this.name = name;
         this.releaseYear = releaseYear;
         this.developer = developer;
         this.globalSale = globalSale;
@@ -51,5 +55,9 @@ public class CPlatform {
 
     public CPlayerRating getPlayerRating() {
         return playerRating;
+    }
+
+    public String getName() {
+        return name;
     }
 }

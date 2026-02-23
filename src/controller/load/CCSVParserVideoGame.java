@@ -71,12 +71,10 @@ public class CCSVParserVideoGame {
                         CVideoGame databaseVideoGame = database.getVideoGame(actualVideoGame.getName());
                         databaseVideoGame.addPlatform(platform);
 
-                        System.out.println("Jeu modifié : " + actualVideoGame.getName());
                         database.addVideoGame(databaseVideoGame);
                     }
                     else{
                         //we add normally our game to the database
-                        System.out.println("Jeu ajouté : " + actualVideoGame.getName());
                         database.addVideoGame(actualVideoGame);
                     }
                 }
@@ -165,10 +163,12 @@ public class CCSVParserVideoGame {
         Integer releaseYear = null;
         String developer = null;
         Float globalSales = null;
+        String platformName = null;
 
         String releaseYearStr = columnValues.get(EnumCSVFieldToGet.YEAR_OF_RELEASE);
         String developerStr = columnValues.get(EnumCSVFieldToGet.DEVELOPER);
         String globalSalesStr = columnValues.get(EnumCSVFieldToGet.GLOBAL_SALES);
+        String platformStr = columnValues.get(EnumCSVFieldToGet.PLATFORM);
 
         if(releaseYearStr != null && !releaseYearStr.trim().isEmpty()){
             try{
@@ -186,10 +186,14 @@ public class CCSVParserVideoGame {
             }catch (NumberFormatException ignore){}
         }
 
+        if(platformStr != null && !platformStr.trim().isEmpty()){
+            platformName = platformStr;
+        }
+
         CTesterRating testerRating = createTesterRating(columnValues);
         CPlayerRating playerRating = createPlayerRating(columnValues);
 
-        return new CPlatform(releaseYear, developer, globalSales, testerRating, playerRating);
+        return new CPlatform(platformName, releaseYear, developer, globalSales, testerRating, playerRating);
     }
 
     /**

@@ -1,6 +1,8 @@
 package model.videoGame;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represent a video game
@@ -22,16 +24,50 @@ public class CVideoGame {
     /** All the platforms that handle the video game */
     private final ArrayList<CPlatform> platforms;
 
+    /** A map that contains the evaluation by platform as <platform, evaluation>*/
+    private final Map<CPlatform, CEvaluation> evaluations;
+
+    /** A map that contains the evaluation by platform as <platform, test>*/
+    private final Map<CPlatform, CTest> tests;
+
     public CVideoGame(String name, String category, String editor, Character rating){
-        this.name = name;
-        this.category = category;
-        this.editor = editor;
-        this.rating = rating;
+        this.name = (name != null)? name : "undefined";
+        this.category = (category != null) ? category : "undefined";
+        this.editor = (editor != null) ? editor : "undefined";
+        this.rating = (rating != null) ? rating : '?';
         this.platforms = new ArrayList<>();
+        evaluations = new HashMap<>();
+        tests = new HashMap<>();
     }
 
+    /**
+     * Add a platform for a game
+     * @param platform the platform to add
+     */
     public void addPlatform(CPlatform platform){
         platforms.add(platform);
+    }
+
+    /**
+     * Add an evaluation for a platform
+     * @param platform the platform
+     * @param evaluation the evaluation
+     */
+    public void addEvaluation(CPlatform platform, CEvaluation evaluation){
+        if(!evaluations.containsKey(platform)){
+            evaluations.put(platform, evaluation);
+        }
+    }
+
+    /**
+     * Add a test for a platform
+     * @param platform the platform
+     * @param test the test
+     */
+    public void addTest(CPlatform platform, CTest test){
+        if(!tests.containsKey(platform)){
+            tests.put(platform, test);
+        }
     }
 
     /**
@@ -73,5 +109,21 @@ public class CVideoGame {
      */
     public ArrayList<CPlatform> getCPlatform() {
         return platforms;
+    }
+
+    public ArrayList<CPlatform> getPlatforms() {
+        return platforms;
+    }
+
+    public Map<CPlatform, CEvaluation> getEvaluations() {
+        return evaluations;
+    }
+
+    public Map<CPlatform, CTest> getTests() {
+        return tests;
+    }
+
+    public String toString(){
+        return this.name;
     }
 }

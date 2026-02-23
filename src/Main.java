@@ -1,19 +1,23 @@
 import controller.CController;
 import controller.load.CCSVParserVideoGame;
 import model.data.CDatabase;
+import view.user.CLoginView;
 
+/**
+ * The main class of this application
+ */
 public class Main {
-    private static final String PATH_TO_VIDEO_GAME_DDATA = "./data/vg_data.csv";
+    private static final String PATH_TO_VIDEO_GAME_DATA = "./data/vg_data.csv";
 
     public static void main(String[] args){
         CDatabase database = new CDatabase();
         CController controller = new CController(database);
 
-        System.out.println("Application lancée");
-
-
-        CCSVParserVideoGame parserVideoGame = new CCSVParserVideoGame(controller, PATH_TO_VIDEO_GAME_DDATA);
+        CCSVParserVideoGame parserVideoGame = new CCSVParserVideoGame(controller, PATH_TO_VIDEO_GAME_DATA);
         parserVideoGame.readCSV();
 
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            new CLoginView(controller).setVisible(true);
+        });
     }
 }
