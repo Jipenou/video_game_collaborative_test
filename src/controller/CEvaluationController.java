@@ -6,6 +6,8 @@ import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
 import view.videoGame.evaluation.CAddEvaluationView;
 
+import java.time.LocalDateTime;
+
 public class CEvaluationController {
 
     /** The main controller */
@@ -17,9 +19,9 @@ public class CEvaluationController {
 
     public void addNewEvaluation(CPlayer player, CVideoGame videoGame, CPlatform platform, String text,
                                  String version, double note){
-        CEvaluation evaluation = new CEvaluation(player, videoGame, platform, text, version, note);
+        CEvaluation evaluation = new CEvaluation(LocalDateTime.now(), player, videoGame, platform, text, version, note);
 
-        controller.getLoadEvaluationController().saveEvaluation(evaluation);
+        controller.getDatabase().addEvaluation(evaluation);
     }
 
     /**

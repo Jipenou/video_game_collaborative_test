@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * This class represent the frame that display the games
  */
-public class gamesView extends JFrame {
+public class CVideoGamesView extends JFrame {
 
     /** the main controller of the application */
     private final CVideoGameController videoGameController;
 
-    public gamesView(CVideoGameController videoGameController) {
+    public CVideoGamesView(CVideoGameController videoGameController) {
         this.videoGameController = videoGameController;
 
         setTitle("Liste des jeux");

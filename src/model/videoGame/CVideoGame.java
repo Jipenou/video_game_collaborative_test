@@ -5,6 +5,7 @@ import model.user.CPlayer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This class represent a video game
@@ -121,9 +122,14 @@ public class CVideoGame {
         return tests;
     }
 
+    /**
+     * Get the platform with the name in parameter
+     * @param platformName the platform to get
+     * @return the platform or null
+     */
     public CPlatform getPlatform(String platformName){
         for (CPlatform platform : platforms){
-            if(platform.getName() == platformName){
+            if(Objects.equals(platform.getName(), platformName)){
                 return platform;
             }
         }

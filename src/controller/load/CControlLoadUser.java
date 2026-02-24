@@ -44,9 +44,9 @@ public class CControlLoadUser {
 
                 String[] values = line.split(SEPARATOR);
 
-                if(values.length == 2){
-                    String pseudo = values[0];
-                    String role = values[1];
+                if(values.length == EnumUserLoad.values().length){
+                    String pseudo = values[EnumUserLoad.PSEUDO.getIndex()];
+                    String role = values[EnumUserLoad.ROLE.getIndex()];
 
                     AUser user = switch (role) {
                         case CTester.ROLE -> new CTester(pseudo);
@@ -69,12 +69,13 @@ public class CControlLoadUser {
      */
     public void saveUser(AUser user){
         File file = new File(USER_FILE);
-        boolean exists = file.exists();
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {
 
-            if(!exists){
-                bw.write("pseudo,role");
+            if(file.length() == 0){
+                for (EnumUserLoad enumValue : EnumUserLoad.values()){
+                    bw.write(enumValue.getName()+SEPARATOR);
+                }
                 bw.newLine();
             }
 
@@ -83,7 +84,7 @@ public class CControlLoadUser {
             else if(user instanceof CAdmin) role = CAdmin.ROLE;
             else role = CPlayer.ROLE;
 
-            bw.write(user.getPseudo() + "," + role);
+            bw.write(user.getPseudo() + SEPARATOR + role);
             bw.newLine();
 
         } catch(IOException e){
@@ -91,4 +92,11 @@ public class CControlLoadUser {
         }
     }
 
+    public void clearCSV(){
+        try (FileWriter writer = new FileWriter(USER_FILE, false)) {
+            writer.write("");
+        } catch (IOException e) {
+            throw new RuntimeException("Error while clearing CSV file : " + USER_FILE, e);
+        }
+    }
 }

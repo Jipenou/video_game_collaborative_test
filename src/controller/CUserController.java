@@ -40,7 +40,6 @@ public class CUserController {
         if(isPseudoAvailable(pseudo) && !pseudo.isEmpty()){
             CPlayer player = new CPlayer(pseudo);
             database.addUser(player);
-            controller.getLoadUserController().saveUser(player);
             return true;
         }
         return false;

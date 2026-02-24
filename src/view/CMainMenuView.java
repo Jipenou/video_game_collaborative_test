@@ -6,7 +6,7 @@ import model.user.CAdmin;
 import model.user.CTester;
 import view.user.CLoginView;
 import view.user.CProfileView;
-import view.videoGame.gamesView;
+import view.videoGame.CVideoGamesView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,18 @@ public class CMainMenuView extends JFrame {
         setTitle("Menu principal");
         setSize(400, 300);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                controller.clearAllCSV();
+                controller.saveAll();
+                dispose();
+                System.exit(0);
+            }
+        });
 
         AUser user = controller.getCurrentUser();
 
@@ -41,10 +52,6 @@ public class CMainMenuView extends JFrame {
         panel.add(displayGamesButton);
         panel.add(profileButton);
         panel.add(logoutButton);
-
-        if(user instanceof CTester) {
-            panel.add(new JButton("Ajouter un test"));
-        }
 
         if(user instanceof CAdmin) {
             panel.add(new JButton("Administration"));
@@ -80,6 +87,6 @@ public class CMainMenuView extends JFrame {
      * display the games
      */
     private void displayGames(){
-        new gamesView(controller.getVideoGameController()).setVisible(true);
+        new CVideoGamesView(controller.getVideoGameController()).setVisible(true);
     }
 }

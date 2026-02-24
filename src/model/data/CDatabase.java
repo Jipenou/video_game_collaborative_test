@@ -1,9 +1,13 @@
 package model.data;
 
 import model.user.AUser;
+import model.user.CPlayer;
 import model.videoGame.CEvaluation;
+import model.videoGame.CPlatform;
+import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +27,14 @@ public class CDatabase {
     /** the evaluations */
     private final List<CEvaluation> evaluations;
 
+    /** the tests */
+    private final List<CTest> tests;
+
     public CDatabase(){
         videoGames = new HashMap<>();
         users = new HashMap<>();
         evaluations = new ArrayList<>();
+        tests = new ArrayList<>();
     }
 
     /**
@@ -111,11 +119,28 @@ public class CDatabase {
         return evaluations;
     }
 
+    public CEvaluation getEvaluationByPseudoVideoGameAndPlatform(LocalDateTime date, CPlayer player, CVideoGame videoGame, CPlatform platform){
+        for(CEvaluation eval : evaluations){
+            if(eval.getDate().equals(date) && eval.getPlayer() == player && eval.getVideoGame() == videoGame && eval.getPlatform() == platform){
+                return eval;
+            }
+        }
+        return null;
+    }
+
     /**
      * Add an evaluation into the database
      * @param eval the evaluation to add
      */
     public void addEvaluation(CEvaluation eval){
         evaluations.add(eval);
+    }
+
+    public List<CTest> getTests() {
+        return tests;
+    }
+
+    public void addTest(CTest test){
+        tests.add(test);
     }
 }

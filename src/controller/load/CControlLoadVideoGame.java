@@ -105,10 +105,10 @@ public class CControlLoadVideoGame {
      * @param lineValues the values of a line
      */
     public CVideoGame createVideoGame(String[] lineValues){
-        Map<EnumCSVFieldToGet, String> columnValues = new HashMap<>();
+        Map<EnumVideoGameLoad, String> columnValues = new HashMap<>();
 
         // get all the value that we need
-        for(EnumCSVFieldToGet enumValue : EnumCSVFieldToGet.values()){
+        for(EnumVideoGameLoad enumValue : EnumVideoGameLoad.values()){
             int index = columnName.get(enumValue.getName());
             String value = null;
             if(index < lineValues.length){
@@ -123,10 +123,10 @@ public class CControlLoadVideoGame {
         String editor = null;
         Character rating = null;
 
-        String nameStr = columnValues.get(EnumCSVFieldToGet.NAME);
-        String categoryStr = columnValues.get(EnumCSVFieldToGet.CATEGORY);
-        String editorStr = columnValues.get(EnumCSVFieldToGet.EDITOR);
-        String ratingStr = columnValues.get(EnumCSVFieldToGet.RATING);
+        String nameStr = columnValues.get(EnumVideoGameLoad.NAME);
+        String categoryStr = columnValues.get(EnumVideoGameLoad.CATEGORY);
+        String editorStr = columnValues.get(EnumVideoGameLoad.EDITOR);
+        String ratingStr = columnValues.get(EnumVideoGameLoad.RATING);
 
         if(nameStr == null || nameStr.trim().isEmpty()){
             return null;
@@ -162,16 +162,16 @@ public class CControlLoadVideoGame {
      * @param columnValues values of the line
      * @return a platform
      */
-    public CPlatform createPlatform(Map<EnumCSVFieldToGet, String> columnValues){
+    public CPlatform createPlatform(Map<EnumVideoGameLoad, String> columnValues){
         Integer releaseYear = null;
         String developer = null;
         Float globalSales = null;
         String platformName = null;
 
-        String releaseYearStr = columnValues.get(EnumCSVFieldToGet.YEAR_OF_RELEASE);
-        String developerStr = columnValues.get(EnumCSVFieldToGet.DEVELOPER);
-        String globalSalesStr = columnValues.get(EnumCSVFieldToGet.GLOBAL_SALES);
-        String platformStr = columnValues.get(EnumCSVFieldToGet.PLATFORM);
+        String releaseYearStr = columnValues.get(EnumVideoGameLoad.YEAR_OF_RELEASE);
+        String developerStr = columnValues.get(EnumVideoGameLoad.DEVELOPER);
+        String globalSalesStr = columnValues.get(EnumVideoGameLoad.GLOBAL_SALES);
+        String platformStr = columnValues.get(EnumVideoGameLoad.PLATFORM);
 
         if(releaseYearStr != null && !releaseYearStr.trim().isEmpty()){
             try{
@@ -204,12 +204,12 @@ public class CControlLoadVideoGame {
      * @param columnValue the value of the line
      * @return a playerRating
      */
-    public CPlayerRating createPlayerRating(Map<EnumCSVFieldToGet, String> columnValue){
+    public CPlayerRating createPlayerRating(Map<EnumVideoGameLoad, String> columnValue){
         Integer nbPlayerRating = null;
         Float playerRatingValue = null;
 
-        String userCount = columnValue.get(EnumCSVFieldToGet.USER_COUNT);
-        String userScore = columnValue.get(EnumCSVFieldToGet.USER_SCORE);
+        String userCount = columnValue.get(EnumVideoGameLoad.USER_COUNT);
+        String userScore = columnValue.get(EnumVideoGameLoad.USER_SCORE);
 
         if(userCount != null && !userCount.trim().isEmpty()){
             try{
@@ -234,12 +234,12 @@ public class CControlLoadVideoGame {
      * @param columnValue the value of the line
      * @return a testerRating
      */
-    public CTesterRating createTesterRating(Map<EnumCSVFieldToGet, String> columnValue){
+    public CTesterRating createTesterRating(Map<EnumVideoGameLoad, String> columnValue){
         Integer nbTesterRating = null;
         Float testerRatingValue = null;
 
-        String criticCount = columnValue.get(EnumCSVFieldToGet.CRITIC_COUNT);
-        String criticScore = columnValue.get(EnumCSVFieldToGet.CRITIC_SCORE);
+        String criticCount = columnValue.get(EnumVideoGameLoad.CRITIC_COUNT);
+        String criticScore = columnValue.get(EnumVideoGameLoad.CRITIC_SCORE);
 
         if(criticCount != null && !criticCount.trim().isEmpty()){
             try{

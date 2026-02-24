@@ -27,7 +27,17 @@ public class CLoginView extends JFrame{
 
         setTitle(CTextPlaceHolder.APPLICATION_NAME);
         setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                controller.clearAllCSV();
+                controller.saveAll();
+                dispose();
+                System.exit(0);
+            }
+        });
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new GridLayout(4, 1));

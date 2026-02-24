@@ -1,25 +1,25 @@
-package view.videoGame.evaluation;
+package view.videoGame.test;
 
-import controller.CEvaluationController;
-import model.user.CPlayer;
+import controller.CTestController;
+import model.user.CTester;
 import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CAddEvaluationView extends JFrame {
-    private final CEvaluationController evaluationController;
+public class CAddTestView extends JFrame{
+    private final CTestController testController;
     private final CVideoGame videoGame;
 
     private final JComboBox<CPlatform> platformBox;
     private final JTextArea textArea;
-    private final JTextField scoreField;
+    private final JTextField conditionsField;
     private final JTextField versionField;
 
-    public CAddEvaluationView(CEvaluationController evaluationController, CVideoGame videoGame) {
+    public CAddTestView(CTestController testController, CVideoGame videoGame) {
 
-        this.evaluationController = evaluationController;
+        this.testController = testController;
         this.videoGame = videoGame;
 
         setTitle("Ajouter une évaluation : " + videoGame.getName());
@@ -41,11 +41,11 @@ public class CAddEvaluationView extends JFrame {
         versionField = new JTextField();
         panel.add(versionField);
 
-        panel.add(new JLabel("Note (/10) :"));
-        scoreField = new JTextField();
-        panel.add(scoreField);
+        panel.add(new JLabel("Conditions :"));
+        conditionsField = new JTextField();
+        panel.add(conditionsField);
 
-        panel.add(new JLabel("Commentaire :"));
+        panel.add(new JLabel("Text :"));
         textArea = new JTextArea(5,20);
         panel.add(new JScrollPane(textArea));
 
@@ -61,11 +61,11 @@ public class CAddEvaluationView extends JFrame {
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
         String version = versionField.getText();
         String text = textArea.getText();
-        double note = Integer.parseInt(scoreField.getText());
+        String conditions = conditionsField.getText();
 
-        CPlayer player = (CPlayer) evaluationController.getController().getCurrentUser();
+        CTester tester = (CTester) testController.getController().getCurrentUser();
 
-        evaluationController.addNewEvaluation(player, videoGame, platform, text, version, note);
+        testController.addNewTest(tester, videoGame, platform, text, version, conditions);
 
         dispose();
     }

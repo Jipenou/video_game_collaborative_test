@@ -3,6 +3,7 @@ package model.videoGame;
 import model.user.CPlayer;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class CEvaluation {
     private final CPlatform platform;
 
     /** date of the evaluation */
-    private final LocalDate date;
+    private final LocalDateTime date;
 
     /** text of the evaluation */
     private final String text;
@@ -39,7 +40,7 @@ public class CEvaluation {
     /** Map that contains the utilities votes as <player that vote, his vote> */
     private final Map<CPlayer, Integer> votants;
 
-    public CEvaluation(CPlayer player, CVideoGame videoGame, CPlatform platform,
+    public CEvaluation(LocalDateTime date, CPlayer player, CVideoGame videoGame, CPlatform platform,
                       String text, String numVersion, double globalScore) {
 
         this.player = player;
@@ -48,7 +49,7 @@ public class CEvaluation {
         this.text = text;
         this.numVersion = numVersion;
         this.globalScore = globalScore;
-        this.date = LocalDate.now();
+        this.date = date;
 
         votants = new HashMap<>();
 
@@ -62,17 +63,36 @@ public class CEvaluation {
      * @param value the value of the rating (1 for yes, 0 for no)
      */
     public void addUtilities(CPlayer player, int value){
-        if (votants.containsKey(player)){
+
+        Integer ancienVote = votants.get(player);
+
+        if (ancienVote == null) {
+            votants.put(player, value);
+
+            if (value == 1) utiliteOui++;
+            else utiliteNon++;
+
             return;
         }
 
-        votants.put(player, value);
-        if (value == 1){
+        if (ancienVote == value) {
+            votants.remove(player);
+
+            if (value == 1) utiliteOui--;
+            else utiliteNon--;
+
+            return;
+        }
+
+        if (ancienVote == 1) {
+            utiliteOui--;
+            utiliteNon++;
+        } else {
+            utiliteNon--;
             utiliteOui++;
         }
-        else{
-            utiliteNon++;
-        }
+
+        votants.put(player, value);
     }
 
     public CPlayer getPlayer() {
@@ -87,7 +107,7 @@ public class CEvaluation {
         return platform;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -118,5 +138,13 @@ public class CEvaluation {
     public String toString(){
         return "[Platform : " + this.platform + ",date : " + this.date + ",version: " + this.numVersion + ", note: " + this.globalScore +
                 ", description : " + this.text + "]";
+    }
+
+    public void setUtiliteOui(int utiliteOui) {
+        this.utiliteOui = utiliteOui;
+    }
+
+    public void setUtiliteNon(int utiliteNon) {
+        this.utiliteNon = utiliteNon;
     }
 }

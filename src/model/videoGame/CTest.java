@@ -29,7 +29,7 @@ public class CTest {
     private final String text;
 
     /** the version of the game */
-    private final int numVersion;
+    private final String numVersion;
 
     /** List of strengths */
     private final List<String> strengths;
@@ -50,7 +50,7 @@ public class CTest {
     private final Map<String, Integer> noteSpecificCategory;
 
 
-    public CTest(CTester tester, CVideoGame videoGame, CPlatform platform, String text, int numVersion, String conditions){
+    public CTest(CTester tester, CVideoGame videoGame, CPlatform platform, String text, String numVersion, String conditions){
         this.tester = tester;
         this.videoGame = videoGame;
         this.platform = platform;
@@ -65,6 +65,9 @@ public class CTest {
 
         noteCategory = new HashMap<>();
         noteSpecificCategory = new HashMap<>();
+
+        tester.addTest(this);
+        videoGame.addTest(this.platform, this);
     }
 
     public void addCategoryScore(String category, int score){
@@ -107,7 +110,7 @@ public class CTest {
         return text;
     }
 
-    public int getNumVersion() {
+    public String getNumVersion() {
         return numVersion;
     }
 

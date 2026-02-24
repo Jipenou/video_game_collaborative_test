@@ -3,7 +3,7 @@ package controller.load;
 /**
  * An enum that list the field to get in the video games csv data
  */
-public enum EnumCSVFieldToGet{
+public enum EnumVideoGameLoad {
     NAME("Name"),
     CATEGORY("Genre"),
     EDITOR("Publisher"),
@@ -19,7 +19,7 @@ public enum EnumCSVFieldToGet{
 
     private final String name;
 
-    EnumCSVFieldToGet(String name){
+    EnumVideoGameLoad(String name){
         this.name = name;
     }
 
