@@ -80,6 +80,6 @@ public class CMainMenuView extends JFrame {
      * display the games
      */
     private void displayGames(){
-        new gamesView(controller).setVisible(true);
+        new gamesView(controller.getVideoGameController()).setVisible(true);
     }
 }

@@ -27,7 +27,7 @@ public class CEvaluation {
     private final String text;
 
     /** the number of version of the game */
-    private final int numVersion;
+    private final String numVersion;
 
     /** the global grade for this evaluation */
     private final double globalScore;
@@ -40,7 +40,7 @@ public class CEvaluation {
     private final Map<CPlayer, Integer> votants;
 
     public CEvaluation(CPlayer player, CVideoGame videoGame, CPlatform platform,
-                      String text, int numVersion, double globalScore) {
+                      String text, String numVersion, double globalScore) {
 
         this.player = player;
         this.videoGame = videoGame;
@@ -51,6 +51,9 @@ public class CEvaluation {
         this.date = LocalDate.now();
 
         votants = new HashMap<>();
+
+        player.addEvaluation(this);
+        videoGame.addEvaluation(platform, this);
     }
 
     /**
@@ -92,7 +95,7 @@ public class CEvaluation {
         return text;
     }
 
-    public int getNumVersion() {
+    public String getNumVersion() {
         return numVersion;
     }
 
@@ -110,5 +113,10 @@ public class CEvaluation {
 
     public Map<CPlayer, Integer> getVotants() {
         return votants;
+    }
+
+    public String toString(){
+        return "[Platform : " + this.platform + ",date : " + this.date + ",version: " + this.numVersion + ", note: " + this.globalScore +
+                ", description : " + this.text + "]";
     }
 }

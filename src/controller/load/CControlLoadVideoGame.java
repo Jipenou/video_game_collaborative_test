@@ -16,7 +16,10 @@ import java.util.Map;
 /**
  * This class represent the CSV parser that get video games
  */
-public class CCSVParserVideoGame {
+public class CControlLoadVideoGame {
+
+    public static final String PATH_TO_VIDEO_GAME_DATA = "./data/vg_data.csv";
+
     /** the separator between each value in the csv */
     public static final String SEPARATOR = ",";
 
@@ -30,16 +33,16 @@ public class CCSVParserVideoGame {
      */
     private Map<String, Integer> columnName;
 
-    public CCSVParserVideoGame(CController controller, String file){
+    public CControlLoadVideoGame(CController controller){
         this.controller = controller;
-        this.file = file;
+        this.file = PATH_TO_VIDEO_GAME_DATA;
         columnName = new HashMap<>();
     }
 
     /**
      * Read a csv file to get all the video games inside
      */
-    public void readCSV(){
+    public void loadVideoGames(){
         try{
             BufferedReader file = new BufferedReader(new FileReader(this.file));
             String line;
@@ -65,7 +68,7 @@ public class CCSVParserVideoGame {
                     // if video game already present in database, we only update his platforms by adding one
                     if(database.isVideoGameCreated(actualVideoGame.getName())){
                         // the actual platform
-                        CPlatform platform = actualVideoGame.getCPlatform().getFirst();
+                        CPlatform platform = actualVideoGame.getPlatforms().getFirst();
 
                         //the video game in the database
                         CVideoGame databaseVideoGame = database.getVideoGame(actualVideoGame.getName());

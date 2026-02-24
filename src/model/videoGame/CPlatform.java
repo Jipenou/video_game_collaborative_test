@@ -60,4 +60,8 @@ public class CPlatform {
     public String getName() {
         return name;
     }
+
+    public String toString(){
+        return this.name;
+    }
 }

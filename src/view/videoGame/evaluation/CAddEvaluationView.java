@@ -1,8 +1,11 @@
 package view.videoGame.evaluation;
 
 import controller.CController;
+import controller.CEvaluationController;
+import controller.CVideoGameController;
 import model.user.AUser;
 import model.user.CPlayer;
+import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
 
@@ -10,17 +13,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CAddEvaluationView extends JFrame {
-    private final CController controller;
+    private final CEvaluationController evaluationController;
     private final CVideoGame videoGame;
 
-    private JComboBox<String> platformBox;
+    private JComboBox<CPlatform> platformBox;
     private JTextArea textArea;
     private JTextField scoreField;
     private JTextField versionField;
 
-    public CAddEvaluationView(CController controller, CVideoGame videoGame) {
+    public CAddEvaluationView(CEvaluationController evaluationController, CVideoGame videoGame) {
 
-        this.controller = controller;
+        this.evaluationController = evaluationController;
         this.videoGame = videoGame;
 
         setTitle("Ajouter une évaluation : " + videoGame.getName());
@@ -30,21 +33,17 @@ public class CAddEvaluationView extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(0,1));
 
-        AUser user = controller.getCurrentUser();
-
         panel.add(new JLabel("Choisir la plateforme :"));
 
         platformBox = new JComboBox<>(
-                videoGame.getPlatforms()
-                        .stream()
-                        .map(CPlatform::getName)
-                        .toArray(String[]::new)
+                videoGame.getPlatforms().toArray(new CPlatform[0])
         );
 
         panel.add(platformBox);
 
         panel.add(new JLabel("Version / Build :"));
-        panel.add(new JTextField());
+        versionField = new JTextField();
+        panel.add(versionField);
 
         panel.add(new JLabel("Note (/10) :"));
         scoreField = new JTextField();
@@ -57,8 +56,21 @@ public class CAddEvaluationView extends JFrame {
         JButton submitButton = new JButton("Valider");
         panel.add(submitButton);
 
-        //submitButton.addActionListener(e -> submitEvaluation());
+        submitButton.addActionListener(e -> submitEvaluation());
 
         add(panel);
+    }
+
+    private void submitEvaluation(){
+        CPlatform platform = (CPlatform) platformBox.getSelectedItem();
+        String version = versionField.getText();
+        String text = textArea.getText();
+        double note = Integer.parseInt(scoreField.getText());
+
+        CPlayer player = (CPlayer) evaluationController.getController().getCurrentUser();
+
+        evaluationController.addNewEvaluation(player, videoGame, platform, text, version, note);
+
+        dispose();
     }
 }

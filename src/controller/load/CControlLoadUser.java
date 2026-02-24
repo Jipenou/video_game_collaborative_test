@@ -8,8 +8,15 @@ import model.user.CTester;
 
 import java.io.*;
 
+/**
+ * This class represent the csv parser for the users
+ */
 public class CControlLoadUser {
+
+    /** The path for the csv */
     private static final String USER_FILE = "./data/user.csv";
+
+    /** the separator */
     private static final String SEPARATOR = ",";
 
     /** The database of the application */
@@ -19,6 +26,9 @@ public class CControlLoadUser {
         this.database = database;
     }
 
+    /**
+     * load all the users
+     */
     public void loadUsers() {
         File userFile = new File(USER_FILE);
         if(!userFile.exists()){

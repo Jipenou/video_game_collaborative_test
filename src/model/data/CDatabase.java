@@ -1,6 +1,7 @@
 package model.data;
 
 import model.user.AUser;
+import model.videoGame.CEvaluation;
 import model.videoGame.CVideoGame;
 
 import java.util.ArrayList;
@@ -19,9 +20,13 @@ public class CDatabase {
     /** the user registered as <pseudo, User> */
     private final Map<String, AUser> users;
 
+    /** the evaluations */
+    private final List<CEvaluation> evaluations;
+
     public CDatabase(){
         videoGames = new HashMap<>();
         users = new HashMap<>();
+        evaluations = new ArrayList<>();
     }
 
     /**
@@ -96,5 +101,21 @@ public class CDatabase {
      */
     public Map<String, CVideoGame> getVideoGames() {
         return videoGames;
+    }
+
+    public Map<String, AUser> getUsers() {
+        return users;
+    }
+
+    public List<CEvaluation> getEvaluations() {
+        return evaluations;
+    }
+
+    /**
+     * Add an evaluation into the database
+     * @param eval the evaluation to add
+     */
+    public void addEvaluation(CEvaluation eval){
+        evaluations.add(eval);
     }
 }

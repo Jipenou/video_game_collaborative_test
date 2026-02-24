@@ -1,5 +1,7 @@
 package model.videoGame;
 
+import model.user.CPlayer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,10 +109,6 @@ public class CVideoGame {
      *
      * @return all the platform that contain this video game
      */
-    public ArrayList<CPlatform> getCPlatform() {
-        return platforms;
-    }
-
     public ArrayList<CPlatform> getPlatforms() {
         return platforms;
     }
@@ -121,6 +119,28 @@ public class CVideoGame {
 
     public Map<CPlatform, CTest> getTests() {
         return tests;
+    }
+
+    public CPlatform getPlatform(String platformName){
+        for (CPlatform platform : platforms){
+            if(platform.getName() == platformName){
+                return platform;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return the display of all the evaluations
+     */
+    public String displayAllEvaluation(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+        for(CEvaluation evaluation : evaluations.values()){
+            sb.append("\t").append(evaluation).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
 
     public String toString(){
