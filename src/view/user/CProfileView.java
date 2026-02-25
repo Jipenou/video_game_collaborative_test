@@ -1,6 +1,7 @@
 package view.user;
 
 import controller.CController;
+import controller.CUserController;
 import model.user.AUser;
 import model.user.CPlayer;
 import model.user.CTester;
@@ -14,13 +15,17 @@ import java.util.Map;
  */
 public class CProfileView extends JFrame {
 
-    public CProfileView(CController controller){
+    private CUserController userController;
+
+    public CProfileView(CUserController userController){
 
         setTitle("Profil utilisateur");
         setSize(400,400);
         setLocationRelativeTo(null);
 
-        AUser user = controller.getCurrentUser();
+        this.userController = userController;
+
+        AUser user = userController.getController().getCurrentUser();
 
         if(user == null){
             return;
@@ -33,20 +38,22 @@ public class CProfileView extends JFrame {
         panelProfile.add(new JLabel("Nombre de jetons : " + user.getNbToken()));
 
         if(user instanceof CPlayer player){
-
-            panelProfile.add(new JLabel("Temps total de jeu : " + player.getTotalPlayTime() + "h"));
             panelProfile.add(new JLabel("Nombre d'évaluations: " + player.getNbEvaluation()));
-            panelProfile.add(new JLabel("Jeux: "));
-
-            for(Map.Entry<?, Integer> entry : player.getPlayTime().entrySet()){
-                panelProfile.add(new JLabel("\t" + entry.getKey() + " : " + entry.getValue() + "h"));
-            }
         }
 
         if(user instanceof CTester tester){
             panelProfile.add(new JLabel("Nombre de tests : " + tester.getNbTest() + "\n"));
         }
 
+        JButton desinscrire = new JButton("Se désinscrire");
+        panelProfile.add(desinscrire);
+        desinscrire.addActionListener(e->desinscrire());
+
         add(panelProfile);
+    }
+
+    public void desinscrire(){
+        userController.desinscrire();
+        dispose();
     }
 }

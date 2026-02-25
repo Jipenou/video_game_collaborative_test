@@ -3,9 +3,11 @@ package view;
 import controller.CController;
 import model.user.AUser;
 import model.user.CAdmin;
+import model.user.CPlayer;
 import model.user.CTester;
 import view.user.CLoginView;
 import view.user.CProfileView;
+import view.videoGame.CShowMyGamesView;
 import view.videoGame.CVideoGamesView;
 
 import javax.swing.*;
@@ -45,23 +47,35 @@ public class CMainMenuView extends JFrame {
 
         panel.add(new JLabel("Bienvenue " + user.getPseudo() + ", vous avez " + user.getNbToken() + " jetons"));
 
-        JButton displayGamesButton = new JButton("Voir les jeux");
+        JButton displayGamesButton = new JButton("Tous les jeux");
         JButton logoutButton = new JButton("Logout");
         JButton profileButton = new JButton("Mon profil");
 
         panel.add(displayGamesButton);
-        panel.add(profileButton);
-        panel.add(logoutButton);
+
+        if(user instanceof CPlayer) {
+            JButton displayMyGames = new JButton("Mes jeux");
+            displayMyGames.addActionListener(e -> displayMyGames());
+            panel.add(displayMyGames);
+        }
 
         if(user instanceof CAdmin) {
             panel.add(new JButton("Administration"));
         }
+
+        panel.add(profileButton);
+        panel.add(logoutButton);
+
 
         logoutButton.addActionListener(e -> logout());
         profileButton.addActionListener(e -> openProfile());
         displayGamesButton.addActionListener(e -> displayGames());
 
         add(panel);
+    }
+
+    private void displayMyGames(){
+        new CShowMyGamesView(controller.getVideoGameController()).setVisible(true);
     }
 
     /**
@@ -80,7 +94,7 @@ public class CMainMenuView extends JFrame {
      * open the profile frame to see information about the user
      */
     private void openProfile(){
-        new CProfileView(controller).setVisible(true);
+        new CProfileView(controller.getUserController()).setVisible(true);
     }
 
     /**

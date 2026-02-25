@@ -1,11 +1,9 @@
 package model.videoGame;
 
 import model.user.CPlayer;
+import model.user.CPlayerGame;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This class represent a video game

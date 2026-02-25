@@ -3,6 +3,7 @@ package controller;
 import model.data.CDatabase;
 import model.user.AUser;
 import model.user.CPlayer;
+import view.user.CLoginView;
 
 /**
  * This class represent the controller of the users
@@ -61,5 +62,13 @@ public class CUserController {
      */
     public CController getController() {
         return controller;
+    }
+
+    public void desinscrire(){
+        CDatabase database = controller.getDatabase();
+        AUser user = controller.getCurrentUser();
+
+        database.getUsers().remove(user.getPseudo(), user);
+        new CLoginView(controller);
     }
 }

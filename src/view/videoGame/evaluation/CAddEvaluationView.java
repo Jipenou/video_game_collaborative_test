@@ -22,6 +22,9 @@ public class CAddEvaluationView extends JFrame {
         this.evaluationController = evaluationController;
         this.videoGame = videoGame;
 
+        CPlayer player = (CPlayer) evaluationController.getController().getCurrentUser();
+
+
         setTitle("Ajouter une évaluation : " + videoGame.getName());
         setSize(600, 500);
         setLocationRelativeTo(null);
@@ -32,7 +35,7 @@ public class CAddEvaluationView extends JFrame {
         panel.add(new JLabel("Choisir la plateforme :"));
 
         platformBox = new JComboBox<>(
-                videoGame.getPlatforms().toArray(new CPlatform[0])
+                player.getPlatformsForGame(videoGame).toArray(new CPlatform[0])
         );
 
         panel.add(platformBox);
@@ -57,6 +60,9 @@ public class CAddEvaluationView extends JFrame {
         add(panel);
     }
 
+    /**
+     * Submit an evaluation for the current game
+     */
     private void submitEvaluation(){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
         String version = versionField.getText();

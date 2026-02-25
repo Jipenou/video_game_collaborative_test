@@ -1,6 +1,7 @@
 package model.user;
 
 import model.videoGame.CEvaluation;
+import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
 
 import java.util.ArrayList;
@@ -8,12 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represent a player
+ */
 public class CPlayer extends AUser{
 
-    /**
-     * A map that define the playtime of a user as <video game, hours of playtime
-     */
-    protected Map<CVideoGame, Integer> playTime;
+    /** List of game played with their time and platform */
+    protected List<CPlayerGame> gamePlayed;
 
     /**
      * A list of evaluation of a user
@@ -28,33 +30,103 @@ public class CPlayer extends AUser{
     public CPlayer(String pseudo) {
         super(pseudo);
         this.nbJeton = 3;
-        playTime = new HashMap<>();
+        gamePlayed = new ArrayList<>();
         evaluations = new ArrayList<>();
     }
 
     /**
-     * Add a game to the playtime map
-     * @param vg the video game to add
+     * Add a game in the user collection
+     * @param videoGame the video game to add
+     * @param platform the platform concerned
      */
-    public void addGame(CVideoGame vg) {
-        playTime.putIfAbsent(vg, 0);
+    public void addGameToCollection(CVideoGame videoGame, CPlatform platform){
+        gamePlayed.add(new CPlayerGame(videoGame, platform));
     }
 
     /**
-     * Add playtime for a game
-     * @param vg the video game concerned
-     * @param hours the number of hours played on a video game
+     * Add hours for a game owned
+     * @param videoGame the video game
+     * @param platform the platform played on
+     * @param hoursToAdd the number of hours played
      */
-    public void addPlayTime(CVideoGame vg, int hours) {
-        playTime.put(vg, playTime.getOrDefault(vg, 0) + hours);
+    public void addHoursToGame(CVideoGame videoGame, CPlatform platform, float hoursToAdd){
+        for(CPlayerGame playerGame : gamePlayed){
+            if(videoGame == playerGame.getVideoGame() && platform == playerGame.getPlatform()){
+                playerGame.addHours(hoursToAdd);
+            }
+        }
     }
 
     /**
      *
-     * @return the play time map
+     * @return A list of video games owned
      */
-    public Map<CVideoGame, Integer> getPlayTime() {
-        return playTime;
+    public List<CVideoGame> getGamesOwned(){
+        List<CVideoGame> videoGames = new ArrayList<>();
+        for(CPlayerGame playerGame : gamePlayed){
+            if(!videoGames.contains(playerGame.getVideoGame())){
+                videoGames.add(playerGame.getVideoGame());
+            }
+        }
+        return videoGames;
+    }
+
+    /**
+     *
+     * @param videoGame the video game to check
+     * @return true if the video game is owned, else false
+     */
+    public boolean isGameInCollection(CVideoGame videoGame){
+        List<CVideoGame> gamesOwned = getGamesOwned();
+        for(CVideoGame game : gamesOwned){
+            if(game == videoGame){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * get a map of <Platform,hoursPlayed> for a video game owned
+     * @param videoGame the video game
+     * @return a map of <Platform,hoursPlayed> for a video game owned
+     */
+    public Map<CPlatform, Float> getHoursPlayedOnAGame(CVideoGame videoGame){
+        Map<CPlatform, Float> hoursPlayed = new HashMap<>();
+        for(CPlayerGame playerGame : gamePlayed){
+            if(playerGame.getVideoGame() == videoGame){
+                hoursPlayed.put(playerGame.getPlatform(), playerGame.getHoursPlayed());
+            }
+        }
+        return hoursPlayed;
+    }
+
+    /**
+     * Get all the platform owned of a game owned
+     * @param videoGame the video game
+     * @return all the platform owned of a game owned
+     */
+    public List<CPlatform> getPlatformsForGame(CVideoGame videoGame){
+        List<CPlatform> platforms = new ArrayList<>();
+        for(CPlayerGame playerGame : gamePlayed){
+            if(videoGame == playerGame.getVideoGame()){
+                platforms.add(playerGame.getPlatform());
+            }
+        }
+        return platforms;
+    }
+
+    public ArrayList<CPlatform> getPlatformNotOwnedForGame(CVideoGame videoGame) {
+        List<CPlatform> platformsOwned = getPlatformsForGame(videoGame);
+        ArrayList<CPlatform> platformsNotOwned = new ArrayList<>();
+
+        for (CPlatform platform : videoGame.getPlatforms()) {
+            if (!platformsOwned.contains(platform)) {
+                platformsNotOwned.add(platform);
+            }
+        }
+
+        return platformsNotOwned;
     }
 
     /**
@@ -63,18 +135,6 @@ public class CPlayer extends AUser{
      */
     public List<CEvaluation> getEvaluations() {
         return evaluations;
-    }
-
-    /**
-     *
-     * @return the total playtime of a the player
-     */
-    public int getTotalPlayTime(){
-        int total = 0;
-        for (int playtime : playTime.values()) {
-            total += playtime;
-        }
-        return total;
     }
 
     /**
