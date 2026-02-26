@@ -134,17 +134,17 @@ public class CVideoGameInfoView extends JFrame {
 
     /** display the add hours to the game frame */
     private void addHours(){
-        videoGameController.addHoursFrame(game);
+        videoGameController.addHoursFrame(this, game);
     }
 
     /** add an evaluation to the game */
     private void addEvaluation(){
-        videoGameController.addEvaluationFrame(game);
+        videoGameController.addEvaluationFrame(this, game);
     }
 
     /** add a test to the game */
     private void addTest(){
-        videoGameController.addTestFrame(game);
+        videoGameController.addTestFrame(this, game);
     }
 
     /**
@@ -167,6 +167,6 @@ public class CVideoGameInfoView extends JFrame {
      * Display the frame to add to your collection a game with a specific platform
      */
     private void addToCollection(){
-        videoGameController.displayAddGameFrame(game);
+        videoGameController.displayAddGameFrame(this, game);
     }
 }

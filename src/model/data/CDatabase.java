@@ -2,6 +2,7 @@ package model.data;
 
 import model.user.AUser;
 import model.user.CPlayer;
+import model.user.CPlayerGame;
 import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CTest;
@@ -30,11 +31,14 @@ public class CDatabase {
     /** the tests */
     private final List<CTest> tests;
 
+    private final List<CPlayerGame> playerGames;
+
     public CDatabase(){
         videoGames = new HashMap<>();
         users = new HashMap<>();
         evaluations = new ArrayList<>();
         tests = new ArrayList<>();
+        playerGames = new ArrayList<>();
     }
 
     /**
@@ -142,5 +146,13 @@ public class CDatabase {
 
     public void addTest(CTest test){
         tests.add(test);
+    }
+
+    public void addPlayerGame(CPlayerGame playerGame){
+        playerGames.add(playerGame);
+    }
+
+    public List<CPlayerGame> getPlayerGames() {
+        return playerGames;
     }
 }

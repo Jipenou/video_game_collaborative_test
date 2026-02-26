@@ -5,14 +5,27 @@ import model.videoGame.CVideoGame;
 
 public class CPlayerGame {
 
+    private final CPlayer player;
     private final CVideoGame videoGame;
     private final CPlatform platform;
     private float hoursPlayed;
 
-    public CPlayerGame(CVideoGame videoGame, CPlatform platform){
+    public CPlayerGame(CPlayer player, CVideoGame videoGame, CPlatform platform){
+        this.player = player;
         this.videoGame = videoGame;
         this.platform = platform;
-        hoursPlayed = 0;
+        this.hoursPlayed = 0;
+
+        player.addGamePlayed(this);
+    }
+
+    public CPlayerGame(CPlayer player, CVideoGame videoGame, CPlatform platform, float hoursPlayed){
+        this.player = player;
+        this.videoGame = videoGame;
+        this.platform = platform;
+        this.hoursPlayed = hoursPlayed;
+
+        player.addGamePlayed(this);
     }
 
     /** add hours to a game */
@@ -30,5 +43,9 @@ public class CPlayerGame {
 
     public float getHoursPlayed() {
         return hoursPlayed;
+    }
+
+    public CPlayer getPlayer() {
+        return player;
     }
 }

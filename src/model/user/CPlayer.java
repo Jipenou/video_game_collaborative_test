@@ -39,8 +39,8 @@ public class CPlayer extends AUser{
      * @param videoGame the video game to add
      * @param platform the platform concerned
      */
-    public void addGameToCollection(CVideoGame videoGame, CPlatform platform){
-        gamePlayed.add(new CPlayerGame(videoGame, platform));
+    public void addGameToCollection(CPlayer player, CVideoGame videoGame, CPlatform platform){
+        new CPlayerGame(player, videoGame, platform);
     }
 
     /**
@@ -55,6 +55,10 @@ public class CPlayer extends AUser{
                 playerGame.addHours(hoursToAdd);
             }
         }
+    }
+
+    public void addGamePlayed(CPlayerGame playerGame){
+        gamePlayed.add(playerGame);
     }
 
     /**

@@ -15,7 +15,7 @@ public class CAddGameView extends JFrame {
 
     private final JComboBox<CPlatform> platformBox;
 
-    public CAddGameView(CVideoGameController videoGameController, CVideoGame videoGame) {
+    public CAddGameView(CVideoGameController videoGameController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
         this.videoGameController = videoGameController;
         this.videoGame = videoGame;
@@ -43,14 +43,16 @@ public class CAddGameView extends JFrame {
         JButton submitButton = new JButton("Ajouter");
         panel.add(submitButton);
 
-        submitButton.addActionListener(e -> addGame());
+        submitButton.addActionListener(e -> addGame(gameInfoView));
 
         add(panel);
     }
 
-    private void addGame(){
+    private void addGame(CVideoGameInfoView videoGameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
         videoGameController.addGameToCollection(videoGame, platform);
+        videoGameInfoView.dispose();
+        videoGameController.viewInfoGameFrame(videoGame);
         dispose();
     }
 }

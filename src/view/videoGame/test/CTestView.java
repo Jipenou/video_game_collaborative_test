@@ -31,7 +31,7 @@ public class CTestView extends JFrame {
         panel.add(new JLabel("Platforme : " + test.getPlatform()));
         panel.add(new JLabel("texte : " + test.getText()));
         panel.add(new JLabel("Version : " + test.getNumVersion()));
-        panel.add(new JLabel("Score : " + test.getConditions()));
+        panel.add(new JLabel("Conditions : " + test.getConditions()));
 
         add(panel);
     }

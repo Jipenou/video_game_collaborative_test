@@ -26,15 +26,15 @@ public class CControlLoadVideoGame {
     /** the file to read */
     private final String file;
 
-    private final CController controller;
+    private final CDatabase database;
 
     /** A map with the format : <name of the column, index of the column> that repertory
      * the column names with their index
      */
     private Map<String, Integer> columnName;
 
-    public CControlLoadVideoGame(CController controller){
-        this.controller = controller;
+    public CControlLoadVideoGame(CDatabase database){
+        this.database = database;
         this.file = PATH_TO_VIDEO_GAME_DATA;
         columnName = new HashMap<>();
     }
@@ -63,7 +63,6 @@ public class CControlLoadVideoGame {
                 CVideoGame actualVideoGame = createVideoGame(values);
 
                 if (actualVideoGame != null && actualVideoGame.getName() != null){
-                    CDatabase database = controller.getDatabase();
 
                     // if video game already present in database, we only update his platforms by adding one
                     if(database.isVideoGameCreated(actualVideoGame.getName())){

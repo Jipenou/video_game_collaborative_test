@@ -1,6 +1,8 @@
 package controller;
 
+import model.data.CDatabase;
 import model.user.CPlayer;
+import model.user.CPlayerGame;
 import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CTest;
@@ -22,12 +24,12 @@ public class CVideoGameController {
         this.controller = controller;
     }
 
-    public void addEvaluationFrame(CVideoGame videoGame){
-        new CAddEvaluationView(controller.getEvaluationController(), videoGame).setVisible(true);
+    public void addEvaluationFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
+        new CAddEvaluationView(controller.getEvaluationController(), videoGame, gameInfoView).setVisible(true);
     }
 
-    public void addTestFrame(CVideoGame videoGame){
-        new CAddTestView(controller.getTestController(), videoGame).setVisible(true);
+    public void addTestFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
+        new CAddTestView(controller.getTestController(), videoGame, gameInfoView).setVisible(true);
     }
 
     public void viewInfoGameFrame(CVideoGame videoGame){
@@ -42,12 +44,12 @@ public class CVideoGameController {
         new CTestView(controller.getTestController(), test).setVisible(true);
     }
 
-    public void displayAddGameFrame(CVideoGame videoGame){
-        new CAddGameView(this, videoGame).setVisible(true);
+    public void displayAddGameFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
+        new CAddGameView(this, videoGame,gameInfoView).setVisible(true);
     }
 
-    public void addHoursFrame(CVideoGame videoGame){
-        new CAddHoursToGameView(this, videoGame).setVisible(true);
+    public void addHoursFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
+        new CAddHoursToGameView(this, videoGame, gameInfoView).setVisible(true);
     }
 
     public void addHoursToGame(CVideoGame videoGame, CPlatform platform, int hours){
@@ -59,7 +61,8 @@ public class CVideoGameController {
     public void addGameToCollection(CVideoGame videoGame, CPlatform platform){
         CPlayer player = (CPlayer) controller.getCurrentUser();
 
-        player.addGameToCollection(videoGame, platform);
+        CPlayerGame playerGame = new CPlayerGame(player, videoGame, platform);
+        controller.getDatabase().addPlayerGame(playerGame);
     }
 
     /**

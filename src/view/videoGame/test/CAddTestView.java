@@ -3,7 +3,9 @@ package view.videoGame.test;
 import controller.CTestController;
 import model.user.CTester;
 import model.videoGame.CPlatform;
+import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
+import view.videoGame.CVideoGameInfoView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,10 +19,12 @@ public class CAddTestView extends JFrame{
     private final JTextField conditionsField;
     private final JTextField versionField;
 
-    public CAddTestView(CTestController testController, CVideoGame videoGame) {
+    public CAddTestView(CTestController testController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
         this.testController = testController;
         this.videoGame = videoGame;
+
+        CTester tester = (CTester) testController.getController().getCurrentUser();
 
         setTitle("Ajouter une évaluation : " + videoGame.getName());
         setSize(600, 500);
@@ -32,7 +36,7 @@ public class CAddTestView extends JFrame{
         panel.add(new JLabel("Choisir la plateforme :"));
 
         platformBox = new JComboBox<>(
-                videoGame.getPlatforms().toArray(new CPlatform[0])
+                tester.getPlatformsForGame(videoGame).toArray(new CPlatform[0])
         );
 
         panel.add(platformBox);
@@ -52,12 +56,12 @@ public class CAddTestView extends JFrame{
         JButton submitButton = new JButton("Valider");
         panel.add(submitButton);
 
-        submitButton.addActionListener(e -> submitEvaluation());
+        submitButton.addActionListener(e -> submitEvaluation(gameInfoView));
 
         add(panel);
     }
 
-    private void submitEvaluation(){
+    private void submitEvaluation(CVideoGameInfoView gameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
         String version = versionField.getText();
         String text = textArea.getText();
@@ -68,5 +72,7 @@ public class CAddTestView extends JFrame{
         testController.addNewTest(tester, videoGame, platform, text, version, conditions);
 
         dispose();
+        gameInfoView.dispose();
+        testController.getController().getVideoGameController().viewInfoGameFrame(videoGame);
     }
 }

@@ -1,11 +1,9 @@
 package controller;
 
-import controller.load.CControlLoadEvaluation;
-import controller.load.CControlLoadTest;
-import controller.load.CControlLoadUser;
-import controller.load.CControlLoadVideoGame;
+import controller.load.*;
 import model.data.CDatabase;
 import model.user.AUser;
+import model.user.CPlayerGame;
 import model.videoGame.CEvaluation;
 import model.videoGame.CTest;
 
@@ -25,6 +23,8 @@ public class CController {
     private final CControlLoadEvaluation loadEvaluationController;
 
     private final CControlLoadTest loadTestController;
+
+    private final CControlLoadGameOwned loadGameOwnedController;
 
     /** The User controller */
     private final CUserController userController;
@@ -48,10 +48,11 @@ public class CController {
         this.evaluationController = new CEvaluationController(this);
         this.testController = new CTestController(this);
 
-        this.loadVideoGameController = new CControlLoadVideoGame(this);
+        this.loadVideoGameController = new CControlLoadVideoGame(database);
         this.loadUserController = new CControlLoadUser(database);
         this.loadEvaluationController = new CControlLoadEvaluation(database);
         this.loadTestController = new CControlLoadTest(database);
+        this.loadGameOwnedController = new CControlLoadGameOwned(database);
 
         loadAll();
     }
@@ -65,6 +66,7 @@ public class CController {
         this.loadEvaluationController.loadEvaluations();
         this.loadEvaluationController.loadEvaluationsUsers();
         this.loadTestController.loadTests();
+        this.loadGameOwnedController.loadPlayerGame();
     }
 
     /**
@@ -74,6 +76,7 @@ public class CController {
         this.loadUserController.clearCSV();
         this.loadEvaluationController.clearCSV();
         this.loadTestController.clearCSV();
+        this.loadGameOwnedController.clearCSV();
     }
 
     /**
@@ -83,6 +86,7 @@ public class CController {
         saveAllUsers();
         saveAllEvaluations();
         saveAllTests();
+        saveAllPlayerGames();
     }
 
     /**
@@ -110,6 +114,12 @@ public class CController {
     public void saveAllTests(){
         for(CTest test : database.getTests()){
             loadTestController.saveTest(test);
+        }
+    }
+
+    public void saveAllPlayerGames(){
+        for(CPlayerGame playerGame : database.getPlayerGames()){
+            loadGameOwnedController.savePlayerGame(playerGame);
         }
     }
 
@@ -143,10 +153,6 @@ public class CController {
 
     public CControlLoadUser getLoadUserController() {
         return loadUserController;
-    }
-
-    public CControlLoadEvaluation getLoadEvaluationController() {
-        return loadEvaluationController;
     }
 
     public CVideoGameController getVideoGameController() {

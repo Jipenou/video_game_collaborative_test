@@ -17,7 +17,7 @@ public class CAddHoursToGameView extends JFrame{
     private final JComboBox<CPlatform> platformBox;
     private final JTextArea hoursToAdd;
 
-    public CAddHoursToGameView(CVideoGameController videoGameController, CVideoGame videoGame) {
+    public CAddHoursToGameView(CVideoGameController videoGameController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
         this.videoGameController = videoGameController;
         this.videoGame = videoGame;
@@ -46,17 +46,19 @@ public class CAddHoursToGameView extends JFrame{
         JButton submitHoursButton = new JButton("Enregistrer");
         panel.add(submitHoursButton);
 
-        submitHoursButton.addActionListener(e -> submitHours());
+        submitHoursButton.addActionListener(e -> submitHours(gameInfoView));
 
         add(panel);
     }
 
-    private void submitHours(){
+    private void submitHours(CVideoGameInfoView videoGameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
         int heures = Integer.parseInt(hoursToAdd.getText());
 
         videoGameController.addHoursToGame(videoGame, platform, heures);
-
         dispose();
+        videoGameInfoView.dispose();
+        videoGameController.viewInfoGameFrame(videoGame);
+
     }
 }

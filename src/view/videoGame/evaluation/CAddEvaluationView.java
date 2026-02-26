@@ -4,6 +4,7 @@ import controller.CEvaluationController;
 import model.user.CPlayer;
 import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
+import view.videoGame.CVideoGameInfoView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class CAddEvaluationView extends JFrame {
     private final JTextField scoreField;
     private final JTextField versionField;
 
-    public CAddEvaluationView(CEvaluationController evaluationController, CVideoGame videoGame) {
+    public CAddEvaluationView(CEvaluationController evaluationController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
         this.evaluationController = evaluationController;
         this.videoGame = videoGame;
@@ -55,7 +56,7 @@ public class CAddEvaluationView extends JFrame {
         JButton submitButton = new JButton("Valider");
         panel.add(submitButton);
 
-        submitButton.addActionListener(e -> submitEvaluation());
+        submitButton.addActionListener(e -> submitEvaluation(gameInfoView));
 
         add(panel);
     }
@@ -63,7 +64,7 @@ public class CAddEvaluationView extends JFrame {
     /**
      * Submit an evaluation for the current game
      */
-    private void submitEvaluation(){
+    private void submitEvaluation(CVideoGameInfoView gameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
         String version = versionField.getText();
         String text = textArea.getText();
@@ -74,5 +75,7 @@ public class CAddEvaluationView extends JFrame {
         evaluationController.addNewEvaluation(player, videoGame, platform, text, version, note);
 
         dispose();
+        gameInfoView.dispose();
+        evaluationController.getController().getVideoGameController().viewInfoGameFrame(videoGame);
     }
 }
