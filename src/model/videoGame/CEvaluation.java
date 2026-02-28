@@ -2,9 +2,10 @@ package model.videoGame;
 
 import model.user.CPlayer;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +37,16 @@ public class CEvaluation {
     /** utilities for this evaluation */
     private int utiliteOui;
     private int utiliteNon;
+    private int utiliteNeutre;
+
+    /** used to give 1 token to the player that published to evaluation every 10 positiveCOmment */
+    private int nbPositiveUtilities;
+
+    private final List<CPlayer> hasVoted;
+
+    private static final int VAL_EVAL_POSITIVE = 1;
+    private static final int VAL_EVAL_NEGATIVE = -1;
+    private static final int VAL_EVAL_NEUTRE = 0;
 
     /** Map that contains the utilities votes as <player that vote, his vote> */
     private final Map<CPlayer, Integer> votants;
@@ -52,6 +63,7 @@ public class CEvaluation {
         this.date = date;
 
         votants = new HashMap<>();
+        hasVoted = new ArrayList<>();
 
         player.addEvaluation(this);
         videoGame.addEvaluation(platform, this);
@@ -60,39 +72,55 @@ public class CEvaluation {
     /**
      * Add a vote of the other player for this evaluation
      * @param player the player that vote
-     * @param value the value of the rating (1 for yes, 0 for no)
+     * @param value the value of the rating (1 for yes, 0 for neutral, -1 for no)
      */
-    public void addUtilities(CPlayer player, int value){
+    public void addUtilities(CPlayer player, int value) {
+
+        if (!hasVoted.contains(player)) {
+            hasVoted.add(player);
+        }
 
         Integer ancienVote = votants.get(player);
 
         if (ancienVote == null) {
             votants.put(player, value);
-
-            if (value == 1) utiliteOui++;
-            else utiliteNon++;
-
-            return;
-        }
-
-        if (ancienVote == value) {
+            incrementVote(value);
+        } else if (ancienVote == value) {
             votants.remove(player);
-
-            if (value == 1) utiliteOui--;
-            else utiliteNon--;
-
-            return;
-        }
-
-        if (ancienVote == 1) {
-            utiliteOui--;
-            utiliteNon++;
+            decrementVote(value);
         } else {
-            utiliteNon--;
-            utiliteOui++;
+            decrementVote(ancienVote);
+            incrementVote(value);
+            votants.put(player, value);
         }
 
-        votants.put(player, value);
+        calculNbEvaluationPositives();
+    }
+
+    private void incrementVote(int value) {
+        if (value == VAL_EVAL_POSITIVE)       utiliteOui++;
+        else if (value == VAL_EVAL_NEUTRE)  utiliteNeutre++;
+        else                  utiliteNon++;
+    }
+
+    private void decrementVote(int value) {
+        if (value == VAL_EVAL_POSITIVE)       utiliteOui--;
+        else if (value == VAL_EVAL_NEUTRE)  utiliteNeutre--;
+        else                  utiliteNon--;
+    }
+
+    private void calculNbEvaluationPositives(){
+        System.out.println("Dans calcul");
+        int votePositifs = (int) votants.values().stream().filter(v -> v == 1).count();
+        int palier = votePositifs / 10;
+        System.out.println("Palier : " + palier);
+
+        if (palier > nbPositiveUtilities) {
+            int jetonsAajouter = palier - nbPositiveUtilities;
+            this.player.addJeton(jetonsAajouter);
+            System.out.println("token ajouté");
+            nbPositiveUtilities = palier;
+        }
     }
 
     public CPlayer getPlayer() {
@@ -146,5 +174,9 @@ public class CEvaluation {
 
     public void setUtiliteNon(int utiliteNon) {
         this.utiliteNon = utiliteNon;
+    }
+
+    public int getUtiliteNeutre() {
+        return utiliteNeutre;
     }
 }

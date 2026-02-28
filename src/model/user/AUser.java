@@ -66,6 +66,10 @@ public abstract class AUser {
         this.isBlocked = false;
     }
 
+    public void setNbJeton(int nbJeton) {
+        this.nbJeton = nbJeton;
+    }
+
     /**
      * The role of the user
      * @return the role

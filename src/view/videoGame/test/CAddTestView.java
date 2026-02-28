@@ -26,7 +26,7 @@ public class CAddTestView extends JFrame{
 
         CTester tester = (CTester) testController.getController().getCurrentUser();
 
-        setTitle("Ajouter une évaluation : " + videoGame.getName());
+        setTitle("Ajouter un test : " + videoGame.getName());
         setSize(600, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -36,7 +36,7 @@ public class CAddTestView extends JFrame{
         panel.add(new JLabel("Choisir la plateforme :"));
 
         platformBox = new JComboBox<>(
-                tester.getPlatformsForGame(videoGame).toArray(new CPlatform[0])
+                tester.getPlatformsNotTestedForGame(videoGame).toArray(new CPlatform[0])
         );
 
         panel.add(platformBox);

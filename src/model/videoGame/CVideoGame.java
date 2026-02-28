@@ -50,6 +50,16 @@ public class CVideoGame {
     }
 
     /**
+     *
+     * @return the platforms not tested on this game
+     */
+    public ArrayList<CPlatform> platformNotTested() {
+        ArrayList<CPlatform> notTested = new ArrayList<>(platforms);
+        notTested.removeAll(tests.keySet());
+        return notTested;
+    }
+
+    /**
      * Add an evaluation for a platform
      * @param platform the platform
      * @param evaluation the evaluation

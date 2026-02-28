@@ -13,6 +13,7 @@ public class CEvaluationView extends JFrame{
 
     private JButton buttonAddPlus;
     private JButton buttonAddMoins;
+    private JButton buttonAddNeutral;
 
     public CEvaluationView(CEvaluationController evaluationController, CEvaluation evaluation) {
 
@@ -34,12 +35,15 @@ public class CEvaluationView extends JFrame{
         panel.add(new JLabel("Score : " + evaluation.getGlobalScore()));
 
         buttonAddPlus = new JButton("Utile : " + evaluation.getUtiliteOui());
+        buttonAddNeutral = new JButton("Neutre : " + evaluation.getUtiliteNeutre());
         buttonAddMoins = new JButton("Inutile : " + evaluation.getUtiliteNon());
 
         panel.add(buttonAddPlus);
+        panel.add(buttonAddNeutral);
         panel.add(buttonAddMoins);
 
         buttonAddPlus.addActionListener(e -> addPlus());
+        buttonAddNeutral.addActionListener(e -> addNeutral());
         buttonAddMoins.addActionListener(e -> addMoins());
 
         add(panel);
@@ -51,12 +55,18 @@ public class CEvaluationView extends JFrame{
     }
 
     private void addMoins(){
+        evaluation.addUtilities((CPlayer) evaluationController.getController().getCurrentUser(), -1);
+        refreshButtons();
+    }
+
+    private void addNeutral(){
         evaluation.addUtilities((CPlayer) evaluationController.getController().getCurrentUser(), 0);
         refreshButtons();
     }
 
     private void refreshButtons() {
         buttonAddPlus.setText("Utile : " + evaluation.getUtiliteOui());
+        buttonAddNeutral.setText("Neutre : " + evaluation.getUtiliteNeutre());
         buttonAddMoins.setText("Inutile : " + evaluation.getUtiliteNon());
     }
 }

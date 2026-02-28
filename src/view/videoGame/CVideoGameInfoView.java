@@ -101,11 +101,10 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(evalButton);
             evalButton.addActionListener(e -> addEvaluation());
         }
-        if(user instanceof CTester){
+        if(user instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty()){
             JButton testButton = new JButton("Ajouter un test");
             panel.add(testButton);
             testButton.addActionListener(e -> addTest());
-
         }
         if(user instanceof CPlayer player){
             // if we dont owned this game on all platform

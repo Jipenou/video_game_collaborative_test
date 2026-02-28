@@ -17,6 +17,9 @@ public class CTester extends CPlayer{
     /** The role of the tester */
     public static final String ROLE = "TESTER";
 
+    /** The number of token give per test */
+    public static final int NB_JETONS_PER_TEST = 5;
+
     public CTester(String pseudo) {
         super(pseudo);
         tests = new ArrayList<>();
@@ -28,7 +31,6 @@ public class CTester extends CPlayer{
      */
     public void addTest(CTest test) {
         tests.add(test);
-        addJeton(5);
     }
 
     /**

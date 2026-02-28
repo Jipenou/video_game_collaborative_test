@@ -47,12 +47,15 @@ public class CControlLoadUser {
                 if(values.length == EnumUserLoad.values().length){
                     String pseudo = values[EnumUserLoad.PSEUDO.getIndex()];
                     String role = values[EnumUserLoad.ROLE.getIndex()];
+                    int nbToken = Integer.parseInt(values[EnumUserLoad.TOKEN.getIndex()]);
 
                     AUser user = switch (role) {
                         case CTester.ROLE -> new CTester(pseudo);
                         case CAdmin.ROLE -> new CAdmin(pseudo);
                         default -> new CPlayer(pseudo);
                     };
+
+                    user.setNbJeton(nbToken);
 
                     database.addUser(user);
                 }
@@ -84,7 +87,7 @@ public class CControlLoadUser {
             else if(user instanceof CAdmin) role = CAdmin.ROLE;
             else role = CPlayer.ROLE;
 
-            bw.write(user.getPseudo() + SEPARATOR + role);
+            bw.write(user.getPseudo() + SEPARATOR + role + SEPARATOR + user.getNbToken());
             bw.newLine();
 
         } catch(IOException e){

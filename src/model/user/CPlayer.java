@@ -27,9 +27,11 @@ public class CPlayer extends AUser{
      */
     public static final String ROLE = "PLAYER";
 
+    public static final int NB_JETON_INITIAL = 3;
+
     public CPlayer(String pseudo) {
         super(pseudo);
-        this.nbJeton = 3;
+        this.nbJeton = NB_JETON_INITIAL;
         gamePlayed = new ArrayList<>();
         evaluations = new ArrayList<>();
     }
@@ -120,6 +122,23 @@ public class CPlayer extends AUser{
         return platforms;
     }
 
+    /**
+     * Get all the platform owned and not tested for a game owned
+     * @param videoGame the video game
+     * @return all the platform owned and not tested for a game owned
+     */
+    public ArrayList<CPlatform> getPlatformsNotTestedForGame(CVideoGame videoGame) {
+        List<CPlatform> platformsOwned = getPlatformsForGame(videoGame);
+        ArrayList<CPlatform> platformsNotTested = new ArrayList<>(platformsOwned);
+        platformsNotTested.removeAll(videoGame.getTests().keySet());
+        return platformsNotTested;
+    }
+
+    /**
+     * Get all the platform not owned for a game owned
+     * @param videoGame the video game
+     * @return all the platform not owned for a game owned
+     */
     public ArrayList<CPlatform> getPlatformNotOwnedForGame(CVideoGame videoGame) {
         List<CPlatform> platformsOwned = getPlatformsForGame(videoGame);
         ArrayList<CPlatform> platformsNotOwned = new ArrayList<>();

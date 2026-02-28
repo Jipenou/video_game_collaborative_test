@@ -15,9 +15,19 @@ public class CTestController {
         this.controller = controller;
     }
 
+    /**
+     * Add a new test
+     * @param tester the tester
+     * @param videoGame the video game
+     * @param platform the platform
+     * @param text the text
+     * @param version the version
+     * @param conditions the conditions of the test
+     */
     public void addNewTest(CTester tester, CVideoGame videoGame, CPlatform platform, String text,
                            String version, String conditions){
         CTest test = new CTest(tester, videoGame, platform, text, version, conditions);
+        tester.addJeton(CTester.NB_JETONS_PER_TEST);
 
         controller.getDatabase().addTest(test);
     }

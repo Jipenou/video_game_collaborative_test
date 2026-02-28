@@ -5,7 +5,9 @@ package controller.load;
  */
 public enum EnumUserLoad {
     PSEUDO("pseudo",0),
-    ROLE("role",1);
+    ROLE("role",1),
+    TOKEN("jetons",2);
+
 
     /** name */
     private final String name;
