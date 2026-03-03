@@ -4,7 +4,6 @@ import controller.CController;
 import model.user.AUser;
 import model.user.CAdmin;
 import model.user.CPlayer;
-import model.user.CTester;
 import view.user.CLoginView;
 import view.user.CProfileView;
 import view.videoGame.CShowMyGamesView;
@@ -60,7 +59,9 @@ public class CMainMenuView extends JFrame {
         }
 
         if(user instanceof CAdmin) {
-            panel.add(new JButton("Administration"));
+            JButton administrationButton = new JButton("Administration");
+            administrationButton.addActionListener(e -> openAdministrationFrame());
+            panel.add(administrationButton);
         }
 
         panel.add(profileButton);
@@ -102,5 +103,9 @@ public class CMainMenuView extends JFrame {
      */
     private void displayGames(){
         new CVideoGamesView(controller.getVideoGameController()).setVisible(true);
+    }
+
+    private void openAdministrationFrame(){
+        controller.getAdminController().openAdministrationFrame();
     }
 }

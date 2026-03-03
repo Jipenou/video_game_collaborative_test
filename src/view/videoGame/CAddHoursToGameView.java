@@ -59,6 +59,5 @@ public class CAddHoursToGameView extends JFrame{
         dispose();
         videoGameInfoView.dispose();
         videoGameController.viewInfoGameFrame(videoGame);
-
     }
 }

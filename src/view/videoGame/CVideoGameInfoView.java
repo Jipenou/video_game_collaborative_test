@@ -86,7 +86,7 @@ public class CVideoGameInfoView extends JFrame {
         // if there is evaluations
         if(!game.getEvaluations().isEmpty()) {
             panel.add(new JLabel("Evaluations : "));
-            for(CEvaluation evaluation : game.getEvaluations().values()){
+            for(CEvaluation evaluation : game.getEvaluations()){
                 JButton evalButton = new JButton(evaluation.getDate() + ", " + evaluation.getPlayer().getPseudo());
                 panel.add(evalButton);
 

@@ -1,2 +1,10 @@
 QUESTIONS :
 
+- Doit-il y avoir 1 test par platforme par jeu ? (ou bien 1 test par testeur par platforme par jeu ?)
+
+"La publication d’un test pour un jeu libère les jetons placés sur lui" : Ces jetons disparaissent donc ?
+
+Pour un test : "note par categorie specifique au genre du jeu (ex. interet historique
+pour le genre Strategy, licences officielles pour le genre Sports)" : Je ne comprend pas bien, un jeu possède 1 catégorie (définie dans le csv). On fait référence à cette catégorie ?
+
+

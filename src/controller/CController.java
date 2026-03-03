@@ -1,6 +1,7 @@
 package controller;
 
 import controller.load.*;
+import model.CSignalement;
 import model.data.CDatabase;
 import model.user.AUser;
 import model.user.CPlayerGame;
@@ -26,6 +27,8 @@ public class CController {
 
     private final CControlLoadGameOwned loadGameOwnedController;
 
+    private final CControlLoadSignalement loadSignalementController;
+
     /** The User controller */
     private final CUserController userController;
 
@@ -37,6 +40,8 @@ public class CController {
 
     private final CTestController testController;
 
+    private final CAdminController adminController;
+
     /** the database of the video games */
     private final CDatabase database;
 
@@ -47,13 +52,16 @@ public class CController {
         this.videoGameController = new CVideoGameController(this);
         this.evaluationController = new CEvaluationController(this);
         this.testController = new CTestController(this);
+        this.adminController = new CAdminController(this);
 
         this.loadVideoGameController = new CControlLoadVideoGame(database);
         this.loadUserController = new CControlLoadUser(database);
         this.loadEvaluationController = new CControlLoadEvaluation(database);
         this.loadTestController = new CControlLoadTest(database);
         this.loadGameOwnedController = new CControlLoadGameOwned(database);
+        this.loadSignalementController = new CControlLoadSignalement(database);
 
+        // load all data from the csv
         loadAll();
     }
 
@@ -67,6 +75,7 @@ public class CController {
         this.loadEvaluationController.loadEvaluationsUsers();
         this.loadTestController.loadTests();
         this.loadGameOwnedController.loadPlayerGame();
+        this.loadSignalementController.loadSignalement();
     }
 
     /**
@@ -77,6 +86,7 @@ public class CController {
         this.loadEvaluationController.clearCSV();
         this.loadTestController.clearCSV();
         this.loadGameOwnedController.clearCSV();
+        this.loadSignalementController.clearCSV();
     }
 
     /**
@@ -87,6 +97,7 @@ public class CController {
         saveAllEvaluations();
         saveAllTests();
         saveAllPlayerGames();
+        saveAllSignalements();
     }
 
     /**
@@ -120,6 +131,12 @@ public class CController {
     public void saveAllPlayerGames(){
         for(CPlayerGame playerGame : database.getPlayerGames()){
             loadGameOwnedController.savePlayerGame(playerGame);
+        }
+    }
+
+    public void saveAllSignalements(){
+        for(CSignalement signalement : database.getSignaledEvaluations()){
+            loadSignalementController.saveSignalement(signalement);
         }
     }
 
@@ -171,7 +188,7 @@ public class CController {
         return testController;
     }
 
-    public CControlLoadTest getLoadTestController() {
-        return loadTestController;
+    public CAdminController getAdminController() {
+        return adminController;
     }
 }

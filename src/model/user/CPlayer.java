@@ -176,6 +176,10 @@ public class CPlayer extends AUser{
         evaluations.add(evaluation);
     }
 
+    public void removeEvaluation(CEvaluation evaluation){
+        evaluations.remove(evaluation);
+    }
+
     /**
      * @return the role of the player
      */

@@ -1,10 +1,11 @@
 package controller;
 
+import model.CSignalement;
 import model.user.CPlayer;
+import model.user.CTester;
 import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
-import view.videoGame.evaluation.CAddEvaluationView;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,21 @@ public class CEvaluationController {
         CEvaluation evaluation = new CEvaluation(LocalDateTime.now(), player, videoGame, platform, text, version, note);
 
         controller.getDatabase().addEvaluation(evaluation);
+    }
+
+    public void addSignalement(CEvaluation evaluation){
+        CTester tester = (CTester) getController().getCurrentUser();
+        CSignalement signalement = new CSignalement(tester, evaluation);
+        tester.signalEvaluation(evaluation);
+        getController().getDatabase().addSignalement(signalement);
+    }
+
+    public void deleteEvaluation(CEvaluation evaluation){
+        evaluation.getPlayer().removeEvaluation(evaluation);
+        controller.getDatabase().removeSignalementForEval(evaluation);
+        controller.getDatabase().removeEvaluation(evaluation);
+        evaluation.getVideoGame().removeEvaluation(evaluation);
+
     }
 
     /**

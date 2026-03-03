@@ -1,5 +1,6 @@
 package model.user;
 
+import model.videoGame.CEvaluation;
 import model.videoGame.CTest;
 
 import java.util.ArrayList;
@@ -12,7 +13,11 @@ public class CTester extends CPlayer{
     /**
      * The list of test of the tester
      */
-    protected List<CTest> tests;
+    protected final List<CTest> tests;
+
+    /** The evaluation signaled by the tester */
+    protected final List<CEvaluation> signaledEvaluation;
+
 
     /** The role of the tester */
     public static final String ROLE = "TESTER";
@@ -23,6 +28,28 @@ public class CTester extends CPlayer{
     public CTester(String pseudo) {
         super(pseudo);
         tests = new ArrayList<>();
+        signaledEvaluation = new ArrayList<>();
+    }
+
+    /**
+     *
+     * @param evaluation the evaluation concerned
+     * @return true if the evaluation is signaled, else false
+     */
+    public boolean isEvaluationSignaled(CEvaluation evaluation){
+        return signaledEvaluation.contains(evaluation);
+    }
+
+    /**
+     * Add a signalement for an evaluation
+     * @param evaluation the evaluation concerned
+     */
+    public void signalEvaluation(CEvaluation evaluation){
+        signaledEvaluation.add(evaluation);
+    }
+
+    public void removeSignaledEvaluation(CEvaluation evaluation){
+        signaledEvaluation.remove(evaluation);
     }
 
     /**

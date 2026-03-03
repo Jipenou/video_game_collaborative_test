@@ -82,10 +82,7 @@ public class CControlLoadUser {
                 bw.newLine();
             }
 
-            String role;
-            if(user instanceof CTester) role = CTester.ROLE;
-            else if(user instanceof CAdmin) role = CAdmin.ROLE;
-            else role = CPlayer.ROLE;
+            String role = user.getRole();
 
             bw.write(user.getPseudo() + SEPARATOR + role + SEPARATOR + user.getNbToken());
             bw.newLine();

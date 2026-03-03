@@ -1,8 +1,10 @@
 package model.data;
 
+import model.CSignalement;
 import model.user.AUser;
 import model.user.CPlayer;
 import model.user.CPlayerGame;
+import model.user.CTester;
 import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CTest;
@@ -31,7 +33,10 @@ public class CDatabase {
     /** the tests */
     private final List<CTest> tests;
 
+    /** The games owned by players */
     private final List<CPlayerGame> playerGames;
+
+    private final List<CSignalement> signaledEvaluations;
 
     public CDatabase(){
         videoGames = new HashMap<>();
@@ -39,6 +44,7 @@ public class CDatabase {
         evaluations = new ArrayList<>();
         tests = new ArrayList<>();
         playerGames = new ArrayList<>();
+        signaledEvaluations = new ArrayList<>();
     }
 
     /**
@@ -154,5 +160,29 @@ public class CDatabase {
 
     public List<CPlayerGame> getPlayerGames() {
         return playerGames;
+    }
+
+    public void addSignalement(CSignalement signalement) {
+        signaledEvaluations.add(signalement);
+    }
+
+    public List<CSignalement> getSignaledEvaluations() {
+        return signaledEvaluations;
+    }
+
+    public void removeEvaluation(CEvaluation evaluation){
+        evaluations.remove(evaluation);
+    }
+
+    public void removeSignalementForEval(CEvaluation evaluation){
+        List<CSignalement> toRemove = new ArrayList<>();
+
+        for(CSignalement signalement : signaledEvaluations){
+            if(signalement.getEvaluation() == evaluation){
+                signalement.getReporter().removeSignaledEvaluation(evaluation);
+                toRemove.add(signalement);
+            }
+        }
+        signaledEvaluations.removeAll(toRemove);
     }
 }

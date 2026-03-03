@@ -26,7 +26,7 @@ public class CVideoGame {
     private final ArrayList<CPlatform> platforms;
 
     /** A map that contains the evaluation by platform as <platform, evaluation>*/
-    private final Map<CPlatform, CEvaluation> evaluations;
+    private final List<CEvaluation> evaluations;
 
     /** A map that contains the evaluation by platform as <platform, test>*/
     private final Map<CPlatform, CTest> tests;
@@ -37,7 +37,7 @@ public class CVideoGame {
         this.editor = (editor != null) ? editor : "undefined";
         this.rating = (rating != null) ? rating : '?';
         this.platforms = new ArrayList<>();
-        evaluations = new HashMap<>();
+        evaluations = new ArrayList<>();
         tests = new HashMap<>();
     }
 
@@ -60,13 +60,12 @@ public class CVideoGame {
     }
 
     /**
-     * Add an evaluation for a platform
-     * @param platform the platform
+     * Add an evaluation
      * @param evaluation the evaluation
      */
-    public void addEvaluation(CPlatform platform, CEvaluation evaluation){
-        if(!evaluations.containsKey(platform)){
-            evaluations.put(platform, evaluation);
+    public void addEvaluation(CEvaluation evaluation){
+        if(!evaluations.contains(evaluation)){
+            evaluations.add(evaluation);
         }
     }
 
@@ -122,7 +121,7 @@ public class CVideoGame {
         return platforms;
     }
 
-    public Map<CPlatform, CEvaluation> getEvaluations() {
+    public List<CEvaluation> getEvaluations() {
         return evaluations;
     }
 
@@ -150,11 +149,15 @@ public class CVideoGame {
     public String displayAllEvaluation(){
         StringBuilder sb = new StringBuilder();
         sb.append("{\n");
-        for(CEvaluation evaluation : evaluations.values()){
+        for(CEvaluation evaluation : evaluations){
             sb.append("\t").append(evaluation).append("\n");
         }
         sb.append("}");
         return sb.toString();
+    }
+
+    public void removeEvaluation(CEvaluation evaluation){
+        evaluations.remove(evaluation);
     }
 
     public String toString(){

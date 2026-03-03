@@ -66,7 +66,7 @@ public class CEvaluation {
         hasVoted = new ArrayList<>();
 
         player.addEvaluation(this);
-        videoGame.addEvaluation(platform, this);
+        videoGame.addEvaluation(this);
     }
 
     /**
@@ -178,5 +178,9 @@ public class CEvaluation {
 
     public int getUtiliteNeutre() {
         return utiliteNeutre;
+    }
+
+    public String toStringSimple(){
+        return "Evaluation de " + player.getPseudo() + ", jeu : " + videoGame.getName() + ", platforme : " + platform.getName();
     }
 }
