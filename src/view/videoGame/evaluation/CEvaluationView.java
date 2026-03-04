@@ -35,7 +35,9 @@ public class CEvaluationView extends JFrame{
         JPanel panel = new JPanel(new GridLayout(0,1));
 
         panel.add(new JLabel("Date : " + evaluation.getDate()));
-        panel.add(new JLabel("Player : " + evaluation.getPlayer().getPseudo()));
+        JButton playerButton = new JButton("Joueur : " + evaluation.getPlayer().getPseudo());
+        panel.add(playerButton);
+        playerButton.addActionListener(e -> evaluationController.getController().getUserController().openProfile(evaluation.getPlayer()));
         panel.add(new JLabel("Platforme : " + evaluation.getPlatform()));
         panel.add(new JLabel("texte : " + evaluation.getText()));
         panel.add(new JLabel("Version : " + evaluation.getNumVersion()));

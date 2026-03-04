@@ -185,4 +185,59 @@ public class CDatabase {
         }
         signaledEvaluations.removeAll(toRemove);
     }
+
+    public void removeAllEvaluationsForUser(CPlayer player) {
+        List<CEvaluation> toRemove = new ArrayList<>();
+
+        for (CEvaluation evaluation : evaluations) {
+            if (evaluation.getPlayer() == player) {
+                removeSignalementForEval(evaluation);
+                evaluation.getVideoGame().removeEvaluation(evaluation);
+                toRemove.add(evaluation);
+            }
+        }
+        evaluations.removeAll(toRemove);
+    }
+
+    public void removeAllTestsForUser(CTester tester) {
+        List<CTest> toRemove = new ArrayList<>();
+
+        for (CTest test : tests) {
+            if (test.getTester() == tester) {
+                test.getVideoGame().removeTest(test);
+                toRemove.add(test);
+            }
+        }
+        tests.removeAll(toRemove);
+    }
+
+    public void removeAllSignalementsForUser(CTester tester) {
+        signaledEvaluations.removeIf(signalement -> signalement.getReporter() == tester);
+    }
+
+    public void removeUser(AUser user){
+        users.remove(user.getPseudo(), user);
+    }
+
+    public void removeAllPlayerGamesForUser(CPlayer player) {
+        playerGames.removeIf(playerGame -> {
+            if (playerGame.getPlayer() == player) {
+                player.removeGamePlayed(playerGame);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public void removeAllForUser(AUser user) {
+        if (user instanceof CPlayer player) {
+            removeAllEvaluationsForUser(player);
+            removeAllPlayerGamesForUser(player);
+        }
+        if (user instanceof CTester tester) {
+            removeAllTestsForUser(tester);
+            removeAllSignalementsForUser(tester);
+        }
+        removeUser(user);
+    }
 }

@@ -4,6 +4,9 @@ import model.data.CDatabase;
 import model.user.AUser;
 import model.user.CPlayer;
 import view.user.CLoginView;
+import view.user.CProfileView;
+
+import java.awt.*;
 
 /**
  * This class represent the controller of the users
@@ -64,11 +67,21 @@ public class CUserController {
         return controller;
     }
 
-    public void desinscrire(){
-        CDatabase database = controller.getDatabase();
-        AUser user = controller.getCurrentUser();
+    public void desinscrire(AUser user){
+        controller.getDatabase().removeAllForUser(user);
 
-        database.getUsers().remove(user.getPseudo(), user);
-        new CLoginView(controller);
+        for(Window window : Window.getWindows()){
+            window.dispose();
+        }
+
+        new CLoginView(controller).setVisible(true);
+    }
+
+    public void deleteAccount(AUser user){
+        controller.getDatabase().removeAllForUser(user);
+    }
+
+    public void openProfile(AUser user){
+        new CProfileView(this, user).setVisible(true);
     }
 }

@@ -2,6 +2,7 @@ package model.videoGame;
 
 import model.user.CPlayer;
 import model.user.CPlayerGame;
+import model.user.CTester;
 
 import java.util.*;
 
@@ -158,6 +159,10 @@ public class CVideoGame {
 
     public void removeEvaluation(CEvaluation evaluation){
         evaluations.remove(evaluation);
+    }
+
+    public void removeTest(CTest test){
+        tests.values().remove(test);
     }
 
     public String toString(){

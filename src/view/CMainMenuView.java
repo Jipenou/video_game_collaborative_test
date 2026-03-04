@@ -95,7 +95,7 @@ public class CMainMenuView extends JFrame {
      * open the profile frame to see information about the user
      */
     private void openProfile(){
-        new CProfileView(controller.getUserController()).setVisible(true);
+        controller.getUserController().openProfile(controller.getCurrentUser());
     }
 
     /**

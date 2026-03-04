@@ -180,6 +180,10 @@ public class CPlayer extends AUser{
         evaluations.remove(evaluation);
     }
 
+    public void removeGamePlayed(CPlayerGame playerGame){
+        gamePlayed.remove(playerGame);
+    }
+
     /**
      * @return the role of the player
      */

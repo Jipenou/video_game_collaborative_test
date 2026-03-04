@@ -3,6 +3,7 @@ package view.user;
 import controller.CController;
 import controller.CUserController;
 import model.user.AUser;
+import model.user.CAdmin;
 import model.user.CPlayer;
 import model.user.CTester;
 
@@ -17,15 +18,16 @@ public class CProfileView extends JFrame {
 
     private CUserController userController;
 
-    public CProfileView(CUserController userController){
+    private AUser user;
+
+    public CProfileView(CUserController userController, AUser user){
 
         setTitle("Profil utilisateur");
         setSize(400,400);
         setLocationRelativeTo(null);
 
         this.userController = userController;
-
-        AUser user = userController.getController().getCurrentUser();
+        this.user = user;
 
         if(user == null){
             return;
@@ -45,15 +47,28 @@ public class CProfileView extends JFrame {
             panelProfile.add(new JLabel("Nombre de tests : " + tester.getNbTest() + "\n"));
         }
 
-        JButton desinscrire = new JButton("Se désinscrire");
-        panelProfile.add(desinscrire);
-        desinscrire.addActionListener(e->desinscrire());
+        if(userController.getController().getCurrentUser() instanceof CAdmin && userController.getController().getCurrentUser() != user){
+            JButton deleteAccountButton = new JButton("Supprimer ce compte utilisateur");
+            panelProfile.add(deleteAccountButton);
+            deleteAccountButton.addActionListener(e->deleteAccount(user));
+        }
+
+        if(userController.getController().getCurrentUser() == user){
+            JButton desinscrireButton = new JButton("Se désinscrire");
+            panelProfile.add(desinscrireButton);
+            desinscrireButton.addActionListener(e->desinscrire(user));
+        }
 
         add(panelProfile);
     }
 
-    public void desinscrire(){
-        userController.desinscrire();
+    public void desinscrire(AUser user){
+        userController.desinscrire(user);
+        dispose();
+    }
+
+    public void deleteAccount(AUser user){
+        userController.deleteAccount(user);
         dispose();
     }
 }

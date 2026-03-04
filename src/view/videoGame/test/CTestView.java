@@ -27,7 +27,9 @@ public class CTestView extends JFrame {
         JPanel panel = new JPanel(new GridLayout(0,1));
 
         panel.add(new JLabel("Date : " + test.getDate()));
-        panel.add(new JLabel("Player : " + test.getTester().getPseudo()));
+        JButton playerButton = new JButton("Testeur : " + test.getTester().getPseudo());
+        panel.add(playerButton);
+        playerButton.addActionListener(e -> testController.getController().getUserController().openProfile(test.getTester()));
         panel.add(new JLabel("Platforme : " + test.getPlatform()));
         panel.add(new JLabel("texte : " + test.getText()));
         panel.add(new JLabel("Version : " + test.getNumVersion()));
