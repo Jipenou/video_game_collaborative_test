@@ -11,10 +11,7 @@ import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class represent the database of the application
@@ -239,5 +236,19 @@ public class CDatabase {
             removeAllSignalementsForUser(tester);
         }
         removeUser(user);
+    }
+
+    public List<AUser> getBlockedUser(){
+        List<AUser> blockedUsers = new ArrayList<>();
+        for(AUser user : users.values()){
+            if(user.isBlocked()){
+                blockedUsers.add(user);
+            }
+        }
+        return blockedUsers;
+    }
+
+    public List<AUser> getAllUsers() {
+        return new ArrayList<>(users.values());
     }
 }

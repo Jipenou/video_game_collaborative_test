@@ -1,9 +1,7 @@
 package controller;
 
 import model.CSignalement;
-import view.administration.CAdministrationView;
-import view.administration.CSignalementInfoView;
-import view.administration.CSignalementView;
+import view.administration.*;
 
 public class CAdminController {
 
@@ -18,12 +16,20 @@ public class CAdminController {
         new CAdministrationView(this).setVisible(true);
     }
 
+    public void openUsersFrame(){
+        new CAllUsersView(this).setVisible(true);
+    }
+
     public void openSignalementFrame(){
         new CSignalementView(this).setVisible(true);
     }
 
     public void viewInfoSignalement(CSignalement signalement){
         new CSignalementInfoView(this, signalement).setVisible(true);
+    }
+
+    public void openBlockedUsersFrame(){
+        new CUsersBlockedView(this).setVisible(true);
     }
 
     public CController getController() {

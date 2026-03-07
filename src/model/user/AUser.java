@@ -70,9 +70,17 @@ public abstract class AUser {
         this.nbJeton = nbJeton;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
     /**
      * The role of the user
      * @return the role
      */
     public abstract String getRole();
+
+    public String toString(){
+        return this.pseudo;
+    }
 }

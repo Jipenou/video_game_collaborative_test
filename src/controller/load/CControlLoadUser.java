@@ -48,6 +48,7 @@ public class CControlLoadUser {
                     String pseudo = values[EnumUserLoad.PSEUDO.getIndex()];
                     String role = values[EnumUserLoad.ROLE.getIndex()];
                     int nbToken = Integer.parseInt(values[EnumUserLoad.TOKEN.getIndex()]);
+                    boolean isBlocked = Boolean.parseBoolean(values[EnumUserLoad.IS_BLOCKED.getIndex()]);
 
                     AUser user = switch (role) {
                         case CTester.ROLE -> new CTester(pseudo);
@@ -56,6 +57,10 @@ public class CControlLoadUser {
                     };
 
                     user.setNbJeton(nbToken);
+
+                    if(isBlocked){
+                        user.block();
+                    }
 
                     database.addUser(user);
                 }
@@ -84,7 +89,7 @@ public class CControlLoadUser {
 
             String role = user.getRole();
 
-            bw.write(user.getPseudo() + SEPARATOR + role + SEPARATOR + user.getNbToken());
+            bw.write(user.getPseudo() + SEPARATOR + role + SEPARATOR + user.getNbToken() + SEPARATOR + user.isBlocked());
             bw.newLine();
 
         } catch(IOException e){

@@ -26,12 +26,15 @@ public class CAdministrationView extends JFrame{
         panel.add(new JLabel("Bienvenue dans le menu d'administration"));
 
         JButton displaySignalement = new JButton("Signalement d'évaluations");
+        JButton usersButton = new JButton("Tous les Utilisateurs");
         JButton userBlocked = new JButton("Utilisateurs bloqués");
 
         panel.add(displaySignalement);
+        panel.add(usersButton);
         panel.add(userBlocked);
 
         displaySignalement.addActionListener(e -> displaySignalementFrame());
+        usersButton.addActionListener(e -> displayUsersFrame());
         userBlocked.addActionListener(e -> displayUserBlockedFrame());
 
         add(panel);
@@ -42,6 +45,10 @@ public class CAdministrationView extends JFrame{
     }
 
     private void displayUserBlockedFrame(){
+        adminController.openBlockedUsersFrame();
+    }
 
+    private void displayUsersFrame(){
+        adminController.openUsersFrame();
     }
 }

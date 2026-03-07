@@ -81,6 +81,14 @@ public class CUserController {
         controller.getDatabase().removeAllForUser(user);
     }
 
+    public void blockAccount(AUser user){
+        user.block();
+    }
+
+    public void unblockAccount(AUser user){
+        user.unblock();
+    }
+
     public void openProfile(AUser user){
         new CProfileView(this, user).setVisible(true);
     }

@@ -1,6 +1,5 @@
 package view.user;
 
-import controller.CController;
 import controller.CUserController;
 import model.user.AUser;
 import model.user.CAdmin;
@@ -9,7 +8,6 @@ import model.user.CTester;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
 
 /**
  * This class repressent the view to see the profil of a user
@@ -47,10 +45,32 @@ public class CProfileView extends JFrame {
             panelProfile.add(new JLabel("Nombre de tests : " + tester.getNbTest() + "\n"));
         }
 
+        if(userController.getController().getCurrentUser() == user || userController.getController().getCurrentUser() instanceof CAdmin){
+            String displayBlocked;
+            if(user.isBlocked()){
+                displayBlocked = "Oui";
+            }
+            else{
+                displayBlocked = "Non";
+            }
+            panelProfile.add(new JLabel("Utilisateur bloqué : " + displayBlocked + "\n"));
+        }
+
         if(userController.getController().getCurrentUser() instanceof CAdmin && userController.getController().getCurrentUser() != user){
             JButton deleteAccountButton = new JButton("Supprimer ce compte utilisateur");
             panelProfile.add(deleteAccountButton);
             deleteAccountButton.addActionListener(e->deleteAccount(user));
+
+            if(!user.isBlocked()){
+                JButton blockAccountButton = new JButton("Bloquer ce compte utilisateur");
+                panelProfile.add(blockAccountButton);
+                blockAccountButton.addActionListener(e->blockAccount(user));
+            }
+            else{
+                JButton unblockAccountButton = new JButton("Débloquer ce compte utilisateur");
+                panelProfile.add(unblockAccountButton);
+                unblockAccountButton.addActionListener(e->unblockAccount(user));
+            }
         }
 
         if(userController.getController().getCurrentUser() == user){
@@ -69,6 +89,16 @@ public class CProfileView extends JFrame {
 
     public void deleteAccount(AUser user){
         userController.deleteAccount(user);
+        dispose();
+    }
+
+    public void blockAccount(AUser user){
+        userController.blockAccount(user);
+        dispose();
+    }
+
+    public void unblockAccount(AUser user){
+        userController.unblockAccount(user);
         dispose();
     }
 }

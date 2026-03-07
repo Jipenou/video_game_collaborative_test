@@ -96,12 +96,12 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(new JLabel("Aucune évaluation disponible"));
         }
 
-        if(user instanceof CPlayer player && player.isGameInCollection(game)){
+        if(user instanceof CPlayer player && player.isGameInCollection(game) && !player.isBlocked()){
             JButton evalButton = new JButton("Ajouter une évaluation");
             panel.add(evalButton);
             evalButton.addActionListener(e -> addEvaluation());
         }
-        if(user instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty()){
+        if(user instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty() && !tester.isBlocked()){
             JButton testButton = new JButton("Ajouter un test");
             panel.add(testButton);
             testButton.addActionListener(e -> addTest());
