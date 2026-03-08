@@ -34,7 +34,7 @@ public class CVideoGameInfoView extends JFrame {
 
 
         setTitle("Infos du jeu");
-        setSize(700,600);
+        setSize(1000,800);
         setLocationRelativeTo(null);
 
         panel = new JPanel(new GridLayout(0,1));
@@ -45,13 +45,16 @@ public class CVideoGameInfoView extends JFrame {
 
         panel.add(new JLabel("Note moyenne : " + game.getRating()));
 
-        StringBuilder platforms = new StringBuilder();
+        panel.add(new JLabel("Platformes supportées :"));
+
         for(CPlatform platform : game.getPlatforms()){
-            platforms.append(platform.getName()+", ");
+            panel.add(new JLabel("<html>&nbsp;&nbsp;" + platform.getName() + "</html>"));
+            panel.add(new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date de sortie : " + platform.getReleaseYear() + "</html>"));
+            panel.add(new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Développeur : " + platform.getDeveloper() + "</html>"));
+            panel.add(new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ventes globales : " + platform.getGlobalSale() + "</html>"));
+            panel.add(new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note moyenne des testeurs : " + platform.getTesterRating() + "</html>"));
+            panel.add(new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note moyenne des joueurs : " + platform.getPlayerRating() + "</html>"));
         }
-        // just to remove the ", " at the end
-        platforms.delete(platforms.length()-2, platforms.length()-1);
-        panel.add(new JLabel("Platformes supportées :" + platforms));
 
         if(user instanceof CPlayer){
             CPlayer player = (CPlayer) user;

@@ -29,4 +29,8 @@ public abstract class AUserRating {
     public int getRatingBase() {
         return ratingBase;
     }
+
+    public String toString(){
+        return "number of critic : " + nbCritics + ", average score : " + averageScore + "/" + ratingBase;
+    }
 }
