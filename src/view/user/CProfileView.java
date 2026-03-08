@@ -1,10 +1,8 @@
 package view.user;
 
 import controller.CUserController;
-import model.user.AUser;
-import model.user.CAdmin;
-import model.user.CPlayer;
-import model.user.CTester;
+import model.user.*;
+import model.videoGame.CEvaluation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +19,7 @@ public class CProfileView extends JFrame {
     public CProfileView(CUserController userController, AUser user){
 
         setTitle("Profil utilisateur");
-        setSize(400,400);
+        setSize(800,600);
         setLocationRelativeTo(null);
 
         this.userController = userController;
@@ -38,10 +36,29 @@ public class CProfileView extends JFrame {
 
         if(user instanceof CPlayer player){
             panelProfile.add(new JLabel("Nombre de jetons : " + player.getNbToken()));
-        }
 
-        if(user instanceof CPlayer player){
-            panelProfile.add(new JLabel("Nombre d'évaluations: " + player.getNbEvaluation()));
+            panelProfile.add(new JLabel("Jeux possédés (" + player.getTotalHoursPlayed() + "h) : "));
+            if(player instanceof CTester){
+                for(CPlayerGame playerGame : player.getGamePlayedSortedDecroissant()){
+                    JButton videoGameButton = new JButton(playerGame.getVideoGame().getName() + " : " + playerGame.getHoursPlayed() + "h");
+                    panelProfile.add(videoGameButton);
+                    videoGameButton.addActionListener(e -> userController.getController().getVideoGameController().viewInfoGameFrame(playerGame.getVideoGame()));
+                }
+
+                panelProfile.add(new JLabel("Nombre d'évaluations: " + player.getNbEvaluation()));
+
+                for(CEvaluation evaluation : player.getEvaluations()){
+                    panelProfile.add(new JLabel(evaluation.toStringLong()));
+                }
+
+            }
+            else{
+                for(CPlayerGame playerGame : player.getGamePlayed()){
+                    JButton videoGameButton = new JButton(playerGame.getVideoGame().getName() + " : " + playerGame.getHoursPlayed() + "h");
+                    panelProfile.add(videoGameButton);
+                    videoGameButton.addActionListener(e -> userController.getController().getVideoGameController().viewInfoGameFrame(playerGame.getVideoGame()));
+                }
+            }
         }
 
         if(user instanceof CTester tester){

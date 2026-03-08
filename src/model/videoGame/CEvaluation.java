@@ -164,8 +164,13 @@ public class CEvaluation {
     }
 
     public String toString(){
-        return "[Platform : " + this.platform + ",date : " + this.date + ",version: " + this.numVersion + ", note: " + this.globalScore +
+        return "[Platform : " + this.platform + ",date : " + this.date.toLocalDate() + ",version: " + this.numVersion + ", note: " + this.globalScore +
                 ", description : " + this.text + "]";
+    }
+
+    public String toStringLong(){
+        return "[Platform : " + this.platform + ", date : " + this.date.toLocalDate() + ", version: " + this.numVersion + ", note: " + this.globalScore +
+                ", description : " + this.text + ", utilite + : " + utiliteOui + ", utilite neutre : " + utiliteNeutre + ", utilite - : " + utiliteNon + "]";
     }
 
     public void setUtiliteOui(int utiliteOui) {

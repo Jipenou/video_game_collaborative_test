@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * This class represent a player
@@ -37,15 +38,6 @@ public class CPlayer extends AUser{
         this.nbJeton = NB_JETON_INITIAL;
         gamePlayed = new ArrayList<>();
         evaluations = new ArrayList<>();
-    }
-
-    /**
-     * Add a game in the user collection
-     * @param videoGame the video game to add
-     * @param platform the platform concerned
-     */
-    public void addGameToCollection(CPlayer player, CVideoGame videoGame, CPlatform platform){
-        new CPlayerGame(player, videoGame, platform);
     }
 
     /**
@@ -155,6 +147,14 @@ public class CPlayer extends AUser{
         return platformsNotOwned;
     }
 
+    public float getTotalHoursPlayed(){
+        float total = 0;
+        for(CPlayerGame playerGame : gamePlayed){
+            total += playerGame.getHoursPlayed();
+        }
+        return total;
+    }
+
     /**
      *
      * @return the evaluations of this user
@@ -189,6 +189,12 @@ public class CPlayer extends AUser{
 
     public List<CPlayerGame> getGamePlayed() {
         return gamePlayed;
+    }
+
+    public List<CPlayerGame> getGamePlayedSortedDecroissant() {
+        return gamePlayed.stream()
+                .sorted((a, b) -> Float.compare(b.getHoursPlayed(), a.getHoursPlayed()))
+                .collect(Collectors.toList());
     }
 
     /**
