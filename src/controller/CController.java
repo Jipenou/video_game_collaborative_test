@@ -4,6 +4,7 @@ import controller.load.*;
 import model.CSignalement;
 import model.data.CDatabase;
 import model.user.AUser;
+import model.user.CPlayer;
 import model.user.CPlayerGame;
 import model.videoGame.CEvaluation;
 import model.videoGame.CTest;
@@ -104,7 +105,7 @@ public class CController {
      * Save all users to csv
      */
     public void saveAllUsers(){
-        for(AUser user : database.getUsers().values()){
+        for(CPlayer user : database.getUsers().values()){
             loadUserController.saveUser(user);
         }
     }

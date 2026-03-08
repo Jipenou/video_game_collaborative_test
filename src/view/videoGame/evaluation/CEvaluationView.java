@@ -18,14 +18,14 @@ public class CEvaluationView extends JFrame{
     private final JButton buttonAddMoins;
     private final JButton buttonAddNeutral;
 
-    private final AUser user;
+    private final AUser currentUser;
 
     public CEvaluationView(CEvaluationController evaluationController, CEvaluation evaluation) {
 
         this.evaluationController = evaluationController;
         this.evaluation = evaluation;
 
-        user = evaluationController.getController().getCurrentUser();
+        currentUser = evaluationController.getController().getCurrentUser();
 
         setTitle("Voir évaluation : " + evaluation.getPlayer().getPseudo());
         setSize(400, 400);
@@ -35,9 +35,16 @@ public class CEvaluationView extends JFrame{
         JPanel panel = new JPanel(new GridLayout(0,1));
 
         panel.add(new JLabel("Date : " + evaluation.getDate()));
-        JButton playerButton = new JButton("Joueur : " + evaluation.getPlayer().getPseudo());
-        panel.add(playerButton);
-        playerButton.addActionListener(e -> evaluationController.getController().getUserController().openProfile(evaluation.getPlayer()));
+
+        if(currentUser instanceof CPlayer){
+            JButton playerButton = new JButton("Joueur : " + evaluation.getPlayer().getPseudo());
+            panel.add(playerButton);
+            playerButton.addActionListener(e -> evaluationController.getController().getUserController().openProfile(evaluation.getPlayer()));
+        }
+        else {
+            panel.add(new JLabel("Joueur : " + evaluation.getPlayer().getPseudo()));
+        }
+
         panel.add(new JLabel("Platforme : " + evaluation.getPlatform()));
         panel.add(new JLabel("texte : " + evaluation.getText()));
         panel.add(new JLabel("Version : " + evaluation.getNumVersion()));
@@ -47,25 +54,27 @@ public class CEvaluationView extends JFrame{
         buttonAddNeutral = new JButton("Neutre : " + evaluation.getUtiliteNeutre());
         buttonAddMoins = new JButton("Inutile : " + evaluation.getUtiliteNon());
 
-        if(user instanceof CTester tester && !tester.isEvaluationSignaled(evaluation)){
+        if(currentUser instanceof CTester tester && !tester.isEvaluationSignaled(evaluation)){
             JButton buttonSignaler = new JButton("Signaler cette évaluation");
             panel.add(buttonSignaler);
             buttonSignaler.addActionListener(e -> signalEvaluation());
         }
 
-        if(user instanceof CAdmin){
+        if(currentUser instanceof CAdmin){
             JButton buttonSupprimer = new JButton("Supprimer cette évaluation");
             panel.add(buttonSupprimer);
             buttonSupprimer.addActionListener(e -> deleteEvaluation());
         }
 
-        panel.add(buttonAddPlus);
-        panel.add(buttonAddNeutral);
-        panel.add(buttonAddMoins);
+        if(currentUser instanceof CPlayer){
+            panel.add(buttonAddPlus);
+            panel.add(buttonAddNeutral);
+            panel.add(buttonAddMoins);
 
-        buttonAddPlus.addActionListener(e -> addPlus());
-        buttonAddNeutral.addActionListener(e -> addNeutral());
-        buttonAddMoins.addActionListener(e -> addMoins());
+            buttonAddPlus.addActionListener(e -> addPlus());
+            buttonAddNeutral.addActionListener(e -> addNeutral());
+            buttonAddMoins.addActionListener(e -> addMoins());
+        }
 
         add(panel);
     }

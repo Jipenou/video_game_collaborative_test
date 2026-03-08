@@ -35,7 +35,10 @@ public class CProfileView extends JFrame {
 
         panelProfile.add(new JLabel("Pseudo : " + user.getPseudo()));
         panelProfile.add(new JLabel("Role : " + user.getRole()));
-        panelProfile.add(new JLabel("Nombre de jetons : " + user.getNbToken()));
+
+        if(user instanceof CPlayer player){
+            panelProfile.add(new JLabel("Nombre de jetons : " + player.getNbToken()));
+        }
 
         if(user instanceof CPlayer player){
             panelProfile.add(new JLabel("Nombre d'évaluations: " + player.getNbEvaluation()));
@@ -58,10 +61,10 @@ public class CProfileView extends JFrame {
 
         AUser currentUser = userController.getController().getCurrentUser();
 
-        if(currentUser instanceof CAdmin && currentUser != user && !(user instanceof CAdmin)){
+        if(currentUser instanceof CAdmin && currentUser != user && !(user instanceof CAdmin) && user instanceof CPlayer player){
             JButton promoteButton = new JButton("Promouvoir cet utilisateur");
             panelProfile.add(promoteButton);
-            promoteButton.addActionListener(e->promoteAccount(user));
+            promoteButton.addActionListener(e->promoteAccount(player));
 
             JButton deleteAccountButton = new JButton("Supprimer ce compte utilisateur");
             panelProfile.add(deleteAccountButton);
@@ -108,7 +111,7 @@ public class CProfileView extends JFrame {
         dispose();
     }
 
-    public void promoteAccount(AUser user){
+    public void promoteAccount(CPlayer user){
         userController.getController().getAdminController().promoteUser(user);
         dispose();
     }

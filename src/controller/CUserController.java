@@ -2,7 +2,9 @@ package controller;
 
 import model.data.CDatabase;
 import model.user.AUser;
+import model.user.CGuest;
 import model.user.CPlayer;
+import view.CMainMenuView;
 import view.user.CLoginView;
 import view.user.CProfileView;
 
@@ -33,6 +35,11 @@ public class CUserController {
             return true;
         }
         return false;
+    }
+
+    public void loginGuest(){
+        controller.setCurrentUser(new CGuest());
+        new CMainMenuView(this.getController()).setVisible(true);
     }
 
     /**

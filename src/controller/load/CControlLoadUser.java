@@ -50,7 +50,7 @@ public class CControlLoadUser {
                     int nbToken = Integer.parseInt(values[EnumUserLoad.TOKEN.getIndex()]);
                     boolean isBlocked = Boolean.parseBoolean(values[EnumUserLoad.IS_BLOCKED.getIndex()]);
 
-                    AUser user = switch (role) {
+                    CPlayer user = switch (role) {
                         case CTester.ROLE -> new CTester(pseudo);
                         case CAdmin.ROLE -> new CAdmin(pseudo);
                         default -> new CPlayer(pseudo);
@@ -75,7 +75,7 @@ public class CControlLoadUser {
      * Save a user in the user.csv
      * @param user the user to save
      */
-    public void saveUser(AUser user){
+    public void saveUser(CPlayer user){
         File file = new File(USER_FILE);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {

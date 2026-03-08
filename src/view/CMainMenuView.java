@@ -44,10 +44,14 @@ public class CMainMenuView extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(0,1));
 
-        panel.add(new JLabel("Bienvenue " + user.getPseudo() + ", vous avez " + user.getNbToken() + " jetons"));
+        if(user instanceof CPlayer player){
+            panel.add(new JLabel("Bienvenue " + player.getPseudo() + ", vous avez " + player.getNbToken() + " jetons"));
+        }
+        else {
+            panel.add(new JLabel("Bienvenue invité"));
+        }
 
         JButton displayGamesButton = new JButton("Tous les jeux");
-        JButton logoutButton = new JButton("Logout");
         JButton profileButton = new JButton("Mon profil");
 
         panel.add(displayGamesButton);
@@ -65,10 +69,18 @@ public class CMainMenuView extends JFrame {
         }
 
         panel.add(profileButton);
+
+        JButton logoutButton = new JButton();
+        if(controller.getCurrentUser() instanceof CPlayer){
+            logoutButton.setText("se déconnecter");
+        }
+        else{
+            logoutButton.setText("Page de connexion");
+        }
         panel.add(logoutButton);
-
-
         logoutButton.addActionListener(e -> logout());
+
+
         profileButton.addActionListener(e -> openProfile());
         displayGamesButton.addActionListener(e -> displayGames());
 

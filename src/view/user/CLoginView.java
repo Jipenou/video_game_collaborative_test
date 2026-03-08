@@ -48,9 +48,11 @@ public class CLoginView extends JFrame{
 
         JPanel buttons = new JPanel();
 
+        JButton inviteButton = new JButton("Invité");
         JButton loginButton = new JButton(CTextPlaceHolder.LOGIN);
         JButton registerButton = new JButton(CTextPlaceHolder.REGISTER);
 
+        buttons.add(inviteButton);
         buttons.add(loginButton);
         buttons.add(registerButton);
 
@@ -61,6 +63,7 @@ public class CLoginView extends JFrame{
 
         add(panel);
 
+        inviteButton.addActionListener(e -> inviteLogin());
         loginButton.addActionListener(e -> login());
         registerButton.addActionListener(e -> register());
     }
@@ -74,7 +77,6 @@ public class CLoginView extends JFrame{
 
         if(userController.login(pseudo)) {
             dispose();
-
             new CMainMenuView(userController.getController()).setVisible(true);
         } else {
             messageLabel.setText(CTextPlaceHolder.USER + " inconnu");
@@ -93,6 +95,11 @@ public class CLoginView extends JFrame{
         } else {
             messageLabel.setText(CTextPlaceHolder.PSEUDO + " déjà utilisé ou non conforme");
         }
+    }
+
+    private void inviteLogin(){
+        userController.loginGuest();
+        dispose();
     }
 
 }

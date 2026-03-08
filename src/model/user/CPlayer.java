@@ -14,6 +14,9 @@ import java.util.Map;
  */
 public class CPlayer extends AUser{
 
+    /** number of token of the user */
+    protected int nbJeton;
+
     /** List of game played with their time and platform */
     protected List<CPlayerGame> gamePlayed;
 
@@ -186,6 +189,35 @@ public class CPlayer extends AUser{
 
     public List<CPlayerGame> getGamePlayed() {
         return gamePlayed;
+    }
+
+    /**
+     *
+     * @return the number of token of the user
+     */
+    public int getNbToken() {
+        return nbJeton;
+    }
+
+    /**
+     * Add token to a player
+     * @param nbJeton the number of token to add
+     */
+    public void addJeton(int nbJeton){
+        this.nbJeton += nbJeton;
+    }
+
+
+    /**
+     * Remove token to a player
+     * @param nbJeton the number oof token to remove
+     */
+    public void removeJeton(int nbJeton){
+        this.nbJeton -= nbJeton;
+    }
+
+    public void setNbJeton(int nbJeton) {
+        this.nbJeton = nbJeton;
     }
 
     /**

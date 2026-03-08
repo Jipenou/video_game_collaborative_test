@@ -22,7 +22,7 @@ public class CDatabase {
     private final Map<String, CVideoGame> videoGames;
 
     /** the user registered as <pseudo, User> */
-    private final Map<String, AUser> users;
+    private final Map<String, CPlayer> users;
 
     /** the evaluations */
     private final List<CEvaluation> evaluations;
@@ -48,7 +48,7 @@ public class CDatabase {
      * Add a user to the database
      * @param user the user to add
      */
-    public void addUser(AUser user){
+    public void addUser(CPlayer user){
         users.put(user.getPseudo(), user);
     }
 
@@ -118,7 +118,7 @@ public class CDatabase {
         return videoGames;
     }
 
-    public Map<String, AUser> getUsers() {
+    public Map<String, CPlayer> getUsers() {
         return users;
     }
 
@@ -252,7 +252,7 @@ public class CDatabase {
         return new ArrayList<>(users.values());
     }
 
-    public void replaceUser(AUser oldUser, AUser newUser) {
+    public void replaceUser(CPlayer oldUser, CPlayer newUser) {
         users.remove(oldUser.getPseudo());
         users.put(newUser.getPseudo(), newUser);
 

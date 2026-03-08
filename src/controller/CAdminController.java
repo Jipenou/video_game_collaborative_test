@@ -40,14 +40,14 @@ public class CAdminController {
         return controller;
     }
 
-    public void promoteUser(AUser user) {
+    public void promoteUser(CPlayer user) {
         CDatabase db = controller.getDatabase();
 
         if (user instanceof CAdmin) {
             return;
         }
 
-        AUser userPromoted;
+        CPlayer userPromoted;
 
         if (user instanceof CTester tester) {
             CAdmin admin = new CAdmin(tester.getPseudo());

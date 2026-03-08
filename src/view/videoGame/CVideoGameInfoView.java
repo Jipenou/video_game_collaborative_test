@@ -2,6 +2,7 @@ package view.videoGame;
 
 import controller.CVideoGameController;
 import model.user.AUser;
+import model.user.CGuest;
 import model.user.CPlayer;
 import model.user.CTester;
 import model.videoGame.CEvaluation;
@@ -30,7 +31,7 @@ public class CVideoGameInfoView extends JFrame {
     public CVideoGameInfoView(CVideoGameController videoGameController, CVideoGame game) {
         this.videoGameController = videoGameController;
         this.game = game;
-        AUser user = videoGameController.getController().getCurrentUser();
+        AUser currentUser = videoGameController.getController().getCurrentUser();
 
 
         setTitle("Infos du jeu");
@@ -56,9 +57,8 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note moyenne des joueurs : " + platform.getPlayerRating() + "</html>"));
         }
 
-        if(user instanceof CPlayer){
-            CPlayer player = (CPlayer) user;
-            // if we have this game in our collection
+        if(currentUser instanceof CPlayer player){
+            // if the player have this game in our collection
             if(player.isGameInCollection(game)) {
                 Map<CPlatform, Float> hoursPlayedOnThisGame = player.getHoursPlayedOnAGame(game);
                 if(!hoursPlayedOnThisGame.isEmpty()){
@@ -74,7 +74,7 @@ public class CVideoGameInfoView extends JFrame {
         }
 
         // if we have some tests
-        if(!game.getTests().isEmpty()) {
+        if(!game.getTests().isEmpty() && currentUser instanceof CPlayer) {
             panel.add(new JLabel("Tests : "));
             for(CTest test : game.getTests().values()){
                 JButton testButton = new JButton(test.getDate() + ", " + test.getTester().getPseudo());
@@ -99,17 +99,17 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(new JLabel("Aucune évaluation disponible"));
         }
 
-        if(user instanceof CPlayer player && player.isGameInCollection(game) && !player.isBlocked()){
+        if(currentUser instanceof CPlayer player && player.isGameInCollection(game) && !player.isBlocked()){
             JButton evalButton = new JButton("Ajouter une évaluation");
             panel.add(evalButton);
             evalButton.addActionListener(e -> addEvaluation());
         }
-        if(user instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty() && !tester.isBlocked()){
+        if(currentUser instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty() && !tester.isBlocked()){
             JButton testButton = new JButton("Ajouter un test");
             panel.add(testButton);
             testButton.addActionListener(e -> addTest());
         }
-        if(user instanceof CPlayer player){
+        if(currentUser instanceof CPlayer player){
             // if we dont owned this game on all platform
             if(!player.getPlatformNotOwnedForGame(game).isEmpty()) {
                 // if do not have this game
