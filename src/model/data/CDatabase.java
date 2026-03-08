@@ -251,4 +251,34 @@ public class CDatabase {
     public List<AUser> getAllUsers() {
         return new ArrayList<>(users.values());
     }
+
+    public void replaceUser(AUser oldUser, AUser newUser) {
+        users.remove(oldUser.getPseudo());
+        users.put(newUser.getPseudo(), newUser);
+
+        for (CPlayerGame playerGame : playerGames) {
+            if (playerGame.getPlayer() == oldUser) {
+                playerGame.setPlayer((CPlayer) newUser);
+            }
+        }
+
+        for (CEvaluation eval : evaluations) {
+            if (eval.getPlayer() == oldUser) {
+                eval.setPlayer((CPlayer) newUser);
+            }
+        }
+
+        if (oldUser instanceof CTester oldTester && newUser instanceof CTester newTester) {
+            for (CTest test : tests) {
+                if (test.getTester() == oldTester) {
+                    test.setTester(newTester);
+                }
+            }
+            for (CSignalement signalement : signaledEvaluations) {
+                if (signalement.getReporter() == oldTester) {
+                    signalement.setReporter(newTester);
+                }
+            }
+        }
+    }
 }

@@ -68,6 +68,14 @@ public class CTester extends CPlayer{
         return tests.size();
     }
 
+    public List<CTest> getTests() {
+        return tests;
+    }
+
+    public List<CEvaluation> getSignaledEvaluation() {
+        return signaledEvaluation;
+    }
+
     /**
      * @return the role of this tester
      */

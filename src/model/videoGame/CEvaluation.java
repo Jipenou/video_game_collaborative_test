@@ -14,7 +14,7 @@ import java.util.Map;
 public class CEvaluation {
 
     /** The player that made the evaluation */
-    private final CPlayer player;
+    private CPlayer player;
 
     /** The video game evaluated */
     private final CVideoGame videoGame;
@@ -182,5 +182,9 @@ public class CEvaluation {
 
     public String toStringSimple(){
         return "Evaluation de " + player.getPseudo() + ", jeu : " + videoGame.getName() + ", platforme : " + platform.getName();
+    }
+
+    public void setPlayer(CPlayer player) {
+        this.player = player;
     }
 }

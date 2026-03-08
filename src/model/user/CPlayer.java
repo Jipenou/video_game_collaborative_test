@@ -184,6 +184,10 @@ public class CPlayer extends AUser{
         gamePlayed.remove(playerGame);
     }
 
+    public List<CPlayerGame> getGamePlayed() {
+        return gamePlayed;
+    }
+
     /**
      * @return the role of the player
      */

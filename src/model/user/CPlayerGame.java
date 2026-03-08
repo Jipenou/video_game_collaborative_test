@@ -5,7 +5,7 @@ import model.videoGame.CVideoGame;
 
 public class CPlayerGame {
 
-    private final CPlayer player;
+    private CPlayer player;
     private final CVideoGame videoGame;
     private final CPlatform platform;
     private float hoursPlayed;
@@ -47,5 +47,9 @@ public class CPlayerGame {
 
     public CPlayer getPlayer() {
         return player;
+    }
+
+    public void setPlayer(CPlayer player) {
+        this.player = player;
     }
 }

@@ -9,7 +9,7 @@ import model.videoGame.CEvaluation;
 public class CSignalement {
 
     /** The tester who signaled the evaluation */
-    private final CTester reporter;
+    private CTester reporter;
 
     /** The evaluation signaled */
     private final CEvaluation evaluation;
@@ -25,6 +25,10 @@ public class CSignalement {
 
     public CEvaluation getEvaluation() {
         return evaluation;
+    }
+
+    public void setReporter(CTester reporter) {
+        this.reporter = reporter;
     }
 
     public String toString(){

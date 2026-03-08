@@ -81,6 +81,6 @@ public abstract class AUser {
     public abstract String getRole();
 
     public String toString(){
-        return this.pseudo;
+        return this.pseudo + " (" + getRole() + ")";
     }
 }

@@ -53,10 +53,16 @@ public class CProfileView extends JFrame {
             else{
                 displayBlocked = "Non";
             }
-            panelProfile.add(new JLabel("Utilisateur bloqué : " + displayBlocked + "\n"));
+            panelProfile.add(new JLabel("Bloqué ? : " + displayBlocked + "\n"));
         }
 
-        if(userController.getController().getCurrentUser() instanceof CAdmin && userController.getController().getCurrentUser() != user){
+        AUser currentUser = userController.getController().getCurrentUser();
+
+        if(currentUser instanceof CAdmin && currentUser != user && !(user instanceof CAdmin)){
+            JButton promoteButton = new JButton("Promouvoir cet utilisateur");
+            panelProfile.add(promoteButton);
+            promoteButton.addActionListener(e->promoteAccount(user));
+
             JButton deleteAccountButton = new JButton("Supprimer ce compte utilisateur");
             panelProfile.add(deleteAccountButton);
             deleteAccountButton.addActionListener(e->deleteAccount(user));
@@ -99,6 +105,11 @@ public class CProfileView extends JFrame {
 
     public void unblockAccount(AUser user){
         userController.unblockAccount(user);
+        dispose();
+    }
+
+    public void promoteAccount(AUser user){
+        userController.getController().getAdminController().promoteUser(user);
         dispose();
     }
 }

@@ -14,7 +14,7 @@ import java.util.Map;
 public class CTest {
 
     /** the tester that made this test */
-    private final CTester tester;
+    private CTester tester;
 
     /** the video game tested */
     private final CVideoGame videoGame;
@@ -136,5 +136,9 @@ public class CTest {
 
     public Map<String, Integer> getNoteSpecificCategory() {
         return noteSpecificCategory;
+    }
+
+    public void setTester(CTester tester) {
+        this.tester = tester;
     }
 }
