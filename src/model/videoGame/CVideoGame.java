@@ -1,5 +1,6 @@
 package model.videoGame;
 
+import model.user.AUser;
 import model.user.CPlayer;
 import model.user.CPlayerGame;
 import model.user.CTester;
@@ -32,6 +33,8 @@ public class CVideoGame {
     /** A map that contains the evaluation by platform as <platform, test>*/
     private final Map<CPlatform, CTest> tests;
 
+    private final Map<CPlayer, Integer> tokenOnTheGame;
+
     public CVideoGame(String name, String category, String editor, Character rating){
         this.name = (name != null)? name : "undefined";
         this.category = (category != null) ? category : "undefined";
@@ -40,6 +43,7 @@ public class CVideoGame {
         this.platforms = new ArrayList<>();
         evaluations = new ArrayList<>();
         tests = new HashMap<>();
+        tokenOnTheGame = new HashMap<>();
     }
 
     /**
@@ -48,6 +52,55 @@ public class CVideoGame {
      */
     public void addPlatform(CPlatform platform){
         platforms.add(platform);
+    }
+
+    public void addTokenToGame(CPlayer player, int nbToken){
+        if(hasUserPlacedToken(player)){
+            int newToken = tokenOnTheGame.get(player) + nbToken;
+            tokenOnTheGame.put(player, newToken);
+        }
+        else {
+            tokenOnTheGame.put(player, nbToken);
+        }
+    }
+
+    public void removeTokenToGame(CPlayer player, int nbToken){
+        if(hasUserPlacedToken(player)){
+            if(nbToken >= tokenOnTheGame.get(player)){
+                tokenOnTheGame.remove(player);
+            }
+            else{
+                int newToken = tokenOnTheGame.get(player) - nbToken;
+                tokenOnTheGame.put(player, newToken);
+            }
+        }
+    }
+
+    public void removeAllTokens(){
+        tokenOnTheGame.clear();
+    }
+
+    public boolean hasUserPlacedToken(CPlayer player){
+        return tokenOnTheGame.containsKey(player);
+    }
+
+    public int getTokenPlacedForUser(CPlayer player){
+        if(hasUserPlacedToken(player)){
+            return tokenOnTheGame.get(player);
+        }
+        return 0;
+    }
+
+    public int getAllTokenOnGame(){
+        int totalToken = 0;
+        for(int nbToken : tokenOnTheGame.values()){
+            totalToken += nbToken;
+        }
+        return totalToken;
+    }
+
+    public boolean areAllPossibleTestsDone(){
+        return tests.size() == platforms.size();
     }
 
     /**
@@ -163,6 +216,10 @@ public class CVideoGame {
 
     public void removeTest(CTest test){
         tests.values().remove(test);
+    }
+
+    public Map<CPlayer, Integer> getTokenOnTheGame() {
+        return tokenOnTheGame;
     }
 
     public String toString(){

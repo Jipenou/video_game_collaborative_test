@@ -35,6 +35,8 @@ public class CDatabase {
 
     private final List<CSignalement> signaledEvaluations;
 
+    private final Map<CVideoGame, Map<CPlayer, Integer>> tokenOnGames;
+
     public CDatabase(){
         videoGames = new HashMap<>();
         users = new HashMap<>();
@@ -42,6 +44,7 @@ public class CDatabase {
         tests = new ArrayList<>();
         playerGames = new ArrayList<>();
         signaledEvaluations = new ArrayList<>();
+        tokenOnGames = new HashMap<>();
     }
 
     /**

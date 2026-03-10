@@ -8,6 +8,7 @@ import model.user.CPlayer;
 import model.user.CPlayerGame;
 import model.videoGame.CEvaluation;
 import model.videoGame.CTest;
+import model.videoGame.CVideoGame;
 
 /**
  * This class represent the main controller of the application
@@ -29,6 +30,8 @@ public class CController {
     private final CControlLoadGameOwned loadGameOwnedController;
 
     private final CControlLoadSignalement loadSignalementController;
+
+    private final CControlLoadTokenOnGame loadTokenOnGameController;
 
     /** The User controller */
     private final CUserController userController;
@@ -61,6 +64,7 @@ public class CController {
         this.loadTestController = new CControlLoadTest(database);
         this.loadGameOwnedController = new CControlLoadGameOwned(database);
         this.loadSignalementController = new CControlLoadSignalement(database);
+        this.loadTokenOnGameController = new CControlLoadTokenOnGame(database);
 
         // load all data from the csv
         loadAll();
@@ -77,6 +81,7 @@ public class CController {
         this.loadTestController.loadTests();
         this.loadGameOwnedController.loadPlayerGame();
         this.loadSignalementController.loadSignalement();
+        this.loadTokenOnGameController.loadTokenOnGame();
     }
 
     /**
@@ -88,6 +93,7 @@ public class CController {
         this.loadTestController.clearCSV();
         this.loadGameOwnedController.clearCSV();
         this.loadSignalementController.clearCSV();
+        this.loadTokenOnGameController.clearCSV();
     }
 
     /**
@@ -99,6 +105,7 @@ public class CController {
         saveAllTests();
         saveAllPlayerGames();
         saveAllSignalements();
+        saveAllTokenOnGames();
     }
 
     /**
@@ -138,6 +145,14 @@ public class CController {
     public void saveAllSignalements(){
         for(CSignalement signalement : database.getSignaledEvaluations()){
             loadSignalementController.saveSignalement(signalement);
+        }
+    }
+
+    public void saveAllTokenOnGames(){
+        for(CVideoGame videoGame : database.getAllVideoGames()){
+            for(CPlayer player : videoGame.getTokenOnTheGame().keySet()){
+                loadTokenOnGameController.saveTokenOnGame(videoGame, player, videoGame.getTokenOnTheGame().get(player));
+            }
         }
     }
 

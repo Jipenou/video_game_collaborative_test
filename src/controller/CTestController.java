@@ -28,6 +28,7 @@ public class CTestController {
                            String version, String conditions){
         CTest test = new CTest(tester, videoGame, platform, text, version, conditions);
         tester.addJeton(CTester.NB_JETONS_PER_TEST);
+        videoGame.removeAllTokens();
 
         controller.getDatabase().addTest(test);
     }

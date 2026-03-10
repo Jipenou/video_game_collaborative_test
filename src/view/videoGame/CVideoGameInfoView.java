@@ -86,6 +86,18 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(new JLabel("Aucun test disponible"));
         }
 
+        if(!game.areAllPossibleTestsDone()){
+            JButton addTokenButton = new JButton("Ajouter des jetons sur le jeu (" + game.getAllTokenOnGame() + " pour le moment)");
+            panel.add(addTokenButton);
+            addTokenButton.addActionListener(e -> displayAddTokenFrame());
+
+            if(currentUser instanceof CPlayer player && game.hasUserPlacedToken(player)){
+                JButton removeTokenButton = new JButton("Retirer des jetons sur le jeu (Vous avez placés " + game.getAllTokenOnGame() + " jetons pour le moment)");
+                panel.add(removeTokenButton);
+                removeTokenButton.addActionListener(e -> displayRemoveTokenFrame());
+            }
+        }
+
         // if there is evaluations
         if(!game.getEvaluations().isEmpty()) {
             panel.add(new JLabel("Evaluations : "));
@@ -170,5 +182,13 @@ public class CVideoGameInfoView extends JFrame {
      */
     private void addToCollection(){
         videoGameController.displayAddGameFrame(this, game);
+    }
+
+    private void displayAddTokenFrame(){
+        videoGameController.addTokenFrame(this, game);
+    }
+
+    private void displayRemoveTokenFrame(){
+        videoGameController.removeTokenFrame(this, game);
     }
 }

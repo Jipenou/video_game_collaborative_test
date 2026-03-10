@@ -1,6 +1,5 @@
 package controller;
 
-import model.data.CDatabase;
 import model.user.CPlayer;
 import model.user.CPlayerGame;
 import model.videoGame.CEvaluation;
@@ -9,11 +8,13 @@ import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 import view.videoGame.CAddGameView;
 import view.videoGame.CAddHoursToGameView;
+import view.videoGame.token.CAddTokenOnGameView;
 import view.videoGame.CVideoGameInfoView;
 import view.videoGame.evaluation.CAddEvaluationView;
 import view.videoGame.evaluation.CEvaluationView;
 import view.videoGame.test.CAddTestView;
 import view.videoGame.test.CTestView;
+import view.videoGame.token.CRemoveTokenOnGameView;
 
 public class CVideoGameController {
 
@@ -34,6 +35,26 @@ public class CVideoGameController {
 
     public void viewInfoGameFrame(CVideoGame videoGame){
         new CVideoGameInfoView(this, videoGame).setVisible(true);
+    }
+
+    public void addTokenFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
+        new CAddTokenOnGameView(this, videoGame, gameInfoView).setVisible(true);
+    }
+
+    public void addTokenToGame(CVideoGame videoGame, int nbToken){
+        CPlayer currentUser = (CPlayer) controller.getCurrentUser();
+        videoGame.addTokenToGame(currentUser, nbToken);
+        currentUser.removeJeton(nbToken);
+    }
+
+    public void removeTokenFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
+        new CRemoveTokenOnGameView(this, videoGame, gameInfoView).setVisible(true);
+    }
+
+    public void removeTokenToGame(CVideoGame videoGame, int nbToken){
+        CPlayer currentUser = (CPlayer) controller.getCurrentUser();
+        videoGame.removeTokenToGame(currentUser, nbToken);
+        currentUser.addJeton(nbToken);
     }
 
     public void displayEvaluation(CEvaluation evaluation){
