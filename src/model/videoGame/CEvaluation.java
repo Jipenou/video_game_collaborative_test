@@ -110,15 +110,12 @@ public class CEvaluation {
     }
 
     private void calculNbEvaluationPositives(){
-        System.out.println("Dans calcul");
         int votePositifs = (int) votants.values().stream().filter(v -> v == 1).count();
         int palier = votePositifs / 10;
-        System.out.println("Palier : " + palier);
 
         if (palier > nbPositiveUtilities) {
             int jetonsAajouter = palier - nbPositiveUtilities;
             this.player.addJeton(jetonsAajouter);
-            System.out.println("token ajouté");
             nbPositiveUtilities = palier;
         }
     }
@@ -164,8 +161,8 @@ public class CEvaluation {
     }
 
     public String toString(){
-        return "[Platform : " + this.platform + ",date : " + this.date.toLocalDate() + ",version: " + this.numVersion + ", note: " + this.globalScore +
-                ", description : " + this.text + "]";
+        return "[user : " + player.getPseudo() + ", Jeu vidéo : " + videoGame + ", Plateforme : " + this.platform + ",date : " + this.date.toLocalDate() + ", note: " + this.globalScore +
+               "]";
     }
 
     public String toStringLong(){

@@ -12,6 +12,7 @@ import model.videoGame.CVideoGame;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class represent the database of the application
@@ -136,6 +137,12 @@ public class CDatabase {
             }
         }
         return null;
+    }
+
+    public List<CVideoGame> getVideoGamesSortedByTokens() {
+        return videoGames.values().stream()
+                .sorted(Comparator.comparingInt(CVideoGame::getAllTokenOnGame).reversed())
+                .collect(Collectors.toList());
     }
 
     /**

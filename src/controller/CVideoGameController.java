@@ -8,6 +8,7 @@ import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 import view.videoGame.CAddGameView;
 import view.videoGame.CAddHoursToGameView;
+import view.videoGame.CVideoGameToTestView;
 import view.videoGame.token.CAddTokenOnGameView;
 import view.videoGame.CVideoGameInfoView;
 import view.videoGame.evaluation.CAddEvaluationView;
@@ -63,6 +64,10 @@ public class CVideoGameController {
 
     public void displayTest(CTest test){
         controller.getTestController().displayTest(test);
+    }
+
+    public void displayGameToTestFrame(){
+        new CVideoGameToTestView(this).setVisible(true);
     }
 
     public void displayAddGameFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){

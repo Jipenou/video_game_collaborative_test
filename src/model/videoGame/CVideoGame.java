@@ -6,6 +6,7 @@ import model.user.CPlayerGame;
 import model.user.CTester;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class represent a video game
@@ -89,6 +90,14 @@ public class CVideoGame {
             return tokenOnTheGame.get(player);
         }
         return 0;
+    }
+
+    public List<CEvaluation> getEvaluationsSortedByScoreThenDate() {
+        return evaluations.stream()
+                .sorted(Comparator
+                        .comparingInt(CEvaluation::getUtiliteOui).reversed()
+                        .thenComparing(CEvaluation::getDate))
+                .collect(Collectors.toList());
     }
 
     public int getAllTokenOnGame(){
@@ -223,6 +232,6 @@ public class CVideoGame {
     }
 
     public String toString(){
-        return this.name;
+        return this.name + " - " + getAllTokenOnGame() + " token(s)";
     }
 }

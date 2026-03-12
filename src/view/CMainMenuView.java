@@ -4,6 +4,7 @@ import controller.CController;
 import model.user.AUser;
 import model.user.CAdmin;
 import model.user.CPlayer;
+import model.user.CTester;
 import view.user.CLoginView;
 import view.user.CProfileView;
 import view.videoGame.CShowMyGamesView;
@@ -67,6 +68,12 @@ public class CMainMenuView extends JFrame {
             JButton displayMyGames = new JButton("Mes jeux");
             displayMyGames.addActionListener(e -> displayMyGames());
             panel.add(displayMyGames);
+        }
+
+        if(user instanceof CTester){
+            JButton testGamessButton = new JButton("Jeux à tester");
+            testGamessButton.addActionListener(e -> controller.getVideoGameController().displayGameToTestFrame());
+            panel.add(testGamessButton);
         }
 
         if(user instanceof CAdmin) {
