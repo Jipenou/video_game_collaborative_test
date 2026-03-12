@@ -28,7 +28,7 @@ public class CVideoGameToTestView extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout());
 
-        List<CVideoGame> games = videoGameController.getController().getDatabase().getVideoGamesSortedByTokens();
+        List<CVideoGame> games = videoGameController.getController().getDatabase().getVideoGamesSortedByTokens((CPlayer) videoGameController.getController().getCurrentUser());
 
         JList<CVideoGame> list = new JList<>(games.toArray(new CVideoGame[0]));
 

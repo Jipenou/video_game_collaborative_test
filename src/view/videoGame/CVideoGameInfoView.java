@@ -62,7 +62,7 @@ public class CVideoGameInfoView extends JFrame {
             if(player.isGameInCollection(game)) {
                 Map<CPlatform, Float> hoursPlayedOnThisGame = player.getHoursPlayedOnAGame(game);
                 if(!hoursPlayedOnThisGame.isEmpty()){
-                    JLabel nbHoursPlayed = new JLabel("Nombre d'heures jouées : ");
+                    JLabel nbHoursPlayed = new JLabel("Nombre d'heures jouées (" + player.getTotalHoursPlayedOnAGame(game) + "h joué au total) : ");
                     panel.add(nbHoursPlayed);
 
                     for(CPlatform platform : hoursPlayedOnThisGame.keySet()){
@@ -134,7 +134,7 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(new JLabel("Aucune évaluation disponible"));
         }
 
-        if(currentUser instanceof CPlayer player && player.isGameInCollection(game) && !player.isBlocked()){
+        if(currentUser instanceof CPlayer player && player.isGameInCollection(game) && !player.isBlocked() && player.getTotalHoursPlayedOnAGame(game) >= CEvaluation.NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE){
             JButton evalButton = new JButton("Ajouter une évaluation");
             panel.add(evalButton);
             evalButton.addActionListener(e -> addEvaluation());

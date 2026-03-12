@@ -139,8 +139,10 @@ public class CDatabase {
         return null;
     }
 
-    public List<CVideoGame> getVideoGamesSortedByTokens() {
+    public List<CVideoGame> getVideoGamesSortedByTokens(CPlayer player) {
         return videoGames.values().stream()
+                .filter(vg -> player.isGameInCollection(vg)
+                        && player.getTotalHoursPlayedOnAGame(vg) >= CTest.NUMBER_HOURS_MINIMUM_PLAYED_TO_TEST)
                 .sorted(Comparator.comparingInt(CVideoGame::getAllTokenOnGame).reversed())
                 .collect(Collectors.toList());
     }

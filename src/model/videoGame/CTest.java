@@ -49,6 +49,7 @@ public class CTest {
     /** note per specific category */
     private final Map<String, Integer> noteSpecificCategory;
 
+    public static final int NUMBER_HOURS_MINIMUM_PLAYED_TO_TEST = 20;
 
     public CTest(CTester tester, CVideoGame videoGame, CPlatform platform, String text, String numVersion, String conditions){
         this.tester = tester;

@@ -102,6 +102,16 @@ public class CPlayer extends AUser{
         return hoursPlayed;
     }
 
+    public float getTotalHoursPlayedOnAGame(CVideoGame videoGame){
+        float total = 0;
+        for(CPlayerGame playerGame : gamePlayed){
+            if(playerGame.getVideoGame() == videoGame){
+                total += playerGame.getHoursPlayed();
+            }
+        }
+        return total;
+    }
+
     /**
      * Get all the platform owned of a game owned
      * @param videoGame the video game

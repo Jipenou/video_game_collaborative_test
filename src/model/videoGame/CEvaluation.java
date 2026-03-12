@@ -48,6 +48,8 @@ public class CEvaluation {
     private static final int VAL_EVAL_NEGATIVE = -1;
     private static final int VAL_EVAL_NEUTRE = 0;
 
+    public static final int NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE = 10;
+
     /** Map that contains the utilities votes as <player that vote, his vote> */
     private final Map<CPlayer, Integer> votants;
 
