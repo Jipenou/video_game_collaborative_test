@@ -86,15 +86,38 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(new JLabel("Aucun test disponible"));
         }
 
-        if(!game.areAllPossibleTestsDone()){
-            JButton addTokenButton = new JButton("Ajouter des jetons sur le jeu (" + game.getAllTokenOnGame() + " pour le moment)");
-            panel.add(addTokenButton);
-            addTokenButton.addActionListener(e -> displayAddTokenFrame());
+        if(currentUser instanceof CPlayer player){
+            if(!game.areAllPossibleTestsDone()){
+                JButton addTokenButton = new JButton("Ajouter des jetons sur le jeu (" + game.getAllTokenOnGame() + " pour le moment)");
+                panel.add(addTokenButton);
+                addTokenButton.addActionListener(e -> displayAddTokenFrame());
 
-            if(currentUser instanceof CPlayer player && game.hasUserPlacedToken(player)){
-                JButton removeTokenButton = new JButton("Retirer des jetons sur le jeu (Vous avez placés " + game.getAllTokenOnGame() + " jetons pour le moment)");
-                panel.add(removeTokenButton);
-                removeTokenButton.addActionListener(e -> displayRemoveTokenFrame());
+                if(game.hasUserPlacedToken(player)){
+                    JButton removeTokenButton = new JButton("Retirer des jetons sur le jeu (Vous avez placés " + game.getAllTokenOnGame() + " jetons pour le moment)");
+                    panel.add(removeTokenButton);
+                    removeTokenButton.addActionListener(e -> displayRemoveTokenFrame());
+                }
+            }
+
+            // if we dont owned this game on all platform
+            if(!player.getPlatformNotOwnedForGame(game).isEmpty()) {
+                // if do not have this game
+                if (!player.isGameInCollection(game)) {
+                    JButton addToCollectionButton = new JButton("Ajouter le jeu à ma collection");
+                    panel.add(addToCollectionButton);
+                    addToCollectionButton.addActionListener(e -> addToCollection());
+                } else { // if we have get this game at least on 1 platform
+                    JButton addToCollectionButton = new JButton("Ajouter le jeu à ma collection pour une autre platforme");
+                    panel.add(addToCollectionButton);
+                    addToCollectionButton.addActionListener(e -> addToCollection());
+                }
+            }
+            // if we have get this game at least on 1 platform
+            //if(!player.getPlatformsForGame(game).isEmpty()){
+            if(player.isGameInCollection(game)){
+                JButton addHoursButton = new JButton("Ajouter du temps de jeu");
+                panel.add(addHoursButton);
+                addHoursButton.addActionListener(e -> addHours());
             }
         }
 
@@ -120,28 +143,6 @@ public class CVideoGameInfoView extends JFrame {
             JButton testButton = new JButton("Ajouter un test");
             panel.add(testButton);
             testButton.addActionListener(e -> addTest());
-        }
-        if(currentUser instanceof CPlayer player){
-            // if we dont owned this game on all platform
-            if(!player.getPlatformNotOwnedForGame(game).isEmpty()) {
-                // if do not have this game
-                if (!player.isGameInCollection(game)) {
-                    JButton addToCollectionButton = new JButton("Ajouter le jeu à ma collection");
-                    panel.add(addToCollectionButton);
-                    addToCollectionButton.addActionListener(e -> addToCollection());
-                } else { // if we have get this game at least on 1 platform
-                    JButton addToCollectionButton = new JButton("Ajouter le jeu à ma collection pour une autre platforme");
-                    panel.add(addToCollectionButton);
-                    addToCollectionButton.addActionListener(e -> addToCollection());
-                }
-            }
-            // if we have get this game at least on 1 platform
-            //if(!player.getPlatformsForGame(game).isEmpty()){
-            if(player.isGameInCollection(game)){
-                JButton addHoursButton = new JButton("Ajouter du temps de jeu");
-                panel.add(addHoursButton);
-                addHoursButton.addActionListener(e -> addHours());
-            }
         }
         add(panel);
     }

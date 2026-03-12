@@ -11,9 +11,9 @@ import view.videoGame.CAddHoursToGameView;
 import view.videoGame.token.CAddTokenOnGameView;
 import view.videoGame.CVideoGameInfoView;
 import view.videoGame.evaluation.CAddEvaluationView;
-import view.videoGame.evaluation.CEvaluationView;
+import view.videoGame.evaluation.CEvaluationInfoView;
 import view.videoGame.test.CAddTestView;
-import view.videoGame.test.CTestView;
+import view.videoGame.test.CTestInfoView;
 import view.videoGame.token.CRemoveTokenOnGameView;
 
 public class CVideoGameController {
@@ -58,11 +58,11 @@ public class CVideoGameController {
     }
 
     public void displayEvaluation(CEvaluation evaluation){
-        new CEvaluationView(controller.getEvaluationController(), evaluation).setVisible(true);
+        new CEvaluationInfoView(controller.getEvaluationController(), evaluation).setVisible(true);
     }
 
     public void displayTest(CTest test){
-        new CTestView(controller.getTestController(), test).setVisible(true);
+        controller.getTestController().displayTest(test);
     }
 
     public void displayAddGameFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){

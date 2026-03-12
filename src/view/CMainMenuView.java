@@ -52,11 +52,18 @@ public class CMainMenuView extends JFrame {
         }
 
         JButton displayGamesButton = new JButton("Tous les jeux");
-        JButton profileButton = new JButton("Mon profil");
-
         panel.add(displayGamesButton);
+        displayGamesButton.addActionListener(e -> displayGames());
+
+        JButton evaluationButton = new JButton("Toutes les évaluations");
+        evaluationButton.addActionListener(e -> openEvaluationFrame());
+        panel.add(evaluationButton);
 
         if(user instanceof CPlayer) {
+            JButton testsButton = new JButton("Tous les tests");
+            testsButton.addActionListener(e -> openTestsFrame());
+            panel.add(testsButton);
+
             JButton displayMyGames = new JButton("Mes jeux");
             displayMyGames.addActionListener(e -> displayMyGames());
             panel.add(displayMyGames);
@@ -68,6 +75,7 @@ public class CMainMenuView extends JFrame {
             panel.add(administrationButton);
         }
 
+        JButton profileButton = new JButton("Mon profil");
         panel.add(profileButton);
 
         JButton logoutButton = new JButton();
@@ -82,7 +90,6 @@ public class CMainMenuView extends JFrame {
 
 
         profileButton.addActionListener(e -> openProfile());
-        displayGamesButton.addActionListener(e -> displayGames());
 
         add(panel);
     }
@@ -119,5 +126,13 @@ public class CMainMenuView extends JFrame {
 
     private void openAdministrationFrame(){
         controller.getAdminController().openAdministrationFrame();
+    }
+
+    private void openEvaluationFrame(){
+        controller.getEvaluationController().openEvaluationFrame();
+    }
+
+    private void openTestsFrame(){
+        controller.getTestController().displayAllTestFrame();
     }
 }

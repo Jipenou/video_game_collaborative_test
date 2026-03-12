@@ -6,6 +6,8 @@ import model.user.CTester;
 import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
+import view.videoGame.evaluation.CEvaluationInfoView;
+import view.videoGame.evaluation.CEvaluationView;
 
 import java.time.LocalDateTime;
 
@@ -38,6 +40,14 @@ public class CEvaluationController {
         controller.getDatabase().removeEvaluation(evaluation);
         evaluation.getVideoGame().removeEvaluation(evaluation);
 
+    }
+
+    public void openEvaluationFrame(){
+        new CEvaluationView(this).setVisible(true);
+    }
+
+    public void displayEvaluation(CEvaluation evaluation){
+        new CEvaluationInfoView(this, evaluation).setVisible(true);
     }
 
     /**

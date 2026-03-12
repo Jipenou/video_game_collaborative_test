@@ -141,4 +141,8 @@ public class CTest {
     public void setTester(CTester tester) {
         this.tester = tester;
     }
+
+    public String toString(){
+        return "[User : " + tester.getPseudo() + ", Jeux vidéo : " + videoGame.getName() +", Plateforme : " + this.platform + ", date : " + this.date + "]";
+    }
 }

@@ -6,6 +6,8 @@ import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
+import view.videoGame.test.CTestInfoView;
+import view.videoGame.test.CTestView;
 
 public class CTestController {
     /** The main controller */
@@ -31,6 +33,14 @@ public class CTestController {
         videoGame.removeAllTokens();
 
         controller.getDatabase().addTest(test);
+    }
+
+    public void displayAllTestFrame(){
+        new CTestView(this).setVisible(true);
+    }
+
+    public void displayTest(CTest test){
+        new CTestInfoView(this, test).setVisible(true);
     }
 
     /**
