@@ -84,6 +84,7 @@ public class CMainMenuView extends JFrame {
 
         JButton profileButton = new JButton("Mon profil");
         panel.add(profileButton);
+        profileButton.addActionListener(e -> openProfile());
 
         JButton logoutButton = new JButton();
         if(controller.getCurrentUser() instanceof CPlayer){
@@ -95,8 +96,12 @@ public class CMainMenuView extends JFrame {
         panel.add(logoutButton);
         logoutButton.addActionListener(e -> logout());
 
-
-        profileButton.addActionListener(e -> openProfile());
+        JButton reloadButton = new JButton("Reload frame");
+        panel.add(reloadButton);
+        reloadButton.addActionListener(e -> {
+            dispose();
+            controller.openMainFrame();
+        });
 
         add(panel);
     }

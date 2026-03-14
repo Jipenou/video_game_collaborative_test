@@ -9,6 +9,7 @@ import model.user.CPlayerGame;
 import model.videoGame.CEvaluation;
 import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
+import view.CMainMenuView;
 
 /**
  * This class represent the main controller of the application
@@ -182,6 +183,10 @@ public class CController {
 
     public CUserController getUserController() {
         return userController;
+    }
+
+    public void openMainFrame(){
+        new CMainMenuView(this).setVisible(true);
     }
 
     public CControlLoadUser getLoadUserController() {

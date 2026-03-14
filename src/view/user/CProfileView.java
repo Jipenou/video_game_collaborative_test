@@ -105,6 +105,13 @@ public class CProfileView extends JFrame {
             desinscrireButton.addActionListener(e->desinscrire(user));
         }
 
+        JButton reloadButton = new JButton("Reload frame");
+        panelProfile.add(reloadButton);
+        reloadButton.addActionListener(e -> {
+            dispose();
+            userController.openProfile(user);
+        });
+
         add(panelProfile);
     }
 

@@ -144,6 +144,14 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(testButton);
             testButton.addActionListener(e -> addTest());
         }
+
+        JButton reloadButton = new JButton("Reload frame");
+        panel.add(reloadButton);
+        reloadButton.addActionListener(e -> {
+            dispose();
+            videoGameController.viewInfoGameFrame(game);
+        });
+
         add(panel);
     }
 
