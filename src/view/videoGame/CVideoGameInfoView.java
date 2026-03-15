@@ -113,13 +113,6 @@ public class CVideoGameInfoView extends JFrame {
                     addToCollectionButton.addActionListener(e -> addToCollection());
                 }
             }
-            // if we have get this game at least on 1 platform
-            //if(!player.getPlatformsForGame(game).isEmpty()){
-            if(player.isGameInCollection(game)){
-                JButton addHoursButton = new JButton("Ajouter du temps de jeu");
-                panel.add(addHoursButton);
-                addHoursButton.addActionListener(e -> addHours());
-            }
         }
 
         // if there is evaluations
@@ -135,6 +128,8 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(new JLabel("Aucune évaluation disponible"));
         }
 
+        panel.add(new JSeparator());
+
         if(currentUser instanceof CPlayer player && player.isGameInCollection(game) && !player.isBlocked() && player.getTotalHoursPlayedOnAGame(game) >= CEvaluation.NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE){
             JButton evalButton = new JButton("Ajouter une évaluation");
             panel.add(evalButton);
@@ -144,6 +139,15 @@ public class CVideoGameInfoView extends JFrame {
             JButton testButton = new JButton("Ajouter un test");
             panel.add(testButton);
             testButton.addActionListener(e -> addTest());
+        }
+        if(currentUser instanceof CPlayer player){
+            // if we have get this game at least on 1 platform
+            //if(!player.getPlatformsForGame(game).isEmpty()){
+            if(player.isGameInCollection(game)){
+                JButton addHoursButton = new JButton("Ajouter du temps de jeu");
+                panel.add(addHoursButton);
+                addHoursButton.addActionListener(e -> addHours());
+            }
         }
 
         JButton reloadButton = new JButton("Reload frame");

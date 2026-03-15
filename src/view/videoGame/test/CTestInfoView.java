@@ -28,6 +28,8 @@ public class CTestInfoView extends JFrame {
         panel.add(playerButton);
         playerButton.addActionListener(e -> testController.getController().getUserController().openProfile(test.getTester()));
 
+        panel.add(new JSeparator());
+
         JButton gameButton = new JButton("jeux vidéo : " + test.getVideoGame().getName());
         panel.add(gameButton);
         gameButton.addActionListener(e -> testController.getController().getVideoGameController().viewInfoGameFrame(test.getVideoGame()));

@@ -70,6 +70,8 @@ public class CEvaluationInfoView extends JFrame{
             buttonSupprimer.addActionListener(e -> deleteEvaluation());
         }
 
+        panel.add(new JSeparator());
+
         if(currentUser instanceof CPlayer player && player.getTotalHoursPlayedOnAGame(evaluation.getVideoGame()) >= CEvaluation.NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE){
             panel.add(buttonAddPlus);
             panel.add(buttonAddNeutral);

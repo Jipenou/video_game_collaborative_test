@@ -99,7 +99,7 @@ public class CProfileView extends JFrame {
             }
         }
 
-        if(userController.getController().getCurrentUser() == user){
+        if(userController.getController().getCurrentUser() == user && user instanceof CPlayer){
             JButton desinscrireButton = new JButton("Se désinscrire");
             panelProfile.add(desinscrireButton);
             desinscrireButton.addActionListener(e->desinscrire(user));
