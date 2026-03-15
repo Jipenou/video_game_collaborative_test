@@ -41,7 +41,7 @@ public class CAddHoursToGameView extends JFrame{
 
         panel.add(new JLabel("Heures jouées :"));
         hoursToAdd = new JTextArea(5,20);
-        panel.add(new JScrollPane(hoursToAdd));
+        panel.add(hoursToAdd);
 
         JButton submitHoursButton = new JButton("Enregistrer");
         panel.add(submitHoursButton);

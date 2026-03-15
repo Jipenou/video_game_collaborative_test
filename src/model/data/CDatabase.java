@@ -142,7 +142,8 @@ public class CDatabase {
     public List<CVideoGame> getVideoGamesSortedByTokens(CPlayer player) {
         return videoGames.values().stream()
                 .filter(vg -> player.isGameInCollection(vg)
-                        && player.getTotalHoursPlayedOnAGame(vg) >= CTest.NUMBER_HOURS_MINIMUM_PLAYED_TO_TEST)
+                        && player.getTotalHoursPlayedOnAGame(vg) >= CTest.NUMBER_HOURS_MINIMUM_PLAYED_TO_TEST
+                        && !vg.platformNotTested().isEmpty())
                 .sorted(Comparator.comparingInt(CVideoGame::getAllTokenOnGame).reversed())
                 .collect(Collectors.toList());
     }

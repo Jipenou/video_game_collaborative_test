@@ -12,6 +12,7 @@ import model.videoGame.CVideoGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -125,7 +126,7 @@ public class CVideoGameInfoView extends JFrame {
         if(!game.getEvaluations().isEmpty()) {
             panel.add(new JLabel("Evaluations : "));
             for(CEvaluation evaluation : game.getEvaluationsSortedByScoreThenDate()){
-                JButton evalButton = new JButton(evaluation.getDate() + ", " + evaluation.getPlayer().getPseudo() + ", utilite+ : " + evaluation.getUtiliteOui());
+                JButton evalButton = new JButton(evaluation.getDate().toLocalDate() + ", " + evaluation.getPlayer().getPseudo() + ", utilite+ : " + evaluation.getUtiliteOui());
                 panel.add(evalButton);
 
                 evalButton.addActionListener(e -> displayEvaluation(evaluation));

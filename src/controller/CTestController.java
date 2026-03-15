@@ -9,6 +9,8 @@ import model.videoGame.CVideoGame;
 import view.videoGame.test.CTestInfoView;
 import view.videoGame.test.CTestView;
 
+import java.time.LocalDate;
+
 public class CTestController {
     /** The main controller */
     private final CController controller;
@@ -26,13 +28,14 @@ public class CTestController {
      * @param version the version
      * @param conditions the conditions of the test
      */
-    public void addNewTest(CTester tester, CVideoGame videoGame, CPlatform platform, String text,
+    public CTest addNewTest(CTester tester, CVideoGame videoGame, CPlatform platform, String text,
                            String version, String conditions){
-        CTest test = new CTest(tester, videoGame, platform, text, version, conditions);
+        CTest test = new CTest(LocalDate.now(), tester, videoGame, platform, text, version, conditions);
         tester.addJeton(CTester.NB_JETONS_PER_TEST);
         videoGame.removeAllTokens();
 
         controller.getDatabase().addTest(test);
+        return test;
     }
 
     public void displayAllTestFrame(){

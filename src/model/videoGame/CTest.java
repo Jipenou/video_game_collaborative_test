@@ -44,35 +44,35 @@ public class CTest {
     private final List<CVideoGame> similarGames;
 
     /** note per category */
-    private final Map<String, Integer> noteCategory;
-
-    /** note per specific category */
-    private final Map<String, Integer> noteSpecificCategory;
+    private final Map<ECategory, Integer> noteCategory;
 
     public static final int NUMBER_HOURS_MINIMUM_PLAYED_TO_TEST = 20;
 
-    public CTest(CTester tester, CVideoGame videoGame, CPlatform platform, String text, String numVersion, String conditions){
+    public CTest(LocalDate date, CTester tester, CVideoGame videoGame, CPlatform platform, String text, String numVersion, String conditions){
         this.tester = tester;
         this.videoGame = videoGame;
         this.platform = platform;
         this.text = text;
         this.numVersion = numVersion;
         this.conditions = conditions;
-        this.date = LocalDate.now();
+        this.date = date;
 
         strengths = new ArrayList<>();
         weakness = new ArrayList<>();
         similarGames = new ArrayList<>();
 
         noteCategory = new HashMap<>();
-        noteSpecificCategory = new HashMap<>();
 
         tester.addTest(this);
         videoGame.addTest(this.platform, this);
     }
 
-    public void addCategoryScore(String category, int score){
-        noteCategory.put(category, score);
+    public enum ECategory {
+        INTERFACE,
+        GAMEPLAY,
+        OPTIMISATION,
+        GRAPHICS,
+        SOUND
     }
 
     public void addStrength(String strength){
@@ -87,8 +87,8 @@ public class CTest {
         similarGames.add(videoGame);
     }
 
-    public void addCategorySpecificScore(String category, int note){
-        noteSpecificCategory.put(category, note);
+    public void addCategoryScore(ECategory category, int score) {
+        noteCategory.put(category, score);
     }
 
     public CTester getTester() {
@@ -131,12 +131,8 @@ public class CTest {
         return similarGames;
     }
 
-    public Map<String, Integer> getNoteCategory() {
+    public Map<ECategory, Integer> getNoteCategory() {
         return noteCategory;
-    }
-
-    public Map<String, Integer> getNoteSpecificCategory() {
-        return noteSpecificCategory;
     }
 
     public void setTester(CTester tester) {

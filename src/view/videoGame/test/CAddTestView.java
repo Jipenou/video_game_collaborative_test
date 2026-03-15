@@ -9,6 +9,8 @@ import view.videoGame.CVideoGameInfoView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CAddTestView extends JFrame{
     private final CTestController testController;
@@ -18,6 +20,9 @@ public class CAddTestView extends JFrame{
     private final JTextArea textArea;
     private final JTextField conditionsField;
     private final JTextField versionField;
+
+    private final Map<CTest.ECategory, JSpinner> categorySpinners = new HashMap<>();
+    private final Map<Enum<?>, JSpinner> specificSpinners = new HashMap<>();
 
     public CAddTestView(CTestController testController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
@@ -51,14 +56,24 @@ public class CAddTestView extends JFrame{
 
         panel.add(new JLabel("Text :"));
         textArea = new JTextArea(5,20);
-        panel.add(new JScrollPane(textArea));
+        panel.add(textArea);
+
+        panel.add(new JLabel("Notes par catégorie"));
+        for (CTest.ECategory category : CTest.ECategory.values()) {
+            panel.add(new JLabel(category.toString()));
+            JSpinner spinner = new JSpinner(new SpinnerNumberModel(5, 0, 10, 1));
+            categorySpinners.put(category, spinner);
+            panel.add(spinner);
+        }
 
         JButton submitButton = new JButton("Valider");
         panel.add(submitButton);
 
         submitButton.addActionListener(e -> submitEvaluation(gameInfoView));
 
-        add(panel);
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        add(scrollPane);
     }
 
     private void submitEvaluation(CVideoGameInfoView gameInfoView){
@@ -69,7 +84,11 @@ public class CAddTestView extends JFrame{
 
         CTester tester = (CTester) testController.getController().getCurrentUser();
 
-        testController.addNewTest(tester, videoGame, platform, text, version, conditions);
+        CTest test = testController.addNewTest(tester, videoGame, platform, text, version, conditions);
+
+        for (Map.Entry<CTest.ECategory, JSpinner> entry : categorySpinners.entrySet()) {
+            test.addCategoryScore(entry.getKey(), (int) entry.getValue().getValue());
+        }
 
         dispose();
         gameInfoView.dispose();

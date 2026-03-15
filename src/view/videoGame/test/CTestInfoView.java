@@ -5,6 +5,7 @@ import model.videoGame.CTest;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 public class CTestInfoView extends JFrame {
     private final CTestController testController;
@@ -36,6 +37,13 @@ public class CTestInfoView extends JFrame {
         panel.add(new JLabel("Version : " + test.getNumVersion()));
         panel.add(new JLabel("Conditions : " + test.getConditions()));
 
-        add(panel);
+        panel.add(new JLabel("Notes par catégorie"));
+        for (Map.Entry<CTest.ECategory, Integer> entry : test.getNoteCategory().entrySet()) {
+            panel.add(new JLabel(entry.getKey().toString() + " : " + entry.getValue() + "/10"));
+        }
+
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        add(scrollPane);
     }
 }
