@@ -9,12 +9,9 @@ import model.videoGame.CVideoGame;
 import java.io.*;
 import java.time.LocalDate;
 
-public class CControlLoadTest {
+public class CControlLoadTest extends AControlLoad<CTest>{
     /** path to the csv */
     private static final String TEST_FILE = "./data/tests.csv";
-
-    /** separator for the csv */
-    private static final String SEPARATOR = ",";
 
     /** The database of the application */
     private final CDatabase database;
@@ -24,7 +21,8 @@ public class CControlLoadTest {
     }
 
     /** load All the evaluations */
-    public void loadTests() {
+    @Override
+    public void load() {
         File testFile = new File(TEST_FILE);
         if(!testFile.exists()){
             return;
@@ -77,7 +75,8 @@ public class CControlLoadTest {
      * Save an evaluation in the csv
      * @param test the evaluation to save
      */
-    public void saveTest(CTest test){
+    @Override
+    public void save(CTest test){
         File file = new File(TEST_FILE);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {
@@ -101,6 +100,12 @@ public class CControlLoadTest {
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected String getFilePath() {
+        return TEST_FILE;
+    }
+
 
     public void clearCSV(){
         try (FileWriter writer = new FileWriter(TEST_FILE, false)) {

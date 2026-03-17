@@ -4,6 +4,7 @@ import model.data.CDatabase;
 import model.user.CPlayer;
 import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
+import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 
 import java.io.*;
@@ -12,14 +13,11 @@ import java.time.LocalDateTime;
 /**
  * This class represent the CSV parser for the evaluations
  */
-public class CControlLoadEvaluation {
+public class CControlLoadEvaluation extends AControlLoad<CEvaluation>{
 
     /** path to the csv */
     private static final String EVALUATION_FILE = "./data/evaluations.csv";
     private static final String EVALUATION_USER_VOTE_FILE = "./data/evaluations_vote.csv";
-
-    /** separator for the csv */
-    private static final String SEPARATOR = ",";
 
     /** The database of the application */
     private final CDatabase database;
@@ -29,7 +27,8 @@ public class CControlLoadEvaluation {
     }
 
     /** load All the evaluations */
-    public void loadEvaluations() {
+    @Override
+    public void load() {
         File evalFile = new File(EVALUATION_FILE);
         if(!evalFile.exists()){
             return;
@@ -72,11 +71,17 @@ public class CControlLoadEvaluation {
         }
     }
 
+    @Override
+    protected String getFilePath() {
+        return EVALUATION_FILE;
+    }
+
     /**
      * Save an evaluation in the csv
      * @param evaluation the evaluation to save
      */
-    public void saveEvaluation(CEvaluation evaluation){
+    @Override
+    public void save(CEvaluation evaluation){
         File file = new File(EVALUATION_FILE);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {
@@ -177,5 +182,4 @@ public class CControlLoadEvaluation {
             throw new RuntimeException("Error while clearing CSV file : " + EVALUATION_USER_VOTE_FILE, e);
         }
     }
-
 }

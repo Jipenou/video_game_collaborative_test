@@ -6,18 +6,16 @@ import model.user.CPlayer;
 import model.user.CTester;
 import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
+import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 
 import java.io.*;
 import java.time.LocalDateTime;
 
-public class CControlLoadSignalement {
+public class CControlLoadSignalement extends AControlLoad<CSignalement>{
 
     /** The path for the csv */
     private static final String SIGNALEMENT_FILE = "./data/signalements.csv";
-
-    /** the separator */
-    private static final String SEPARATOR = ",";
 
     /** The database of the application */
     private final CDatabase database;
@@ -26,10 +24,16 @@ public class CControlLoadSignalement {
         this.database = database;
     }
 
+    @Override
+    protected String getFilePath() {
+        return SIGNALEMENT_FILE;
+    }
+
     /**
      * load all the signalement
      */
-    public void loadSignalement() {
+    @Override
+    public void load() {
         File signalementFile = new File(SIGNALEMENT_FILE);
         if(!signalementFile.exists()){
             return;
@@ -73,7 +77,8 @@ public class CControlLoadSignalement {
      * Save a signalement in the signalement.csv
      * @param signalement the signalement to save
      */
-    public void saveSignalement(CSignalement signalement){
+    @Override
+    public void save(CSignalement signalement){
         File file = new File(SIGNALEMENT_FILE);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {
@@ -94,14 +99,6 @@ public class CControlLoadSignalement {
 
         } catch(IOException e){
             e.printStackTrace();
-        }
-    }
-
-    public void clearCSV(){
-        try (FileWriter writer = new FileWriter(SIGNALEMENT_FILE, false)) {
-            writer.write("");
-        } catch (IOException e) {
-            throw new RuntimeException("Error while clearing CSV file : " + SIGNALEMENT_FILE, e);
         }
     }
 }

@@ -77,12 +77,12 @@ public class CController {
      */
     public void loadAll(){
         this.loadVideoGameController.loadVideoGames();
-        this.loadUserController.loadUsers();
-        this.loadEvaluationController.loadEvaluations();
+        this.loadUserController.load();
+        this.loadEvaluationController.load();
         this.loadEvaluationController.loadEvaluationsUsers();
-        this.loadTestController.loadTests();
-        this.loadGameOwnedController.loadPlayerGame();
-        this.loadSignalementController.loadSignalement();
+        this.loadTestController.load();
+        this.loadGameOwnedController.load();
+        this.loadSignalementController.load();
         this.loadTokenOnGameController.loadTokenOnGame();
     }
 
@@ -115,7 +115,7 @@ public class CController {
      */
     public void saveAllUsers(){
         for(CPlayer user : database.getUsers().values()){
-            loadUserController.saveUser(user);
+            loadUserController.save(user);
         }
     }
 
@@ -124,7 +124,7 @@ public class CController {
      */
     public void saveAllEvaluations(){
         for(CEvaluation evaluation : database.getEvaluations()){
-            loadEvaluationController.saveEvaluation(evaluation);
+            loadEvaluationController.save(evaluation);
             loadEvaluationController.saveEvaluationUser(evaluation);
         }
     }
@@ -134,19 +134,19 @@ public class CController {
      */
     public void saveAllTests(){
         for(CTest test : database.getTests()){
-            loadTestController.saveTest(test);
+            loadTestController.save(test);
         }
     }
 
     public void saveAllPlayerGames(){
         for(CPlayerGame playerGame : database.getPlayerGames()){
-            loadGameOwnedController.savePlayerGame(playerGame);
+            loadGameOwnedController.save(playerGame);
         }
     }
 
     public void saveAllSignalements(){
         for(CSignalement signalement : database.getSignaledEvaluations()){
-            loadSignalementController.saveSignalement(signalement);
+            loadSignalementController.save(signalement);
         }
     }
 

@@ -3,17 +3,15 @@ package controller.load;
 import model.data.CDatabase;
 import model.user.*;
 import model.videoGame.CPlatform;
+import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 
 import java.io.*;
 
-public class CControlLoadGameOwned {
+public class CControlLoadGameOwned extends AControlLoad<CPlayerGame>{
 
     /** The path for the csv */
     private static final String GAME_OWNED_FILE = "./data/gameOwned.csv";
-
-    /** the separator */
-    private static final String SEPARATOR = ",";
 
     /** The database of the application */
     private final CDatabase database;
@@ -25,7 +23,8 @@ public class CControlLoadGameOwned {
     /**
      * load all the csv
      */
-    public void loadPlayerGame() {
+    @Override
+    public void load() {
         File userFile = new File(GAME_OWNED_FILE);
         if(!userFile.exists()){
             return;
@@ -64,7 +63,8 @@ public class CControlLoadGameOwned {
      * Save a player game in the csv
      * @param playerGame the player game to save
      */
-    public void savePlayerGame(CPlayerGame playerGame){
+    @Override
+    public void save(CPlayerGame playerGame){
         File file = new File(GAME_OWNED_FILE);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {
@@ -85,14 +85,8 @@ public class CControlLoadGameOwned {
         }
     }
 
-    /**
-     * clear the csv
-     */
-    public void clearCSV(){
-        try (FileWriter writer = new FileWriter(GAME_OWNED_FILE, false)) {
-            writer.write("");
-        } catch (IOException e) {
-            throw new RuntimeException("Error while clearing CSV file : " + GAME_OWNED_FILE, e);
-        }
+    @Override
+    protected String getFilePath() {
+        return GAME_OWNED_FILE;
     }
 }

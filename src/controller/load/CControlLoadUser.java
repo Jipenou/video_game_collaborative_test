@@ -4,19 +4,17 @@ import model.data.CDatabase;
 import model.user.CAdmin;
 import model.user.CPlayer;
 import model.user.CTester;
+import model.videoGame.CTest;
 
 import java.io.*;
 
 /**
  * This class represent the csv parser for the users
  */
-public class CControlLoadUser {
+public class CControlLoadUser extends AControlLoad<CPlayer>{
 
     /** The path for the csv */
     private static final String USER_FILE = "./data/user.csv";
-
-    /** the separator */
-    private static final String SEPARATOR = ",";
 
     /** The database of the application */
     private final CDatabase database;
@@ -25,10 +23,16 @@ public class CControlLoadUser {
         this.database = database;
     }
 
+    @Override
+    protected String getFilePath() {
+        return USER_FILE;
+    }
+
     /**
      * load all the users
      */
-    public void loadUsers() {
+    @Override
+    public void load() {
         File userFile = new File(USER_FILE);
         if(!userFile.exists()){
             return;
@@ -74,7 +78,8 @@ public class CControlLoadUser {
      * Save a user in the user.csv
      * @param user the user to save
      */
-    public void saveUser(CPlayer user){
+    @Override
+    public void save(CPlayer user){
         File file = new File(USER_FILE);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {
@@ -93,14 +98,6 @@ public class CControlLoadUser {
 
         } catch(IOException e){
             e.printStackTrace();
-        }
-    }
-
-    public void clearCSV(){
-        try (FileWriter writer = new FileWriter(USER_FILE, false)) {
-            writer.write("");
-        } catch (IOException e) {
-            throw new RuntimeException("Error while clearing CSV file : " + USER_FILE, e);
         }
     }
 }
