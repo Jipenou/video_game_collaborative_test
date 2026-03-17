@@ -1,9 +1,6 @@
 package model.videoGame;
 
-import model.user.AUser;
 import model.user.CPlayer;
-import model.user.CPlayerGame;
-import model.user.CTester;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -204,19 +201,6 @@ public class CVideoGame {
             }
         }
         return null;
-    }
-
-    /**
-     * @return the display of all the evaluations
-     */
-    public String displayAllEvaluation(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        for(CEvaluation evaluation : evaluations){
-            sb.append("\t").append(evaluation).append("\n");
-        }
-        sb.append("}");
-        return sb.toString();
     }
 
     public void removeEvaluation(CEvaluation evaluation){

@@ -2,6 +2,7 @@ package view.user;
 
 import controller.CUserController;
 import model.user.*;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CEvaluation;
 
 import javax.swing.*;
@@ -12,18 +13,11 @@ import java.awt.*;
  */
 public class CProfileView extends JFrame {
 
-    private CUserController userController;
-
-    private AUser user;
-
     public CProfileView(CUserController userController, AUser user){
 
         setTitle("Profil utilisateur");
         setSize(800,600);
         setLocationRelativeTo(null);
-
-        this.userController = userController;
-        this.user = user;
 
         if(user == null){
             return;
@@ -42,7 +36,7 @@ public class CProfileView extends JFrame {
                 for(CPlayerGame playerGame : player.getGamePlayedSortedDecroissant()){
                     JButton videoGameButton = new JButton(playerGame.getVideoGame().getName() + " : " + playerGame.getHoursPlayed() + "h");
                     panelProfile.add(videoGameButton);
-                    videoGameButton.addActionListener(e -> userController.getController().getVideoGameController().viewInfoGameFrame(playerGame.getVideoGame()));
+                    videoGameButton.addActionListener(_ -> userController.getController().getVideoGameController().viewInfoGameFrame(playerGame.getVideoGame()));
                 }
 
                 panelProfile.add(new JLabel("Nombre d'évaluations: " + player.getNbEvaluation()));
@@ -56,7 +50,7 @@ public class CProfileView extends JFrame {
                 for(CPlayerGame playerGame : player.getGamePlayed()){
                     JButton videoGameButton = new JButton(playerGame.getVideoGame().getName() + " : " + playerGame.getHoursPlayed() + "h");
                     panelProfile.add(videoGameButton);
-                    videoGameButton.addActionListener(e -> userController.getController().getVideoGameController().viewInfoGameFrame(playerGame.getVideoGame()));
+                    videoGameButton.addActionListener(_ -> userController.getController().getVideoGameController().viewInfoGameFrame(playerGame.getVideoGame()));
                 }
             }
         }
@@ -79,64 +73,57 @@ public class CProfileView extends JFrame {
         AUser currentUser = userController.getController().getCurrentUser();
 
         if(currentUser instanceof CAdmin && currentUser != user && !(user instanceof CAdmin) && user instanceof CPlayer player){
-            JButton promoteButton = new JButton("Promouvoir cet utilisateur");
+            JButton promoteButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.PROMOUVOIR) + " cet " + CTextPlaceHolder.UTILISATEUR);
             panelProfile.add(promoteButton);
-            promoteButton.addActionListener(e->promoteAccount(player));
+            promoteButton.addActionListener(_ ->{
+                userController.getController().getAdminController().promoteUser(player);
+                dispose();
+            });
 
-            JButton deleteAccountButton = new JButton("Supprimer ce compte utilisateur");
+            JButton deleteAccountButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.SUPPRIMER) +
+                                                        " ce " + CTextPlaceHolder.COMPTE + " " + CTextPlaceHolder.UTILISATEUR);
             panelProfile.add(deleteAccountButton);
-            deleteAccountButton.addActionListener(e->deleteAccount(user));
+            deleteAccountButton.addActionListener(_ ->{
+                userController.deleteAccount(user);
+                dispose();
+            });
 
             if(!user.isBlocked()){
-                JButton blockAccountButton = new JButton("Bloquer ce compte utilisateur");
+                JButton blockAccountButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.BLOQUER) + " ce " +
+                                                            CTextPlaceHolder.COMPTE + " " + CTextPlaceHolder.UTILISATEUR);
                 panelProfile.add(blockAccountButton);
-                blockAccountButton.addActionListener(e->blockAccount(user));
+                blockAccountButton.addActionListener(_ ->{
+                    userController.blockAccount(user);
+                    dispose();
+                });
             }
             else{
-                JButton unblockAccountButton = new JButton("Débloquer ce compte utilisateur");
+                JButton unblockAccountButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.DEBLOQUER) + " ce " +
+                                                            CTextPlaceHolder.COMPTE + " " + CTextPlaceHolder.UTILISATEUR);
                 panelProfile.add(unblockAccountButton);
-                unblockAccountButton.addActionListener(e->unblockAccount(user));
+                unblockAccountButton.addActionListener(_ ->{
+                    userController.unblockAccount(user);
+                    dispose();
+                });
             }
         }
 
         if(userController.getController().getCurrentUser() == user && user instanceof CPlayer){
-            JButton desinscrireButton = new JButton("Se désinscrire");
+            JButton desinscrireButton = new JButton("Se " + CTextPlaceHolder.DESINSCRIRE);
             panelProfile.add(desinscrireButton);
-            desinscrireButton.addActionListener(e->desinscrire(user));
+            desinscrireButton.addActionListener(_ ->{
+                userController.desinscrire(user);
+                dispose();
+            });
         }
 
-        JButton reloadButton = new JButton("Reload frame");
+        JButton reloadButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.RECHARGER + " la " + CTextPlaceHolder.PAGE));
         panelProfile.add(reloadButton);
-        reloadButton.addActionListener(e -> {
+        reloadButton.addActionListener(_ -> {
             dispose();
             userController.openProfile(user);
         });
 
         add(panelProfile);
-    }
-
-    public void desinscrire(AUser user){
-        userController.desinscrire(user);
-        dispose();
-    }
-
-    public void deleteAccount(AUser user){
-        userController.deleteAccount(user);
-        dispose();
-    }
-
-    public void blockAccount(AUser user){
-        userController.blockAccount(user);
-        dispose();
-    }
-
-    public void unblockAccount(AUser user){
-        userController.unblockAccount(user);
-        dispose();
-    }
-
-    public void promoteAccount(CPlayer user){
-        userController.getController().getAdminController().promoteUser(user);
-        dispose();
     }
 }

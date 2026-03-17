@@ -10,6 +10,7 @@ import model.videoGame.CEvaluation;
 import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 import view.CMainMenuView;
+import view.user.CLoginView;
 
 /**
  * This class represent the main controller of the application
@@ -157,6 +158,11 @@ public class CController {
         }
     }
 
+    public void logout(){
+        this.setCurrentUser(null);
+        new CLoginView(this).setVisible(true);
+    }
+
     /**
      *
      * @return the database of the application
@@ -189,20 +195,12 @@ public class CController {
         new CMainMenuView(this).setVisible(true);
     }
 
-    public CControlLoadUser getLoadUserController() {
-        return loadUserController;
-    }
-
     public CVideoGameController getVideoGameController() {
         return videoGameController;
     }
 
     public CEvaluationController getEvaluationController() {
         return evaluationController;
-    }
-
-    public CControlLoadVideoGame getLoadVideoGameController() {
-        return loadVideoGameController;
     }
 
     public CTestController getTestController() {

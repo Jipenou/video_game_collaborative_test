@@ -16,16 +16,16 @@ public class CLoginView extends JFrame{
     private final CUserController userController;
 
     /** the field to write the pseudo */
-    private JTextField pseudoField;
+    private final JTextField pseudoField;
 
     /** The label that react to the actions */
-    private JLabel messageLabel;
+    private final JLabel messageLabel;
 
     public CLoginView(CController controller) {
 
         this.userController = controller.getUserController();
 
-        setTitle(CTextPlaceHolder.APPLICATION_NAME);
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.APPLICATION_NAME));
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -48,9 +48,9 @@ public class CLoginView extends JFrame{
 
         JPanel buttons = new JPanel();
 
-        JButton inviteButton = new JButton("Invité");
-        JButton loginButton = new JButton(CTextPlaceHolder.LOGIN);
-        JButton registerButton = new JButton(CTextPlaceHolder.REGISTER);
+        JButton inviteButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.INVITE));
+        JButton loginButton = new JButton("Se " + CTextPlaceHolder.CONNECTER);
+        JButton registerButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.CREER) + " un " + CTextPlaceHolder.COMPTE);
 
         buttons.add(inviteButton);
         buttons.add(loginButton);
@@ -63,9 +63,12 @@ public class CLoginView extends JFrame{
 
         add(panel);
 
-        inviteButton.addActionListener(e -> inviteLogin());
-        loginButton.addActionListener(e -> login());
-        registerButton.addActionListener(e -> register());
+        inviteButton.addActionListener(_ -> {
+            userController.loginGuest();
+            dispose();
+        });
+        loginButton.addActionListener(_ -> login());
+        registerButton.addActionListener(_ -> register());
     }
 
     /**
@@ -79,7 +82,7 @@ public class CLoginView extends JFrame{
             dispose();
             new CMainMenuView(userController.getController()).setVisible(true);
         } else {
-            messageLabel.setText(CTextPlaceHolder.USER + " inconnu");
+            messageLabel.setText(CTextPlaceHolder.UTILISATEUR + " inconnu");
         }
     }
 
@@ -91,15 +94,9 @@ public class CLoginView extends JFrame{
         String pseudo = pseudoField.getText();
 
         if(userController.register(pseudo)) {
-            messageLabel.setText(CTextPlaceHolder.ACCOUNT + " créé !");
+            messageLabel.setText(CTextPlaceHolder.capitalize(CTextPlaceHolder.COMPTE) + " créé !");
         } else {
             messageLabel.setText(CTextPlaceHolder.PSEUDO + " déjà utilisé ou non conforme");
         }
     }
-
-    private void inviteLogin(){
-        userController.loginGuest();
-        dispose();
-    }
-
 }

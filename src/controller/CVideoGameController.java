@@ -6,15 +6,11 @@ import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
-import view.videoGame.CAddGameView;
-import view.videoGame.CAddHoursToGameView;
-import view.videoGame.CVideoGameToTestView;
+import view.videoGame.*;
 import view.videoGame.token.CAddTokenOnGameView;
-import view.videoGame.CVideoGameInfoView;
 import view.videoGame.evaluation.CAddEvaluationView;
 import view.videoGame.evaluation.CEvaluationInfoView;
 import view.videoGame.test.CAddTestView;
-import view.videoGame.test.CTestInfoView;
 import view.videoGame.token.CRemoveTokenOnGameView;
 
 public class CVideoGameController {
@@ -48,6 +44,10 @@ public class CVideoGameController {
         currentUser.removeJeton(nbToken);
     }
 
+    public void displayMyGamesFrame(){
+        new CShowMyGamesView(controller.getVideoGameController()).setVisible(true);
+    }
+
     public void removeTokenFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
         new CRemoveTokenOnGameView(this, videoGame, gameInfoView).setVisible(true);
     }
@@ -72,6 +72,10 @@ public class CVideoGameController {
 
     public void displayAddGameFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
         new CAddGameView(this, videoGame,gameInfoView).setVisible(true);
+    }
+
+    public void displayAllGamesFrame(){
+        new CVideoGamesView(controller.getVideoGameController()).setVisible(true);
     }
 
     public void addHoursFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){

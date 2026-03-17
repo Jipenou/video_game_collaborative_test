@@ -4,7 +4,7 @@ import model.videoGame.rating.CPlayerRating;
 import model.videoGame.rating.CTesterRating;
 
 /**
- * This class represent a platform (PS3, Wii, etc..)
+ * This class represent a platform (PS3, Wii, etc.)
  * In the CSV file, the format is 1 line per platform
  */
 public class CPlatform {
@@ -63,14 +63,5 @@ public class CPlatform {
 
     public String toString(){
         return this.name;
-    }
-
-    public String toStringLong(){
-        return "\t- Plateforme : " + name +
-                "\n\t- Année de sortie : " + releaseYear +
-                "\n\t- Développeur : " + developer +
-                "\n\t- Ventes globales : " + globalSale + "M" +
-                "\n\t- Note moyenne des testeurs : " + testerRating + "/100" +
-                "\n\t- Note moyenne des joueurs : " + playerRating + "/10";
     }
 }

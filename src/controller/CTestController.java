@@ -1,8 +1,6 @@
 package controller;
 
-import model.user.CPlayer;
 import model.user.CTester;
-import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CTest;
 import model.videoGame.CVideoGame;

@@ -5,8 +5,8 @@ import model.user.AUser;
 import model.user.CAdmin;
 import model.user.CPlayer;
 import model.user.CTester;
+import model.utils.CTextPlaceHolder;
 import view.user.CLoginView;
-import view.user.CProfileView;
 import view.videoGame.CShowMyGamesView;
 import view.videoGame.CVideoGamesView;
 
@@ -25,7 +25,7 @@ public class CMainMenuView extends JFrame {
 
         this.controller = controller;
 
-        setTitle("Menu principal");
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.MENU) + " " + CTextPlaceHolder.PRINCIPAL);
         setSize(400, 300);
         setLocationRelativeTo(null);
 
@@ -46,105 +46,80 @@ public class CMainMenuView extends JFrame {
         JPanel panel = new JPanel(new GridLayout(0,1));
 
         if(user instanceof CPlayer player){
-            panel.add(new JLabel("Bienvenue " + player.getPseudo() + ", vous avez " + player.getNbToken() + " jetons"));
+            panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.BIENVENUE) + " " +
+                                player.getPseudo() + ", vous avez " + player.getNbToken() + " " + CTextPlaceHolder.JETON_S));
         }
         else {
-            panel.add(new JLabel("Bienvenue invité"));
+            panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.BIENVENUE) + " " + CTextPlaceHolder.INVITE));
         }
 
-        JButton displayGamesButton = new JButton("Tous les jeux");
+        JButton displayGamesButton = new JButton("Tous les " + CTextPlaceHolder.JEU_S);
         panel.add(displayGamesButton);
-        displayGamesButton.addActionListener(e -> displayGames());
+        displayGamesButton.addActionListener(_ -> {
+            controller.getVideoGameController().displayAllGamesFrame();
+        });
 
-        JButton evaluationButton = new JButton("Toutes les évaluations");
-        evaluationButton.addActionListener(e -> openEvaluationFrame());
+        JButton evaluationButton = new JButton("Toutes les " + CTextPlaceHolder.EVALUATION_S);
+        evaluationButton.addActionListener(_ -> {
+            controller.getEvaluationController().openEvaluationFrame();
+        });
         panel.add(evaluationButton);
 
         if(user instanceof CPlayer) {
-            JButton testsButton = new JButton("Tous les tests");
-            testsButton.addActionListener(e -> openTestsFrame());
+            JButton testsButton = new JButton("Tous les " + CTextPlaceHolder.TEST_S);
+            testsButton.addActionListener(_ -> {
+                controller.getTestController().displayAllTestFrame();
+            });
             panel.add(testsButton);
 
-            JButton displayMyGames = new JButton("Mes jeux");
-            displayMyGames.addActionListener(e -> displayMyGames());
+            JButton displayMyGames = new JButton("Mes " + CTextPlaceHolder.JEU_S);
+            displayMyGames.addActionListener(_ -> {
+                controller.getVideoGameController().displayMyGamesFrame();
+            });
             panel.add(displayMyGames);
         }
 
         if(user instanceof CTester){
-            JButton testGamessButton = new JButton("Jeux à tester");
-            testGamessButton.addActionListener(e -> controller.getVideoGameController().displayGameToTestFrame());
+            JButton testGamessButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.JEU_S) + " à "
+                                                    + CTextPlaceHolder.TESTER);
+            testGamessButton.addActionListener(_ -> controller.getVideoGameController().displayGameToTestFrame());
             panel.add(testGamessButton);
         }
 
         if(user instanceof CAdmin) {
-            JButton administrationButton = new JButton("Administration");
-            administrationButton.addActionListener(e -> openAdministrationFrame());
+            JButton administrationButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.ADMINISTRATION));
+            administrationButton.addActionListener(_ -> {
+                controller.getAdminController().openAdministrationFrame();
+            });
             panel.add(administrationButton);
         }
 
-        JButton profileButton = new JButton("Mon profil");
+        JButton profileButton = new JButton("Mon " + CTextPlaceHolder.PROFIL);
         panel.add(profileButton);
-        profileButton.addActionListener(e -> openProfile());
+        profileButton.addActionListener(_ -> {
+            controller.getUserController().openProfile(controller.getCurrentUser());
+        });
 
         JButton logoutButton = new JButton();
         if(controller.getCurrentUser() instanceof CPlayer){
-            logoutButton.setText("se déconnecter");
+            logoutButton.setText("Se " + CTextPlaceHolder.DECONNECTER);
         }
         else{
-            logoutButton.setText("Page de connexion");
+            logoutButton.setText(CTextPlaceHolder.capitalize(CTextPlaceHolder.PAGE) + " de " + CTextPlaceHolder.CONNEXION);
         }
         panel.add(logoutButton);
-        logoutButton.addActionListener(e -> logout());
+        logoutButton.addActionListener(_ -> {
+            dispose();
+            controller.logout();
+        });
 
-        JButton reloadButton = new JButton("Reload frame");
+        JButton reloadButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.RECHARGER) + " la " + CTextPlaceHolder.PAGE);
         panel.add(reloadButton);
-        reloadButton.addActionListener(e -> {
+        reloadButton.addActionListener(_ -> {
             dispose();
             controller.openMainFrame();
         });
 
         add(panel);
-    }
-
-    private void displayMyGames(){
-        new CShowMyGamesView(controller.getVideoGameController()).setVisible(true);
-    }
-
-    /**
-     * Logout, set back to the login frame
-     */
-    private void logout() {
-
-        controller.setCurrentUser(null);
-
-        dispose();
-
-        new CLoginView(controller).setVisible(true);
-    }
-
-    /**
-     * open the profile frame to see information about the user
-     */
-    private void openProfile(){
-        controller.getUserController().openProfile(controller.getCurrentUser());
-    }
-
-    /**
-     * display the games
-     */
-    private void displayGames(){
-        new CVideoGamesView(controller.getVideoGameController()).setVisible(true);
-    }
-
-    private void openAdministrationFrame(){
-        controller.getAdminController().openAdministrationFrame();
-    }
-
-    private void openEvaluationFrame(){
-        controller.getEvaluationController().openEvaluationFrame();
-    }
-
-    private void openTestsFrame(){
-        controller.getTestController().displayAllTestFrame();
     }
 }

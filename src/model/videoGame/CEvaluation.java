@@ -45,7 +45,6 @@ public class CEvaluation {
     private final List<CPlayer> hasVoted;
 
     private static final int VAL_EVAL_POSITIVE = 1;
-    private static final int VAL_EVAL_NEGATIVE = -1;
     private static final int VAL_EVAL_NEUTRE = 0;
 
     public static final int NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE = 10;

@@ -1,6 +1,7 @@
 package view.videoGame;
 
 import controller.CVideoGameController;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CVideoGame;
 
 import javax.swing.*;
@@ -12,13 +13,9 @@ import java.util.List;
  */
 public class CVideoGamesView extends JFrame {
 
-    /** the main controller of the application */
-    private final CVideoGameController videoGameController;
-
     public CVideoGamesView(CVideoGameController videoGameController) {
-        this.videoGameController = videoGameController;
 
-        setTitle("Liste des jeux");
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.LISTE) + " des " + CTextPlaceHolder.JEU_S);
         setSize(800,700);
         setLocationRelativeTo(null);
 
@@ -30,10 +27,10 @@ public class CVideoGamesView extends JFrame {
 
         panel.add(new JScrollPane(list), BorderLayout.CENTER);
 
-        JButton viewButton = new JButton("Voir infos");
+        JButton viewButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VOIR) + " " + CTextPlaceHolder.INFORMATION_S);
         panel.add(viewButton, BorderLayout.SOUTH);
 
-        viewButton.addActionListener(e -> {
+        viewButton.addActionListener(_ -> {
             CVideoGame videoGame = list.getSelectedValue();
             if(videoGame != null) {
                 videoGameController.viewInfoGameFrame(videoGame);

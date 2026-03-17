@@ -2,6 +2,7 @@ package view.videoGame;
 
 import controller.CVideoGameController;
 import model.user.CPlayer;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
 
@@ -20,15 +21,17 @@ public class CAddGameView extends JFrame {
         this.videoGameController = videoGameController;
         this.videoGame = videoGame;
 
-        setTitle("Ajouter un jeu à sa collection : " + videoGame.getName());
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " un " + CTextPlaceHolder.JEU + " à sa " +
+                CTextPlaceHolder.COLLECTION + " : " + videoGame.getName());
         setSize(600, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridLayout(0,1));
 
-        panel.add(new JLabel("Ajouter un jeu à sa collection : " + videoGame.getName()));
-        panel.add(new JLabel("Choisir la plateforme :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " un " + CTextPlaceHolder.JEU +
+                                " à sa " + CTextPlaceHolder.COLLECTION + " : " + videoGame.getName()));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.CHOISIR) + " la " + CTextPlaceHolder.PLATEFORME + " :"));
 
         CPlayer player = (CPlayer) videoGameController.getController().getCurrentUser();
 
@@ -40,10 +43,10 @@ public class CAddGameView extends JFrame {
 
         panel.add(platformBox);
 
-        JButton submitButton = new JButton("Ajouter");
+        JButton submitButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER));
         panel.add(submitButton);
 
-        submitButton.addActionListener(e -> addGame(gameInfoView));
+        submitButton.addActionListener(_ -> addGame(gameInfoView));
 
         add(panel);
     }

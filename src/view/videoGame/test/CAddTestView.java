@@ -2,6 +2,7 @@ package view.videoGame.test;
 
 import controller.CTestController;
 import model.user.CTester;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CPlatform;
 import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
@@ -21,8 +22,7 @@ public class CAddTestView extends JFrame{
     private final JTextField conditionsField;
     private final JTextField versionField;
 
-    private final Map<CTest.ECategory, JSpinner> categorySpinners = new HashMap<>();
-    private final Map<Enum<?>, JSpinner> specificSpinners = new HashMap<>();
+    private final Map<CTest.ECategory, JSpinner> categoryMap = new HashMap<>();
 
     public CAddTestView(CTestController testController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
@@ -31,14 +31,15 @@ public class CAddTestView extends JFrame{
 
         CTester tester = (CTester) testController.getController().getCurrentUser();
 
-        setTitle("Ajouter un test : " + videoGame.getName());
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " un " + CTextPlaceHolder.TEST + " : " + videoGame.getName());
         setSize(600, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridLayout(0,1));
 
-        panel.add(new JLabel("Choisir la plateforme :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.CHOISIR) + " la " + CTextPlaceHolder.PLATEFORME
+                + " :"));
 
         platformBox = new JComboBox<>(
                 tester.getPlatformsNotTestedForGame(videoGame).toArray(new CPlatform[0])
@@ -46,30 +47,31 @@ public class CAddTestView extends JFrame{
 
         panel.add(platformBox);
 
-        panel.add(new JLabel("Version / Build :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.VERSION) + " / " +
+                                CTextPlaceHolder.capitalize(CTextPlaceHolder.BUILD) + " : "));
         versionField = new JTextField();
         panel.add(versionField);
 
-        panel.add(new JLabel("Conditions :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.CONDITION_S) + " :"));
         conditionsField = new JTextField();
         panel.add(conditionsField);
 
-        panel.add(new JLabel("Text :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.TEXTE) + " :"));
         textArea = new JTextArea(5,20);
         panel.add(textArea);
 
-        panel.add(new JLabel("Notes par catégorie"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.NOTE_S) + " par " + CTextPlaceHolder.CATEGORIE));
         for (CTest.ECategory category : CTest.ECategory.values()) {
             panel.add(new JLabel(category.toString()));
             JSpinner spinner = new JSpinner(new SpinnerNumberModel(5, 0, 10, 1));
-            categorySpinners.put(category, spinner);
+            categoryMap.put(category, spinner);
             panel.add(spinner);
         }
 
-        JButton submitButton = new JButton("Valider");
+        JButton submitButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VALIDER));
         panel.add(submitButton);
 
-        submitButton.addActionListener(e -> submitEvaluation(gameInfoView));
+        submitButton.addActionListener(_ -> submitEvaluation(gameInfoView));
 
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -86,7 +88,7 @@ public class CAddTestView extends JFrame{
 
         CTest test = testController.addNewTest(tester, videoGame, platform, text, version, conditions);
 
-        for (Map.Entry<CTest.ECategory, JSpinner> entry : categorySpinners.entrySet()) {
+        for (Map.Entry<CTest.ECategory, JSpinner> entry : categoryMap.entrySet()) {
             test.addCategoryScore(entry.getKey(), (int) entry.getValue().getValue());
         }
 

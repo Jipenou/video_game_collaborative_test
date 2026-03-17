@@ -2,6 +2,7 @@ package view.videoGame.token;
 
 import controller.CVideoGameController;
 import model.user.CPlayer;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CVideoGame;
 import view.videoGame.CVideoGameInfoView;
 
@@ -16,7 +17,7 @@ public class CAddTokenOnGameView extends JFrame {
     final JTextArea nbTokenArea;
 
     /** The label that react to the actions */
-    private JLabel messageLabel;
+    private final JLabel messageLabel;
 
     public CAddTokenOnGameView(CVideoGameController videoGameController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
@@ -25,21 +26,22 @@ public class CAddTokenOnGameView extends JFrame {
 
         CPlayer currentUser = (CPlayer) videoGameController.getController().getCurrentUser();
 
-        setTitle("Ajouter des token sur le jeux : " + videoGame.getName());
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " des " + CTextPlaceHolder.JETON_S + " sur le " + CTextPlaceHolder.JEU + " : " + videoGame.getName());
         setSize(600, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridLayout(0,1));
 
-        panel.add(new JLabel("Choisir le nombre de jetons à poser (" + currentUser.getNbToken() + " restants) :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.CHOISIR) + " le" + CTextPlaceHolder.NOMBRE + " de " + CTextPlaceHolder.JETON_S +
+                                  " à poser (" + currentUser.getNbToken() + " restants) :"));
 
         nbTokenArea = new JTextArea(1,20);
         panel.add(nbTokenArea);
 
-        JButton submitButton = new JButton("Valider");
+        JButton submitButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VALIDER));
         panel.add(submitButton);
-        submitButton.addActionListener(e -> submitTokens(gameInfoView));
+        submitButton.addActionListener(_ -> submitTokens(gameInfoView));
 
         messageLabel = new JLabel("", SwingConstants.CENTER);
         panel.add(messageLabel);
@@ -58,10 +60,10 @@ public class CAddTokenOnGameView extends JFrame {
                 gameInfoView.dispose();
                 videoGameController.viewInfoGameFrame(videoGame);
             } else {
-                messageLabel.setText("Valeur incorrecte ou nombre de jetons insuffisant");
+                messageLabel.setText("Valeur incorrecte ou " + CTextPlaceHolder.NOMBRE + " de " + CTextPlaceHolder.JETON_S + " insuffisants");
             }
         } catch (NumberFormatException e) {
-            messageLabel.setText("Veuillez entrer un nombre valide");
+            messageLabel.setText("Veuillez entrer un " + CTextPlaceHolder.NOMBRE + " valide");
         }
     }
 }

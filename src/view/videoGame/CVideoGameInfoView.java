@@ -2,9 +2,9 @@ package view.videoGame;
 
 import controller.CVideoGameController;
 import model.user.AUser;
-import model.user.CGuest;
 import model.user.CPlayer;
 import model.user.CTester;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CEvaluation;
 import model.videoGame.CPlatform;
 import model.videoGame.CTest;
@@ -12,7 +12,6 @@ import model.videoGame.CVideoGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -20,34 +19,23 @@ import java.util.Map;
  */
 public class CVideoGameInfoView extends JFrame {
 
-    /** the controller of the video game */
-    private final CVideoGameController videoGameController;
-
-    /** the game to display */
-    private final CVideoGame game;
-
-    /** main panel */
-    private final JPanel panel;
-
     public CVideoGameInfoView(CVideoGameController videoGameController, CVideoGame game) {
-        this.videoGameController = videoGameController;
-        this.game = game;
+
         AUser currentUser = videoGameController.getController().getCurrentUser();
 
-
-        setTitle("Infos du jeu");
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.INFORMATION_S) + " du " + CTextPlaceHolder.JEU);
         setSize(1000,800);
         setLocationRelativeTo(null);
 
-        panel = new JPanel(new GridLayout(0,1));
+        JPanel panel = new JPanel(new GridLayout(0, 1));
 
-        panel.add(new JLabel("Nom : " + game.getName()));
-        panel.add(new JLabel("Genre : " + game.getCategory()));
-        panel.add(new JLabel("Editeur : " + game.getEditor()));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.NOM) + " : " + game.getName()));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.GENRE) + " : " + game.getCategory()));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.EDITEUR) + " : " + game.getEditor()));
 
-        panel.add(new JLabel("Note moyenne : " + game.getRating()));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.NOTE) + " " + CTextPlaceHolder.MOYENNE + " : " + game.getRating()));
 
-        panel.add(new JLabel("Platformes supportées :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.PLATEFORME_S) + " supportées :"));
 
         for(CPlatform platform : game.getPlatforms()){
             panel.add(new JLabel("<html>&nbsp;&nbsp;" + platform.getName() + "</html>"));
@@ -63,7 +51,8 @@ public class CVideoGameInfoView extends JFrame {
             if(player.isGameInCollection(game)) {
                 Map<CPlatform, Float> hoursPlayedOnThisGame = player.getHoursPlayedOnAGame(game);
                 if(!hoursPlayedOnThisGame.isEmpty()){
-                    JLabel nbHoursPlayed = new JLabel("Nombre d'heures jouées (" + player.getTotalHoursPlayedOnAGame(game) + "h joué au total) : ");
+                    JLabel nbHoursPlayed = new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.NOMBRE) + " d'" +
+                                                       CTextPlaceHolder.HEURE_S + " jouées (" + player.getTotalHoursPlayedOnAGame(game) + "h joué au total) : ");
                     panel.add(nbHoursPlayed);
 
                     for(CPlatform platform : hoursPlayedOnThisGame.keySet()){
@@ -76,133 +65,96 @@ public class CVideoGameInfoView extends JFrame {
 
         // if we have some tests
         if(!game.getTests().isEmpty() && currentUser instanceof CPlayer) {
-            panel.add(new JLabel("Tests : "));
+            panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.TEST_S) + " : "));
             for(CTest test : game.getTests().values()){
                 JButton testButton = new JButton(test.getDate() + ", " + test.getTester().getPseudo());
                 panel.add(testButton);
 
-                testButton.addActionListener(e -> displayTest(test));
+                testButton.addActionListener(_ -> videoGameController.displayTest(test));
             }
         } else {
-            panel.add(new JLabel("Aucun test disponible"));
+            panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.AUCUN) + " " + CTextPlaceHolder.TEST +
+                                " " + CTextPlaceHolder.DISPONIBLE));
         }
 
         if(currentUser instanceof CPlayer player){
             if(!game.areAllPossibleTestsDone()){
-                JButton addTokenButton = new JButton("Ajouter des jetons sur le jeu (" + game.getAllTokenOnGame() + " pour le moment)");
+                JButton addTokenButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " des " +
+                                                    CTextPlaceHolder.JETON_S + " sur le " + CTextPlaceHolder.JEU +
+                                                    " (" + game.getAllTokenOnGame() + " pour le moment)");
                 panel.add(addTokenButton);
-                addTokenButton.addActionListener(e -> displayAddTokenFrame());
+                addTokenButton.addActionListener(_ -> videoGameController.addTokenFrame(this, game));
 
                 if(game.hasUserPlacedToken(player)){
-                    JButton removeTokenButton = new JButton("Retirer des jetons sur le jeu (Vous avez placés " + game.getAllTokenOnGame() + " jetons pour le moment)");
+                    JButton removeTokenButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.RETIRER) + " des " +
+                                                            CTextPlaceHolder.JETON_S + " sur le " + CTextPlaceHolder.JEU +
+                                                            " (Vous avez placés " + game.getAllTokenOnGame() + " " + CTextPlaceHolder.JETON_S +
+                                                            " pour le moment)");
                     panel.add(removeTokenButton);
-                    removeTokenButton.addActionListener(e -> displayRemoveTokenFrame());
+                    removeTokenButton.addActionListener(_ -> videoGameController.removeTokenFrame(this, game));
                 }
             }
 
             // if we dont owned this game on all platform
-            if(!player.getPlatformNotOwnedForGame(game).isEmpty()) {
-                // if do not have this game
+            if (!player.getPlatformNotOwnedForGame(game).isEmpty()) {
+                String label;
                 if (!player.isGameInCollection(game)) {
-                    JButton addToCollectionButton = new JButton("Ajouter le jeu à ma collection");
-                    panel.add(addToCollectionButton);
-                    addToCollectionButton.addActionListener(e -> addToCollection());
-                } else { // if we have get this game at least on 1 platform
-                    JButton addToCollectionButton = new JButton("Ajouter le jeu à ma collection pour une autre platforme");
-                    panel.add(addToCollectionButton);
-                    addToCollectionButton.addActionListener(e -> addToCollection());
+                    label = CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " le " +
+                            CTextPlaceHolder.JEU + " à ma " + CTextPlaceHolder.COLLECTION;
+                } else {
+                    label = CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " le jeu à ma "
+                            + CTextPlaceHolder.COLLECTION + " pour une autre " + CTextPlaceHolder.PLATEFORME;
                 }
+                JButton addToCollectionButton = new JButton(label);
+                panel.add(addToCollectionButton);
+                addToCollectionButton.addActionListener(_ -> videoGameController.displayAddGameFrame(this, game));
             }
         }
 
         // if there is evaluations
         if(!game.getEvaluations().isEmpty()) {
-            panel.add(new JLabel("Evaluations : "));
+            panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.EVALUATION_S) + " : "));
             for(CEvaluation evaluation : game.getEvaluationsSortedByScoreThenDate()){
                 JButton evalButton = new JButton(evaluation.getDate().toLocalDate() + ", " + evaluation.getPlayer().getPseudo() + ", utilite+ : " + evaluation.getUtiliteOui());
                 panel.add(evalButton);
 
-                evalButton.addActionListener(e -> displayEvaluation(evaluation));
+                evalButton.addActionListener(_ -> videoGameController.displayEvaluation(evaluation));
             }
         } else {
-            panel.add(new JLabel("Aucune évaluation disponible"));
+            panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.AUCUN + "e") + " " + CTextPlaceHolder.EVALUATION +
+                                    " " + CTextPlaceHolder.DISPONIBLE));
         }
 
         panel.add(new JSeparator());
 
         if(currentUser instanceof CPlayer player && player.isGameInCollection(game) && !player.isBlocked() && player.getTotalHoursPlayedOnAGame(game) >= CEvaluation.NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE){
-            JButton evalButton = new JButton("Ajouter une évaluation");
+            JButton evalButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " une " + CTextPlaceHolder.EVALUATION);
             panel.add(evalButton);
-            evalButton.addActionListener(e -> addEvaluation());
+            evalButton.addActionListener(_ -> videoGameController.addEvaluationFrame(this, game));
         }
         if(currentUser instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty() && !tester.isBlocked()){
-            JButton testButton = new JButton("Ajouter un test");
+            JButton testButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " un " + CTextPlaceHolder.TEST);
             panel.add(testButton);
-            testButton.addActionListener(e -> addTest());
+            testButton.addActionListener(_ -> videoGameController.addTestFrame(this, game));
         }
         if(currentUser instanceof CPlayer player){
             // if we have get this game at least on 1 platform
             //if(!player.getPlatformsForGame(game).isEmpty()){
             if(player.isGameInCollection(game)){
-                JButton addHoursButton = new JButton("Ajouter du temps de jeu");
+                JButton addHoursButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " du " + CTextPlaceHolder.TEMPS
+                                                    + " de " + CTextPlaceHolder.JEU);
                 panel.add(addHoursButton);
-                addHoursButton.addActionListener(e -> addHours());
+                addHoursButton.addActionListener(_ -> videoGameController.addHoursFrame(this, game));
             }
         }
 
-        JButton reloadButton = new JButton("Reload frame");
+        JButton reloadButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.RECHARGER) + " la " + CTextPlaceHolder.PAGE);
         panel.add(reloadButton);
-        reloadButton.addActionListener(e -> {
+        reloadButton.addActionListener(_ -> {
             dispose();
             videoGameController.viewInfoGameFrame(game);
         });
 
         add(panel);
-    }
-
-    /** display the add hours to the game frame */
-    private void addHours(){
-        videoGameController.addHoursFrame(this, game);
-    }
-
-    /** add an evaluation to the game */
-    private void addEvaluation(){
-        videoGameController.addEvaluationFrame(this, game);
-    }
-
-    /** add a test to the game */
-    private void addTest(){
-        videoGameController.addTestFrame(this, game);
-    }
-
-    /**
-     * Display an evaluation
-     * @param evaluation the evaluation to display
-     */
-    private void displayEvaluation(CEvaluation evaluation){
-        videoGameController.displayEvaluation(evaluation);
-    }
-
-    /**
-     * Display a test
-     * @param test the test to display
-     */
-    private void displayTest(CTest test){
-        videoGameController.displayTest(test);
-    }
-
-    /**
-     * Display the frame to add to your collection a game with a specific platform
-     */
-    private void addToCollection(){
-        videoGameController.displayAddGameFrame(this, game);
-    }
-
-    private void displayAddTokenFrame(){
-        videoGameController.addTokenFrame(this, game);
-    }
-
-    private void displayRemoveTokenFrame(){
-        videoGameController.removeTokenFrame(this, game);
     }
 }

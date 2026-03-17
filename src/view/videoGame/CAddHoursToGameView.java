@@ -1,9 +1,8 @@
 package view.videoGame;
 
-import controller.CEvaluationController;
 import controller.CVideoGameController;
-import model.user.AUser;
 import model.user.CPlayer;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
 
@@ -24,14 +23,14 @@ public class CAddHoursToGameView extends JFrame{
 
         CPlayer player = (CPlayer) videoGameController.getController().getCurrentUser();
 
-        setTitle("Ajouter une évaluation : " + videoGame.getName());
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " une " + CTextPlaceHolder.EVALUATION + " : " + videoGame.getName());
         setSize(600, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridLayout(0,1));
 
-        panel.add(new JLabel("Choisir la plateforme :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.CHOISIR) + " la " + CTextPlaceHolder.PLATEFORME + " :"));
 
         platformBox = new JComboBox<>(
                 player.getPlatformsForGame(videoGame).toArray(new CPlatform[0])
@@ -39,14 +38,14 @@ public class CAddHoursToGameView extends JFrame{
 
         panel.add(platformBox);
 
-        panel.add(new JLabel("Heures jouées :"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.HEURE_S) + " jouées :"));
         hoursToAdd = new JTextArea(5,20);
         panel.add(hoursToAdd);
 
-        JButton submitHoursButton = new JButton("Enregistrer");
+        JButton submitHoursButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.ENREGISTRER));
         panel.add(submitHoursButton);
 
-        submitHoursButton.addActionListener(e -> submitHours(gameInfoView));
+        submitHoursButton.addActionListener(_ -> submitHours(gameInfoView));
 
         add(panel);
     }

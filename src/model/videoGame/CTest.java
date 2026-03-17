@@ -3,9 +3,7 @@ package model.videoGame;
 import model.user.CTester;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,17 +29,8 @@ public class CTest {
     /** the version of the game */
     private final String numVersion;
 
-    /** List of strengths */
-    private final List<String> strengths;
-
-    /** List of weaknesses */
-    private final List<String> weakness;
-
     /** condition of the test */
     private final String conditions;
-
-    /** List of similar videoGames */
-    private final List<CVideoGame> similarGames;
 
     /** note per category */
     private final Map<ECategory, Integer> noteCategory;
@@ -57,10 +46,6 @@ public class CTest {
         this.conditions = conditions;
         this.date = date;
 
-        strengths = new ArrayList<>();
-        weakness = new ArrayList<>();
-        similarGames = new ArrayList<>();
-
         noteCategory = new HashMap<>();
 
         tester.addTest(this);
@@ -73,18 +58,6 @@ public class CTest {
         OPTIMISATION,
         GRAPHICS,
         SOUND
-    }
-
-    public void addStrength(String strength){
-        strengths.add(strength);
-    }
-
-    public void addWeakness(String weakness){
-        this.weakness.add(weakness);
-    }
-
-    public void addSimilarGame(CVideoGame videoGame){
-        similarGames.add(videoGame);
     }
 
     public void addCategoryScore(ECategory category, int score) {
@@ -115,20 +88,8 @@ public class CTest {
         return numVersion;
     }
 
-    public List<String> getStrengths() {
-        return strengths;
-    }
-
-    public List<String> getWeakness() {
-        return weakness;
-    }
-
     public String getConditions() {
         return conditions;
-    }
-
-    public List<CVideoGame> getSimilarGames() {
-        return similarGames;
     }
 
     public Map<ECategory, Integer> getNoteCategory() {

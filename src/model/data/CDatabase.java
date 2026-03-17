@@ -36,8 +36,6 @@ public class CDatabase {
 
     private final List<CSignalement> signaledEvaluations;
 
-    private final Map<CVideoGame, Map<CPlayer, Integer>> tokenOnGames;
-
     public CDatabase(){
         videoGames = new HashMap<>();
         users = new HashMap<>();
@@ -45,7 +43,6 @@ public class CDatabase {
         tests = new ArrayList<>();
         playerGames = new ArrayList<>();
         signaledEvaluations = new ArrayList<>();
-        tokenOnGames = new HashMap<>();
     }
 
     /**
@@ -112,14 +109,6 @@ public class CDatabase {
      */
     public List<CVideoGame> getAllVideoGames(){
         return new ArrayList<>(videoGames.values());
-    }
-
-    /**
-     *
-     * @return the map of video games
-     */
-    public Map<String, CVideoGame> getVideoGames() {
-        return videoGames;
     }
 
     public Map<String, CPlayer> getUsers() {
@@ -225,10 +214,6 @@ public class CDatabase {
         signaledEvaluations.removeIf(signalement -> signalement.getReporter() == tester);
     }
 
-    public void removeUser(AUser user){
-        users.remove(user.getPseudo(), user);
-    }
-
     public void removeAllPlayerGamesForUser(CPlayer player) {
         playerGames.removeIf(playerGame -> {
             if (playerGame.getPlayer() == player) {
@@ -248,7 +233,7 @@ public class CDatabase {
             removeAllTestsForUser(tester);
             removeAllSignalementsForUser(tester);
         }
-        removeUser(user);
+        users.remove(user.getPseudo());
     }
 
     public List<AUser> getBlockedUser(){
@@ -271,13 +256,13 @@ public class CDatabase {
 
         for (CPlayerGame playerGame : playerGames) {
             if (playerGame.getPlayer() == oldUser) {
-                playerGame.setPlayer((CPlayer) newUser);
+                playerGame.setPlayer(newUser);
             }
         }
 
         for (CEvaluation eval : evaluations) {
             if (eval.getPlayer() == oldUser) {
-                eval.setPlayer((CPlayer) newUser);
+                eval.setPlayer(newUser);
             }
         }
 

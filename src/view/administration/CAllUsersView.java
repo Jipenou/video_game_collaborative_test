@@ -2,6 +2,7 @@ package view.administration;
 
 import controller.CAdminController;
 import model.user.AUser;
+import model.utils.CTextPlaceHolder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +10,9 @@ import java.util.List;
 
 public class CAllUsersView extends JFrame{
 
-    private final CAdminController adminController;
-
     public CAllUsersView(CAdminController adminController) {
-        this.adminController = adminController;
 
-        setTitle("Liste des utilisateurs");
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.LISTE) + " des " + CTextPlaceHolder.UTILISATEUR_S);
         setSize(800,700);
         setLocationRelativeTo(null);
 
@@ -26,10 +24,10 @@ public class CAllUsersView extends JFrame{
 
         panel.add(new JScrollPane(list), BorderLayout.CENTER);
 
-        JButton viewButton = new JButton("Voir infos");
+        JButton viewButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VOIR + " " + CTextPlaceHolder.INFORMATION_S));
         panel.add(viewButton, BorderLayout.SOUTH);
 
-        viewButton.addActionListener(e -> {
+        viewButton.addActionListener(_ -> {
             AUser user = list.getSelectedValue();
             if(user != null) {
                 adminController.getController().getUserController().openProfile(user);

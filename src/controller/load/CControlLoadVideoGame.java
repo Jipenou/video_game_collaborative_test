@@ -1,6 +1,5 @@
 package controller.load;
 
-import controller.CController;
 import model.data.CDatabase;
 import model.videoGame.CPlatform;
 import model.videoGame.CVideoGame;
@@ -31,7 +30,7 @@ public class CControlLoadVideoGame {
     /** A map with the format : <name of the column, index of the column> that repertory
      * the column names with their index
      */
-    private Map<String, Integer> columnName;
+    private final Map<String, Integer> columnName;
 
     public CControlLoadVideoGame(CDatabase database){
         this.database = database;

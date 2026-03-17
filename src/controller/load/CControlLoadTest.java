@@ -6,13 +6,8 @@ import model.videoGame.CPlatform;
 import model.videoGame.CTest;
 import model.videoGame.CVideoGame;
 
-import javax.swing.*;
 import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class CControlLoadTest {
     /** path to the csv */
@@ -93,8 +88,6 @@ public class CControlLoadTest {
                 }
                 bw.newLine();
             }
-
-            List<String> testCategory = new ArrayList<>();
 
             bw.write(test.getTester().getPseudo() + SEPARATOR + test.getVideoGame().getName()
                     + SEPARATOR + test.getPlatform().getName() + SEPARATOR + test.getText() + SEPARATOR

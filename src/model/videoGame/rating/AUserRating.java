@@ -18,18 +18,6 @@ public abstract class AUserRating {
         this.ratingBase = ratingBase;
     }
 
-    public int getNbCritics() {
-        return nbCritics;
-    }
-
-    public float getAverageScore() {
-        return averageScore;
-    }
-
-    public int getRatingBase() {
-        return ratingBase;
-    }
-
     public String toString(){
         return "number of critic : " + nbCritics + ", average score : " + averageScore + "/" + ratingBase;
     }

@@ -1,9 +1,7 @@
 package controller.load;
 
 import model.data.CDatabase;
-import model.user.CAdmin;
 import model.user.CPlayer;
-import model.user.CTester;
 import model.videoGame.CVideoGame;
 
 import java.io.*;

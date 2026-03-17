@@ -1,28 +1,20 @@
 package view.videoGame;
 
 import controller.CVideoGameController;
-import model.user.AUser;
 import model.user.CPlayer;
-import model.user.CTester;
-import model.videoGame.CEvaluation;
-import model.videoGame.CPlatform;
-import model.videoGame.CTest;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CVideoGame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 public class CVideoGameToTestView extends JFrame {
 
-    /** the main controller of the application */
-    private final CVideoGameController videoGameController;
-
     public CVideoGameToTestView(CVideoGameController videoGameController) {
-        this.videoGameController = videoGameController;
 
-        setTitle("Liste des jeux à tester");
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.LISTE) + " des " + CTextPlaceHolder.JEU_S + " à " +
+                                            CTextPlaceHolder.TESTER);
         setSize(800,700);
         setLocationRelativeTo(null);
 
@@ -34,10 +26,10 @@ public class CVideoGameToTestView extends JFrame {
 
         panel.add(new JScrollPane(list), BorderLayout.CENTER);
 
-        JButton viewButton = new JButton("Voir infos");
+        JButton viewButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VOIR) + " " + CTextPlaceHolder.INFORMATION_S);
         panel.add(viewButton, BorderLayout.SOUTH);
 
-        viewButton.addActionListener(e -> {
+        viewButton.addActionListener(_ -> {
             CVideoGame videoGame = list.getSelectedValue();
             if(videoGame != null) {
                 videoGameController.viewInfoGameFrame(videoGame);

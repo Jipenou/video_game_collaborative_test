@@ -1,7 +1,7 @@
 package view.videoGame.evaluation;
 
 import controller.CEvaluationController;
-import controller.CVideoGameController;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CEvaluation;
 
 import javax.swing.*;
@@ -10,13 +10,9 @@ import java.util.List;
 
 public class CEvaluationView extends JFrame {
 
-    /** the main controller of the application */
-    private final CEvaluationController evaluationController;
-
     public CEvaluationView(CEvaluationController evaluationController) {
-        this.evaluationController = evaluationController;
 
-        setTitle("Liste des évaluations");
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.LISTE) + " des " + CTextPlaceHolder.EVALUATION_S);
         setSize(800,700);
         setLocationRelativeTo(null);
 
@@ -28,10 +24,10 @@ public class CEvaluationView extends JFrame {
 
         panel.add(new JScrollPane(list), BorderLayout.CENTER);
 
-        JButton viewButton = new JButton("Voir infos");
+        JButton viewButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VOIR) + " " + CTextPlaceHolder.INFORMATION_S);
         panel.add(viewButton, BorderLayout.SOUTH);
 
-        viewButton.addActionListener(e -> {
+        viewButton.addActionListener(_ -> {
             CEvaluation evaluation = list.getSelectedValue();
             if(evaluation != null) {
                 evaluationController.displayEvaluation(evaluation);

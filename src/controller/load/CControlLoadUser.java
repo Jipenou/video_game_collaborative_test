@@ -1,7 +1,6 @@
 package controller.load;
 
 import model.data.CDatabase;
-import model.user.AUser;
 import model.user.CAdmin;
 import model.user.CPlayer;
 import model.user.CTester;

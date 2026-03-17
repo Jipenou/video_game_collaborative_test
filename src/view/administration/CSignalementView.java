@@ -2,7 +2,7 @@ package view.administration;
 
 import controller.CAdminController;
 import model.CSignalement;
-import model.user.AUser;
+import model.utils.CTextPlaceHolder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,24 +10,17 @@ import java.util.List;
 
 public class CSignalementView extends JFrame{
 
-    /** the admin controller of the application */
-    private final CAdminController adminController;
-
     public CSignalementView(CAdminController adminController) {
 
-        this.adminController = adminController;
-
-        setTitle("Signalements");
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.SIGNALEMENT_S));
         setSize(800,700);
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        AUser user = adminController.getController().getCurrentUser();
-
         JPanel panel = new JPanel(new GridLayout(0,1));
 
-        panel.add(new JLabel("Menu des signalements"));
+        panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.MENU) + " des " + CTextPlaceHolder.SIGNALEMENT_S));
 
         List<CSignalement> signalements = adminController.getController().getDatabase().getSignaledEvaluations();
 
@@ -35,10 +28,10 @@ public class CSignalementView extends JFrame{
 
         panel.add(new JScrollPane(list), BorderLayout.CENTER);
 
-        JButton viewButton = new JButton("Voir infos");
+        JButton viewButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VOIR + " " + CTextPlaceHolder.INFORMATION_S));
         panel.add(viewButton, BorderLayout.SOUTH);
 
-        viewButton.addActionListener(e -> {
+        viewButton.addActionListener(_ -> {
             CSignalement signalement = list.getSelectedValue();
             if(signalement != null) {
                 adminController.viewInfoSignalement(signalement);

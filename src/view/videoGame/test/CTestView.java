@@ -1,8 +1,7 @@
 package view.videoGame.test;
 
-import controller.CEvaluationController;
 import controller.CTestController;
-import model.videoGame.CEvaluation;
+import model.utils.CTextPlaceHolder;
 import model.videoGame.CTest;
 
 import javax.swing.*;
@@ -11,13 +10,9 @@ import java.util.List;
 
 public class CTestView extends JFrame {
 
-    /** the main controller of the application */
-    private final CTestController testController;
-
     public CTestView(CTestController testController) {
-        this.testController = testController;
 
-        setTitle("Liste des tests");
+        setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.LISTE) + " des " + CTextPlaceHolder.TEST_S);
         setSize(800,700);
         setLocationRelativeTo(null);
 
@@ -29,10 +24,10 @@ public class CTestView extends JFrame {
 
         panel.add(new JScrollPane(list), BorderLayout.CENTER);
 
-        JButton viewButton = new JButton("Voir infos");
+        JButton viewButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VOIR) + " " + CTextPlaceHolder.INFORMATION_S);
         panel.add(viewButton, BorderLayout.SOUTH);
 
-        viewButton.addActionListener(e -> {
+        viewButton.addActionListener(_ -> {
             CTest test = list.getSelectedValue();
             if(test != null) {
                 testController.displayTest(test);
