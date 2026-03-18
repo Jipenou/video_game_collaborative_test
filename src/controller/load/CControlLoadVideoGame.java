@@ -9,7 +9,9 @@ import model.videoGame.rating.CTesterRating;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,7 +60,7 @@ public class CControlLoadVideoGame {
                 if(line.isEmpty()){
                     continue;
                 }
-                String[] values = line.split(SEPARATOR);
+                String[] values = parseCsvLine(line);
                 CVideoGame actualVideoGame = createVideoGame(values);
 
                 if (actualVideoGame != null && actualVideoGame.getName() != null){
@@ -255,5 +257,25 @@ public class CControlLoadVideoGame {
             return new CTesterRating(nbTesterRating, testerRatingValue);
         }
         return null;
+    }
+
+    private String[] parseCsvLine(String line) {
+        List<String> values = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        boolean inQuotes = false;
+
+        for (char c : line.toCharArray()) {
+            if (c == '"') {
+                inQuotes = !inQuotes;
+            } else if (c == ',' && !inQuotes) {
+                values.add(current.toString().trim());
+                current.setLength(0);
+            } else {
+                current.append(c);
+            }
+        }
+        values.add(current.toString().trim());
+
+        return values.toArray(new String[0]);
     }
 }
