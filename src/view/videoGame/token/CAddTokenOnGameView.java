@@ -9,12 +9,19 @@ import view.videoGame.CVideoGameInfoView;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represent the frame to add token on a game
+ */
 public class CAddTokenOnGameView extends JFrame {
 
+    /** the video game controller */
     private final CVideoGameController videoGameController;
+
+    /** the video game concerned */
     private final CVideoGame videoGame;
 
-    final JTextArea nbTokenArea;
+    /** the spinner to add the hours */
+    private final JSpinner nbTokenSpinner;
 
     /** The label that react to the actions */
     private final JLabel messageLabel;
@@ -36,8 +43,8 @@ public class CAddTokenOnGameView extends JFrame {
         panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.CHOISIR) + " le" + CTextPlaceHolder.NOMBRE + " de " + CTextPlaceHolder.JETON_S +
                                   " à poser (" + currentUser.getNbToken() + " restants) :"));
 
-        nbTokenArea = new JTextArea(1,20);
-        panel.add(nbTokenArea);
+        nbTokenSpinner = new JSpinner(new SpinnerNumberModel(1, 1, currentUser.getNbToken(), 1));
+        panel.add(nbTokenSpinner);
 
         JButton submitButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VALIDER));
         panel.add(submitButton);
@@ -49,21 +56,15 @@ public class CAddTokenOnGameView extends JFrame {
         add(panel);
     }
 
-    private void submitTokens(CVideoGameInfoView gameInfoView){
-        CPlayer currentPlayer = (CPlayer) videoGameController.getController().getCurrentUser();
-
-        try {
-            int nbTokens = Integer.parseInt(nbTokenArea.getText());
-            if (nbTokens > 0 && nbTokens <= currentPlayer.getNbToken()) {
-                videoGameController.addTokenToGame(videoGame, nbTokens);
-                dispose();
-                gameInfoView.dispose();
-                videoGameController.viewInfoGameFrame(videoGame);
-            } else {
-                messageLabel.setText("Valeur incorrecte ou " + CTextPlaceHolder.NOMBRE + " de " + CTextPlaceHolder.JETON_S + " insuffisants");
-            }
-        } catch (NumberFormatException e) {
-            messageLabel.setText("Veuillez entrer un " + CTextPlaceHolder.NOMBRE + " valide");
-        }
+    /**
+     * submit the token added
+     * @param gameInfoView the previous view to reload after submitted the test
+     */
+    private void submitTokens(CVideoGameInfoView gameInfoView) {
+        int nbTokens = (int) nbTokenSpinner.getValue();
+        videoGameController.addTokenToGame(videoGame, nbTokens);
+        dispose();
+        gameInfoView.dispose();
+        videoGameController.viewInfoGameFrame(videoGame);
     }
 }

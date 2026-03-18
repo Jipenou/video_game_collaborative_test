@@ -19,17 +19,41 @@ public class CSignalement {
         this.evaluation = evaluation;
     }
 
+    /*
+    ===================== GETTER =========================
+     */
+
+    /**
+     *
+     * @return the reporter of this signalement
+     */
     public CTester getReporter() {
         return reporter;
     }
 
+    /**
+     *
+     * @return the evaluation concerned
+     */
     public CEvaluation getEvaluation() {
         return evaluation;
     }
 
+    /*
+    ===================== SETTER =========================
+     */
+
+    /**
+     * set a new reporter of this signalement
+     * @param reporter the new reporter
+     */
     public void setReporter(CTester reporter) {
         this.reporter = reporter;
     }
+
+    /*
+    ===================== TO STRING =========================
+     */
 
     public String toString(){
         return "User : " + reporter.getPseudo() + " sur : " + evaluation.toStringSimple();

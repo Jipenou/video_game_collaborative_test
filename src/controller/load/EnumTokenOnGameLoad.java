@@ -1,5 +1,8 @@
 package controller.load;
 
+/**
+ * An enum the field to get in the token csv
+ */
 public enum EnumTokenOnGameLoad {
     VIDEO_GAME("video_game",0),
     PSEUDO("pseudo",1),

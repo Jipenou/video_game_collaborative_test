@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class represent the frame to see all the users of the application
+ */
 public class CAllUsersView extends JFrame{
 
     public CAllUsersView(CAdminController adminController) {

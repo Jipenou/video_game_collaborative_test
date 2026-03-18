@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class represent the frame to see all the user blocked
+ */
 public class CUsersBlockedView extends JFrame{
 
     public CUsersBlockedView(CAdminController adminController) {

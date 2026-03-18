@@ -4,12 +4,11 @@ import model.data.CDatabase;
 import model.user.CAdmin;
 import model.user.CPlayer;
 import model.user.CTester;
-import model.videoGame.CTest;
 
 import java.io.*;
 
 /**
- * This class represent the csv parser for the users
+ * This class represent the control for the loading/save of users
  */
 public class CControlLoadUser extends AControlLoad<CPlayer>{
 

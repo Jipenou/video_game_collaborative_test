@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class represent the frame that displayed all the evaluations
+ */
 public class CEvaluationView extends JFrame {
 
     public CEvaluationView(CEvaluationController evaluationController) {

@@ -42,11 +42,15 @@ public class CEvaluation {
     /** used to give 1 token to the player that published to evaluation every 10 positiveCOmment */
     private int nbPositiveUtilities;
 
+    /** a list of the player that have voted on this evaluation */
     private final List<CPlayer> hasVoted;
 
+    /** the value associated to the evaluation of this evaluation */
     private static final int VAL_EVAL_POSITIVE = 1;
     private static final int VAL_EVAL_NEUTRE = 0;
+    private static final int VAL_EVAL_NEGATIVE = -1;
 
+    /** the minimum number of hours played on a game for a player to make an evaluation */
     public static final int NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE = 10;
 
     /** Map that contains the utilities votes as <player that vote, his vote> */
@@ -69,6 +73,44 @@ public class CEvaluation {
         player.addEvaluation(this);
         videoGame.addEvaluation(this);
     }
+
+    /**
+     * Increment the vote
+     * @param value the value associated
+     */
+    private void incrementVote(int value) {
+        if (value == VAL_EVAL_POSITIVE)       utiliteOui++;
+        else if (value == VAL_EVAL_NEUTRE)  utiliteNeutre++;
+        else                  utiliteNon++;
+    }
+
+    /**
+     * Decrement the vote
+     * @param value the value associated
+     */
+    private void decrementVote(int value) {
+        if (value == VAL_EVAL_POSITIVE)       utiliteOui--;
+        else if (value == VAL_EVAL_NEUTRE)  utiliteNeutre--;
+        else                  utiliteNon--;
+    }
+
+    /**
+     * calcul the number of positive evaluation of the evaluation in order to give to the evaluator a token every 10 likes
+     */
+    private void calculNbEvaluationPositives(){
+        int votePositifs = (int) votants.values().stream().filter(v -> v == 1).count();
+        int palier = votePositifs / 10;
+
+        if (palier > nbPositiveUtilities) {
+            int jetonsAajouter = palier - nbPositiveUtilities;
+            this.player.addJeton(jetonsAajouter);
+            nbPositiveUtilities = palier;
+        }
+    }
+
+    /*
+    ===================== ADD =========================
+     */
 
     /**
      * Add a vote of the other player for this evaluation
@@ -98,72 +140,137 @@ public class CEvaluation {
         calculNbEvaluationPositives();
     }
 
-    private void incrementVote(int value) {
-        if (value == VAL_EVAL_POSITIVE)       utiliteOui++;
-        else if (value == VAL_EVAL_NEUTRE)  utiliteNeutre++;
-        else                  utiliteNon++;
-    }
+    /*
+    ===================== GETTER =========================
+     */
 
-    private void decrementVote(int value) {
-        if (value == VAL_EVAL_POSITIVE)       utiliteOui--;
-        else if (value == VAL_EVAL_NEUTRE)  utiliteNeutre--;
-        else                  utiliteNon--;
-    }
-
-    private void calculNbEvaluationPositives(){
-        int votePositifs = (int) votants.values().stream().filter(v -> v == 1).count();
-        int palier = votePositifs / 10;
-
-        if (palier > nbPositiveUtilities) {
-            int jetonsAajouter = palier - nbPositiveUtilities;
-            this.player.addJeton(jetonsAajouter);
-            nbPositiveUtilities = palier;
-        }
-    }
-
+    /**
+     *
+     * @return the evaluator
+     */
     public CPlayer getPlayer() {
         return player;
     }
 
+    /**
+     *
+     * @return the video game of the evaluation
+     */
     public CVideoGame getVideoGame() {
         return videoGame;
     }
 
+    /**
+     *
+     * @return the platform of the evaluation
+     */
     public CPlatform getPlatform() {
         return platform;
     }
 
+    /**
+     *
+     * @return the date of the evaluation
+     */
     public LocalDateTime getDate() {
         return date;
     }
 
+    /**
+     *
+     * @return the text of the evaluation
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     *
+     * @return the version of the game for this evaluation
+     */
     public String getNumVersion() {
         return numVersion;
     }
 
+    /**
+     *
+     * @return the global score for this evaluation
+     */
     public double getGlobalScore() {
         return globalScore;
     }
 
+    /**
+     *
+     * @return the number of positive evaluation for this evaluation
+     */
     public int getUtiliteOui() {
         return utiliteOui;
     }
 
+    /**
+     *
+     * @return the number of Negative evaluation for this evaluation
+     */
     public int getUtiliteNon() {
         return utiliteNon;
     }
 
+    /**
+     *
+     * @return a map of <player, evluation for this evaluation>
+     */
     public Map<CPlayer, Integer> getVotants() {
         return votants;
     }
 
+    /**
+     * set a number of neutral evaluation for this evaluation
+     * @return the number of neutral evaluation for this evaluation
+     */
+    public int getUtiliteNeutre() {
+        return utiliteNeutre;
+    }
+
+    /*
+    ===================== SETTER =========================
+     */
+
+    /**
+     * set a number of positive evaluation for this evaluation
+     * @param utiliteOui the number of positive evaluation for this evaluation
+     */
+    public void setUtiliteOui(int utiliteOui) {
+        this.utiliteOui = utiliteOui;
+    }
+
+    /**
+     * set a number of negative evaluation for this evaluation
+     * @param utiliteNon the number of negative evaluation for this evaluation
+     */
+    public void setUtiliteNon(int utiliteNon) {
+        this.utiliteNon = utiliteNon;
+    }
+
+    /**
+     * set a new player for this evaluation
+     * @param player the new player
+     */
+    public void setPlayer(CPlayer player) {
+        this.player = player;
+    }
+
+    /*
+    ===================== TO STRING =========================
+     */
+
+    public String toStringSimple(){
+        return "Evaluation de " + player.getPseudo() + ", jeu : " + videoGame.getName() + ", platforme : " + platform.getName();
+    }
+
     public String toString(){
         return "[user : " + player.getPseudo() + ", Jeu vidéo : " + videoGame + ", Plateforme : " + this.platform + ",date : " + this.date.toLocalDate() + ", note: " + this.globalScore +
-               "]";
+                "]";
     }
 
     public String toStringLong(){
@@ -171,23 +278,4 @@ public class CEvaluation {
                 ", description : " + this.text + ", utilite + : " + utiliteOui + ", utilite neutre : " + utiliteNeutre + ", utilite - : " + utiliteNon + "]";
     }
 
-    public void setUtiliteOui(int utiliteOui) {
-        this.utiliteOui = utiliteOui;
-    }
-
-    public void setUtiliteNon(int utiliteNon) {
-        this.utiliteNon = utiliteNon;
-    }
-
-    public int getUtiliteNeutre() {
-        return utiliteNeutre;
-    }
-
-    public String toStringSimple(){
-        return "Evaluation de " + player.getPseudo() + ", jeu : " + videoGame.getName() + ", platforme : " + platform.getName();
-    }
-
-    public void setPlayer(CPlayer player) {
-        this.player = player;
-    }
 }

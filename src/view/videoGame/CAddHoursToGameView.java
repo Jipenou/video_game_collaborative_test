@@ -9,12 +9,22 @@ import model.videoGame.CVideoGame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represent the frame to add hours to an owned game
+ */
 public class CAddHoursToGameView extends JFrame{
+
+    /** the video game controller */
     private final CVideoGameController videoGameController;
+
+    /** the video game concerned */
     private final CVideoGame videoGame;
 
+    /** the box that display the platform to add hours on */
     private final JComboBox<CPlatform> platformBox;
-    private final JTextArea hoursToAdd;
+
+    /** the spinner that display the hours to add */
+    private final JSpinner hoursSpinner;
 
     /** The label that react to the actions */
     private final JLabel messageLabel;
@@ -42,8 +52,8 @@ public class CAddHoursToGameView extends JFrame{
         panel.add(platformBox);
 
         panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.HEURE_S) + " jouées :"));
-        hoursToAdd = new JTextArea(5,20);
-        panel.add(hoursToAdd);
+        hoursSpinner = new JSpinner(new SpinnerNumberModel(0.5, 0.5, 9999.0, 0.5));
+        panel.add(hoursSpinner);
 
         JButton submitHoursButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.ENREGISTRER));
         panel.add(submitHoursButton);
@@ -55,29 +65,21 @@ public class CAddHoursToGameView extends JFrame{
         add(panel);
     }
 
-    private void submitHours(CVideoGameInfoView videoGameInfoView){
+    /**
+     * Submit the hours added
+     * @param videoGameInfoView the previous view to update after submit
+     */
+    private void submitHours(CVideoGameInfoView videoGameInfoView) {
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
 
         if (platform == null) {
-            messageLabel.setText("Veuillez sélectionner une " + CTextPlaceHolder.PLATEFORME);
             return;
         }
 
-        try {
-            int heures = Integer.parseInt(hoursToAdd.getText());
-
-            if (heures <= 0) {
-                messageLabel.setText("Le " + CTextPlaceHolder.NOMBRE + " d'" + CTextPlaceHolder.HEURE_S + " doit être positif");
-                return;
-            }
-
-            videoGameController.addHoursToGame(videoGame, platform, heures);
-            dispose();
-            videoGameInfoView.dispose();
-            videoGameController.viewInfoGameFrame(videoGame);
-
-        } catch (NumberFormatException e) {
-            messageLabel.setText("Veuillez entrer un " + CTextPlaceHolder.NOMBRE + " valide");
-        }
+        float heures = ((Double) hoursSpinner.getValue()).floatValue();
+        videoGameController.addHoursToGame(videoGame, platform, heures);
+        dispose();
+        videoGameInfoView.dispose();
+        videoGameController.viewInfoGameFrame(videoGame);
     }
 }

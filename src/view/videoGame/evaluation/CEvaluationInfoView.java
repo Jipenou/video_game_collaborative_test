@@ -11,9 +11,15 @@ import model.videoGame.CEvaluation;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represent the frame to see an evaluation
+ */
 public class CEvaluationInfoView extends JFrame{
+
+    /** the evaluation displayed */
     private final CEvaluation evaluation;
 
+    /** the buttons to evaluate this evaluation */
     private final JButton buttonAddPlus;
     private final JButton buttonAddMoins;
     private final JButton buttonAddNeutral;
@@ -34,6 +40,7 @@ public class CEvaluationInfoView extends JFrame{
 
         panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.DATE) + " : " + evaluation.getDate().toLocalDate()));
 
+        // if the current user is a player
         if(currentUser instanceof CPlayer){
             JButton playerButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.JOUEUR) + " : " + evaluation.getPlayer().getPseudo());
             panel.add(playerButton);
@@ -57,6 +64,7 @@ public class CEvaluationInfoView extends JFrame{
         buttonAddNeutral = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.NEUTRE) + " : " + evaluation.getUtiliteNeutre());
         buttonAddMoins = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.INUTILE) + " : " + evaluation.getUtiliteNon());
 
+        // if the current user is a tester and if this tester hasn't signaled this evaluation
         if(currentUser instanceof CTester tester && !tester.isEvaluationSignaled(evaluation)){
             JButton buttonSignaler = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.SIGNALER) + " cette " +
                                                 CTextPlaceHolder.EVALUATION);
@@ -68,6 +76,7 @@ public class CEvaluationInfoView extends JFrame{
             });
         }
 
+        // if the current user is an admin
         if(currentUser instanceof CAdmin){
             JButton buttonSupprimer = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.SUPPRIMER) + " cette " +
                                                     CTextPlaceHolder.EVALUATION);
@@ -81,6 +90,7 @@ public class CEvaluationInfoView extends JFrame{
 
         panel.add(new JSeparator());
 
+        // if the current user is a player and this player has played the minimum hours on the game to evaluate
         if(currentUser instanceof CPlayer player && player.getTotalHoursPlayedOnAGame(evaluation.getVideoGame()) >= CEvaluation.NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE){
             panel.add(buttonAddPlus);
             panel.add(buttonAddNeutral);
@@ -103,6 +113,9 @@ public class CEvaluationInfoView extends JFrame{
         add(panel);
     }
 
+    /**
+     * Refresh the evaluation of this evaluation
+     */
     private void refreshButtons() {
         buttonAddPlus.setText("Utile : " + evaluation.getUtiliteOui());
         buttonAddNeutral.setText("Neutre : " + evaluation.getUtiliteNeutre());

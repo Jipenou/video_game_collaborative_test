@@ -31,6 +31,7 @@ public class CPlayer extends AUser{
      */
     public static final String ROLE = "PLAYER";
 
+    /** the number of initial tokens for a player */
     public static final int NB_JETON_INITIAL = 3;
 
     public CPlayer(String pseudo) {
@@ -39,6 +40,11 @@ public class CPlayer extends AUser{
         gamePlayed = new ArrayList<>();
         evaluations = new ArrayList<>();
     }
+
+
+    /*
+    ===================== ADD =========================
+     */
 
     /**
      * Add hours for a game owned
@@ -54,9 +60,61 @@ public class CPlayer extends AUser{
         }
     }
 
+    /**
+     * add a new game to the collection of games of the player
+     * @param playerGame the game to add
+     */
     public void addGamePlayed(CPlayerGame playerGame){
         gamePlayed.add(playerGame);
     }
+
+    /**
+     * Add an evaluation for the player
+     * @param evaluation the evaluation to add
+     */
+    public void addEvaluation(CEvaluation evaluation){
+        evaluations.add(evaluation);
+    }
+
+    /**
+     * Add token to a player
+     * @param nbJeton the number of token to add
+     */
+    public void addJeton(int nbJeton){
+        this.nbJeton += nbJeton;
+    }
+
+    /*
+    ===================== REMOVE =========================
+     */
+
+    /**
+     * remove an evaluation for the player
+     * @param evaluation the evaluation to remove for the player
+     */
+    public void removeEvaluation(CEvaluation evaluation){
+        evaluations.remove(evaluation);
+    }
+
+    /**
+     * remove a game played for a user
+     * @param playerGame the game owned to remove
+     */
+    public void removeGamePlayed(CPlayerGame playerGame){
+        gamePlayed.remove(playerGame);
+    }
+
+    /**
+     * Remove token to a player
+     * @param nbJeton the number oof token to remove
+     */
+    public void removeJeton(int nbJeton){
+        this.nbJeton -= nbJeton;
+    }
+
+    /*
+    ===================== GETTER =========================
+     */
 
     /**
      *
@@ -70,21 +128,6 @@ public class CPlayer extends AUser{
             }
         }
         return videoGames;
-    }
-
-    /**
-     *
-     * @param videoGame the video game to check
-     * @return true if the video game is owned, else false
-     */
-    public boolean isGameInCollection(CVideoGame videoGame){
-        List<CVideoGame> gamesOwned = getGamesOwned();
-        for(CVideoGame game : gamesOwned){
-            if(game == videoGame){
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -102,6 +145,11 @@ public class CPlayer extends AUser{
         return hoursPlayed;
     }
 
+    /**
+     * return the total hours played for a game
+     * @param videoGame the video game concerned
+     * @return the total hours played for a game
+     */
     public float getTotalHoursPlayedOnAGame(CVideoGame videoGame){
         float total = 0;
         for(CPlayerGame playerGame : gamePlayed){
@@ -157,6 +205,10 @@ public class CPlayer extends AUser{
         return platformsNotOwned;
     }
 
+    /**
+     *
+     * @return the number total of hours played on all games for the user
+     */
     public float getTotalHoursPlayed(){
         float total = 0;
         for(CPlayerGame playerGame : gamePlayed){
@@ -182,25 +234,17 @@ public class CPlayer extends AUser{
     }
 
     /**
-     * Add an evaluation for the player
-     * @param evaluation the evaluation to add
+     *
+     * @return a list of all the game owned for the user
      */
-    public void addEvaluation(CEvaluation evaluation){
-        evaluations.add(evaluation);
-    }
-
-    public void removeEvaluation(CEvaluation evaluation){
-        evaluations.remove(evaluation);
-    }
-
-    public void removeGamePlayed(CPlayerGame playerGame){
-        gamePlayed.remove(playerGame);
-    }
-
     public List<CPlayerGame> getGamePlayed() {
         return gamePlayed;
     }
 
+    /**
+     *
+     * @return a list of owned game sorted by number of hours played reversed (decroissant)
+     */
     public List<CPlayerGame> getGamePlayedSortedDecroissant() {
         return gamePlayed.stream()
                 .sorted((a, b) -> Float.compare(b.getHoursPlayed(), a.getHoursPlayed()))
@@ -215,25 +259,35 @@ public class CPlayer extends AUser{
         return nbJeton;
     }
 
-    /**
-     * Add token to a player
-     * @param nbJeton the number of token to add
+    /*
+    ===================== SETTER =========================
      */
-    public void addJeton(int nbJeton){
-        this.nbJeton += nbJeton;
-    }
-
 
     /**
-     * Remove token to a player
-     * @param nbJeton the number oof token to remove
+     * set a new number of token
+     * @param nbJeton the number of token to set
      */
-    public void removeJeton(int nbJeton){
-        this.nbJeton -= nbJeton;
-    }
-
     public void setNbJeton(int nbJeton) {
         this.nbJeton = nbJeton;
+    }
+
+    /*
+    ===================== BOOLEAN =========================
+     */
+
+    /**
+     *
+     * @param videoGame the video game to check
+     * @return true if the video game is owned, else false
+     */
+    public boolean isGameInCollection(CVideoGame videoGame){
+        List<CVideoGame> gamesOwned = getGamesOwned();
+        for(CVideoGame game : gamesOwned){
+            if(game == videoGame){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

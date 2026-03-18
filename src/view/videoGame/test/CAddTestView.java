@@ -13,13 +13,27 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represent the form to add a test
+ */
 public class CAddTestView extends JFrame{
+
+    /** the test controller */
     private final CTestController testController;
+
+    /** the video game tested */
     private final CVideoGame videoGame;
 
+    /** the box that display the platform to test */
     private final JComboBox<CPlatform> platformBox;
+
+    /** the text area to write the text of the test */
     private final JTextArea textArea;
+
+    /** the text area to write the conditions of the test */
     private final JTextField conditionsField;
+
+    /** the text area to write the version of the game tested */
     private final JTextField versionField;
 
     /** The label that react to the actions */
@@ -84,6 +98,10 @@ public class CAddTestView extends JFrame{
         add(scrollPane);
     }
 
+    /**
+     * Submit the evaluation
+     * @param gameInfoView the previous view (to reload after submit the test)
+     */
     private void submitEvaluation(CVideoGameInfoView gameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
 

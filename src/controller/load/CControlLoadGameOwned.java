@@ -8,6 +8,9 @@ import model.videoGame.CVideoGame;
 
 import java.io.*;
 
+/**
+ * This class represent the control for the loading/save of game of users
+ */
 public class CControlLoadGameOwned extends AControlLoad<CPlayerGame>{
 
     /** The path for the csv */
@@ -20,9 +23,6 @@ public class CControlLoadGameOwned extends AControlLoad<CPlayerGame>{
         this.database = database;
     }
 
-    /**
-     * load all the csv
-     */
     @Override
     public void load() {
         File userFile = new File(GAME_OWNED_FILE);
@@ -59,10 +59,6 @@ public class CControlLoadGameOwned extends AControlLoad<CPlayerGame>{
         }
     }
 
-    /**
-     * Save a player game in the csv
-     * @param playerGame the player game to save
-     */
     @Override
     public void save(CPlayerGame playerGame){
         File file = new File(GAME_OWNED_FILE);

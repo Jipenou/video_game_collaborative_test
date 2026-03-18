@@ -37,29 +37,61 @@ public class CPlatform {
         this.playerRating = playerRating;
     }
 
+    /*
+    ===================== GETTER =========================
+     */
+
+    /**
+     *
+     * @return the release year
+     */
     public int getReleaseYear() {
         return releaseYear;
     }
 
+    /**
+     *
+     * @return the developer
+     */
     public String getDeveloper() {
         return developer;
     }
 
+    /**
+     *
+     * @return the global sales
+     */
     public float getGlobalSale() {
         return globalSale;
     }
 
+    /**
+     *
+     * @return the tester rating
+     */
     public CTesterRating getTesterRating() {
         return testerRating;
     }
 
+    /**
+     *
+     * @return the players rating
+     */
     public CPlayerRating getPlayerRating() {
         return playerRating;
     }
 
+    /**
+     *
+     * @return the name of the platform
+     */
     public String getName() {
         return name;
     }
+
+    /*
+    ===================== TO STRING =========================
+     */
 
     public String toString(){
         return this.name;

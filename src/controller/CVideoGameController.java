@@ -13,6 +13,9 @@ import view.videoGame.evaluation.CEvaluationInfoView;
 import view.videoGame.test.CAddTestView;
 import view.videoGame.token.CRemoveTokenOnGameView;
 
+/**
+ * This class represent the controller of the video games
+ */
 public class CVideoGameController {
 
     /** The main controller */
@@ -21,6 +24,40 @@ public class CVideoGameController {
     public CVideoGameController(CController controller){
         this.controller = controller;
     }
+
+    public void addTokenToGame(CVideoGame videoGame, int nbToken){
+        CPlayer currentUser = (CPlayer) controller.getCurrentUser();
+        videoGame.addTokenToGame(currentUser, nbToken);
+        currentUser.removeJeton(nbToken);
+    }
+
+    public void removeTokenToGame(CVideoGame videoGame, int nbToken){
+        CPlayer currentUser = (CPlayer) controller.getCurrentUser();
+        videoGame.removeTokenToGame(currentUser, nbToken);
+        currentUser.addJeton(nbToken);
+    }
+
+    public void displayTest(CTest test){
+        controller.getTestController().displayTest(test);
+    }
+
+    public void addHoursToGame(CVideoGame videoGame, CPlatform platform, float hours){
+        CPlayer player = (CPlayer) controller.getCurrentUser();
+
+        player.addHoursToGame(videoGame, platform, hours);
+    }
+
+    public void addGameToCollection(CVideoGame videoGame, CPlatform platform){
+        CPlayer player = (CPlayer) controller.getCurrentUser();
+
+        CPlayerGame playerGame = new CPlayerGame(player, videoGame, platform);
+        controller.getDatabase().addPlayerGame(playerGame);
+    }
+
+
+    /*
+    ===================== FRAMES =========================
+     */
 
     public void addEvaluationFrame(CVideoGameInfoView gameInfoView, CVideoGame videoGame){
         new CAddEvaluationView(controller.getEvaluationController(), videoGame, gameInfoView).setVisible(true);
@@ -38,12 +75,6 @@ public class CVideoGameController {
         new CAddTokenOnGameView(this, videoGame, gameInfoView).setVisible(true);
     }
 
-    public void addTokenToGame(CVideoGame videoGame, int nbToken){
-        CPlayer currentUser = (CPlayer) controller.getCurrentUser();
-        videoGame.addTokenToGame(currentUser, nbToken);
-        currentUser.removeJeton(nbToken);
-    }
-
     public void displayMyGamesFrame(){
         new CShowMyGamesView(controller.getVideoGameController()).setVisible(true);
     }
@@ -52,18 +83,8 @@ public class CVideoGameController {
         new CRemoveTokenOnGameView(this, videoGame, gameInfoView).setVisible(true);
     }
 
-    public void removeTokenToGame(CVideoGame videoGame, int nbToken){
-        CPlayer currentUser = (CPlayer) controller.getCurrentUser();
-        videoGame.removeTokenToGame(currentUser, nbToken);
-        currentUser.addJeton(nbToken);
-    }
-
     public void displayEvaluation(CEvaluation evaluation){
         new CEvaluationInfoView(controller.getEvaluationController(), evaluation).setVisible(true);
-    }
-
-    public void displayTest(CTest test){
-        controller.getTestController().displayTest(test);
     }
 
     public void displayGameToTestFrame(){
@@ -82,18 +103,9 @@ public class CVideoGameController {
         new CAddHoursToGameView(this, videoGame, gameInfoView).setVisible(true);
     }
 
-    public void addHoursToGame(CVideoGame videoGame, CPlatform platform, int hours){
-        CPlayer player = (CPlayer) controller.getCurrentUser();
-
-        player.addHoursToGame(videoGame, platform, hours);
-    }
-
-    public void addGameToCollection(CVideoGame videoGame, CPlatform platform){
-        CPlayer player = (CPlayer) controller.getCurrentUser();
-
-        CPlayerGame playerGame = new CPlayerGame(player, videoGame, platform);
-        controller.getDatabase().addPlayerGame(playerGame);
-    }
+    /*
+    ===================== GETTER =========================
+     */
 
     /**
      *

@@ -9,6 +9,9 @@ import view.videoGame.test.CTestView;
 
 import java.time.LocalDate;
 
+/**
+ * This class represent the test controller
+ */
 public class CTestController {
     /** The main controller */
     private final CController controller;
@@ -36,13 +39,28 @@ public class CTestController {
         return test;
     }
 
+    /*
+    ===================== FRAMES =========================
+     */
+
+    /**
+     * Display all the tests present in the application
+     */
     public void displayAllTestFrame(){
         new CTestView(this).setVisible(true);
     }
 
+    /**
+     * Display a test
+     * @param test the test to display
+     */
     public void displayTest(CTest test){
         new CTestInfoView(this, test).setVisible(true);
     }
+
+    /*
+    ===================== GETTER =========================
+     */
 
     /**
      *

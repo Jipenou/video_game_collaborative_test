@@ -6,9 +6,6 @@ import model.user.CAdmin;
 import model.user.CPlayer;
 import model.user.CTester;
 import model.utils.CTextPlaceHolder;
-import view.user.CLoginView;
-import view.videoGame.CShowMyGamesView;
-import view.videoGame.CVideoGamesView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,12 +15,7 @@ import java.awt.*;
  */
 public class CMainMenuView extends JFrame {
 
-    /** the main controller of the application */
-    private final CController controller;
-
     public CMainMenuView(CController controller) {
-
-        this.controller = controller;
 
         setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.MENU) + " " + CTextPlaceHolder.PRINCIPAL);
         setSize(400, 300);
@@ -41,11 +33,12 @@ public class CMainMenuView extends JFrame {
             }
         });
 
-        AUser user = controller.getCurrentUser();
+        AUser currentUser = controller.getCurrentUser();
 
         JPanel panel = new JPanel(new GridLayout(0,1));
 
-        if(user instanceof CPlayer player){
+        // if the current user is a player
+        if(currentUser instanceof CPlayer player){
             panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.BIENVENUE) + " " +
                                 player.getPseudo() + ", vous avez " + player.getNbToken() + " " + CTextPlaceHolder.JETON_S));
         }
@@ -65,7 +58,8 @@ public class CMainMenuView extends JFrame {
         });
         panel.add(evaluationButton);
 
-        if(user instanceof CPlayer) {
+        // if the current user is a player
+        if(currentUser instanceof CPlayer) {
             JButton testsButton = new JButton("Tous les " + CTextPlaceHolder.TEST_S);
             testsButton.addActionListener(_ -> {
                 controller.getTestController().displayAllTestFrame();
@@ -79,14 +73,16 @@ public class CMainMenuView extends JFrame {
             panel.add(displayMyGames);
         }
 
-        if(user instanceof CTester){
+        // if the current user is a tester
+        if(currentUser instanceof CTester){
             JButton testGamessButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.JEU_S) + " à "
                                                     + CTextPlaceHolder.TESTER);
             testGamessButton.addActionListener(_ -> controller.getVideoGameController().displayGameToTestFrame());
             panel.add(testGamessButton);
         }
 
-        if(user instanceof CAdmin) {
+        // if the current user is an admin
+        if(currentUser instanceof CAdmin) {
             JButton administrationButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.ADMINISTRATION));
             administrationButton.addActionListener(_ -> {
                 controller.getAdminController().openAdministrationFrame();
@@ -101,7 +97,9 @@ public class CMainMenuView extends JFrame {
         });
 
         JButton logoutButton = new JButton();
-        if(controller.getCurrentUser() instanceof CPlayer){
+
+        // if the current user is a player
+        if(currentUser instanceof CPlayer){
             logoutButton.setText("Se " + CTextPlaceHolder.DECONNECTER);
         }
         else{

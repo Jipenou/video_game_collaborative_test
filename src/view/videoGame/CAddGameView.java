@@ -10,10 +10,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * This class represent the frame to add a game to the player collection for a platform
+ */
 public class CAddGameView extends JFrame {
+
+    /** the video game controller */
     private final CVideoGameController videoGameController;
+
+    /** the video game */
     private final CVideoGame videoGame;
 
+    /** the box that display the platform to add */
     private final JComboBox<CPlatform> platformBox;
 
     public CAddGameView(CVideoGameController videoGameController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
@@ -51,6 +59,10 @@ public class CAddGameView extends JFrame {
         add(panel);
     }
 
+    /**
+     * Submit the form, add the game for a platform to his collection
+     * @param videoGameInfoView the previous view to update when submit
+     */
     private void addGame(CVideoGameInfoView videoGameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
         videoGameController.addGameToCollection(videoGame, platform);

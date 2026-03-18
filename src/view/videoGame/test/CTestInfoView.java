@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
+/**
+ * This class represent the frame that display a test
+ */
 public class CTestInfoView extends JFrame {
 
     public CTestInfoView(CTestController testController, CTest test) {

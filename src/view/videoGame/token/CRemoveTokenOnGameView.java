@@ -9,12 +9,19 @@ import view.videoGame.CVideoGameInfoView;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represent the frame to remove token on a game
+ */
 public class CRemoveTokenOnGameView extends JFrame {
 
+    /** the video game controller */
     private final CVideoGameController videoGameController;
+
+    /** the video game */
     private final CVideoGame videoGame;
 
-    final JTextArea nbTokenArea;
+    /** the spinner to select the tokens to remove */
+    private final JSpinner nbTokenSpinner;
 
     /** The label that react to the actions */
     private final JLabel messageLabel;
@@ -25,6 +32,7 @@ public class CRemoveTokenOnGameView extends JFrame {
         this.videoGame = videoGame;
 
         CPlayer currentUser = (CPlayer) videoGameController.getController().getCurrentUser();
+        int tokensPlaced = videoGame.getTokenPlacedForUser(currentUser);
 
         setTitle(CTextPlaceHolder.capitalize(CTextPlaceHolder.RETIRER) + " des " + CTextPlaceHolder.JETON_S + " sur le " + CTextPlaceHolder.JEU + " : " + videoGame.getName());
         setSize(600, 500);
@@ -38,8 +46,8 @@ public class CRemoveTokenOnGameView extends JFrame {
         panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.CHOISIR) + "le " + CTextPlaceHolder.NOMBRE + " de " + CTextPlaceHolder.JETON_S +
                                  " à " + CTextPlaceHolder.RETIRER + " :"));
 
-        nbTokenArea = new JTextArea(1,20);
-        panel.add(nbTokenArea);
+        nbTokenSpinner = new JSpinner(new SpinnerNumberModel(1, 1, tokensPlaced, 1));
+        panel.add(nbTokenSpinner);
 
         JButton submitButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.VALIDER));
         panel.add(submitButton);
@@ -51,21 +59,15 @@ public class CRemoveTokenOnGameView extends JFrame {
         add(panel);
     }
 
-    private void submitTokens(CVideoGameInfoView gameInfoView){
-        CPlayer currentPlayer = (CPlayer) videoGameController.getController().getCurrentUser();
-
-        try {
-            int nbTokens = Integer.parseInt(nbTokenArea.getText());
-            if (nbTokens > 0 && nbTokens <= videoGame.getTokenPlacedForUser(currentPlayer)) {
-                videoGameController.removeTokenToGame(videoGame, nbTokens);
-                dispose();
-                gameInfoView.dispose();
-                videoGameController.viewInfoGameFrame(videoGame);
-            } else {
-                messageLabel.setText("Valeur incorrecte ou " + CTextPlaceHolder.NOMBRE + " de " + CTextPlaceHolder.JETON_S + " trop élevé");
-            }
-        } catch (NumberFormatException e) {
-            messageLabel.setText("Veuillez entrer un " + CTextPlaceHolder.NOMBRE + " valide");
-        }
+    /**
+     * Submit the number of token to remove
+     * @param gameInfoView the previous view to refresh after submit
+     */
+    private void submitTokens(CVideoGameInfoView gameInfoView) {
+        int nbTokens = (int) nbTokenSpinner.getValue();
+        videoGameController.removeTokenToGame(videoGame, nbTokens);
+        dispose();
+        gameInfoView.dispose();
+        videoGameController.viewInfoGameFrame(videoGame);
     }
 }

@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class represent the view that display all the tests of the application
+ */
 public class CTestView extends JFrame {
 
     public CTestView(CTestController testController) {

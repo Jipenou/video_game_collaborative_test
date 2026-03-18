@@ -9,6 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class represent the frame that display the video game to test (games owned by user and is able to get a test by this user)
+ */
 public class CVideoGameToTestView extends JFrame {
 
     public CVideoGameToTestView(CVideoGameController videoGameController) {

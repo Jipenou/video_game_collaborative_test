@@ -23,15 +23,19 @@ public class CProfileView extends JFrame {
             return;
         }
 
+        AUser currentUser = userController.getController().getCurrentUser();
+
         JPanel panelProfile = new JPanel(new GridLayout(0,1));
 
         panelProfile.add(new JLabel("Pseudo : " + user.getPseudo()));
         panelProfile.add(new JLabel("Role : " + user.getRole()));
 
+        // if user is a player
         if(user instanceof CPlayer player){
             panelProfile.add(new JLabel("Nombre de jetons : " + player.getNbToken()));
 
             panelProfile.add(new JLabel("Jeux possédés (" + player.getTotalHoursPlayed() + "h) : "));
+            // if user is a tester
             if(player instanceof CTester){
                 for(CPlayerGame playerGame : player.getGamePlayedSortedDecroissant()){
                     JButton videoGameButton = new JButton(playerGame.getVideoGame().getName() + " : " + playerGame.getHoursPlayed() + "h");
@@ -55,11 +59,13 @@ public class CProfileView extends JFrame {
             }
         }
 
+        // if user is a tester
         if(user instanceof CTester tester){
             panelProfile.add(new JLabel("Nombre de tests : " + tester.getNbTest() + "\n"));
         }
 
-        if(userController.getController().getCurrentUser() == user || userController.getController().getCurrentUser() instanceof CAdmin){
+        // if user display is the current user or the current user is an admin
+        if(currentUser == user || currentUser instanceof CAdmin){
             String displayBlocked;
             if(user.isBlocked()){
                 displayBlocked = "Oui";
@@ -70,8 +76,7 @@ public class CProfileView extends JFrame {
             panelProfile.add(new JLabel("Bloqué ? : " + displayBlocked + "\n"));
         }
 
-        AUser currentUser = userController.getController().getCurrentUser();
-
+        // if the current user is an admin and the current user is not the displayed user and the displayed user is a player
         if(currentUser instanceof CAdmin && currentUser != user && !(user instanceof CAdmin) && user instanceof CPlayer player){
             JButton promoteButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.PROMOUVOIR) + " cet " + CTextPlaceHolder.UTILISATEUR);
             panelProfile.add(promoteButton);
@@ -88,6 +93,7 @@ public class CProfileView extends JFrame {
                 dispose();
             });
 
+            // if the user displayed is blocked
             if(!user.isBlocked()){
                 JButton blockAccountButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.BLOQUER) + " ce " +
                                                             CTextPlaceHolder.COMPTE + " " + CTextPlaceHolder.UTILISATEUR);
@@ -108,7 +114,8 @@ public class CProfileView extends JFrame {
             }
         }
 
-        if(userController.getController().getCurrentUser() == user && user instanceof CPlayer){
+        // if the current user is the user and the user is a player
+        if(currentUser == user && user instanceof CPlayer){
             JButton desinscrireButton = new JButton("Se " + CTextPlaceHolder.DESINSCRIRE);
             panelProfile.add(desinscrireButton);
             desinscrireButton.addActionListener(_ ->{

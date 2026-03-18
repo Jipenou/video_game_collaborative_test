@@ -6,6 +6,9 @@ import model.utils.CTextPlaceHolder;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represent the view of the administration frame
+ */
 public class CAdministrationView extends JFrame{
 
     public CAdministrationView(CAdminController adminController) {

@@ -1,5 +1,8 @@
 package model.utils;
 
+/**
+ * This class is a database of string constant to use in views
+ */
 public class CTextPlaceHolder {
     public static final String ADMINISTRATION = "administration";
     public static final String AJOUTER = "ajouter";
@@ -89,6 +92,11 @@ public class CTextPlaceHolder {
     public static final String VIDEO = "vidéo";
     public static final String VIDEO_GAME = "jeu vidéo";
 
+    /**
+     *
+     * @param text the string to capitalize
+     * @return the text with the first letter in capital letter
+     */
     public static String capitalize(String text) {
         if (text == null || text.isEmpty()) return text;
         return text.substring(0, 1).toUpperCase() + text.substring(1);

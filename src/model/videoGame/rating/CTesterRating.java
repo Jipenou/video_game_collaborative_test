@@ -5,6 +5,7 @@ package model.videoGame.rating;
  */
 public class CTesterRating extends AUserRating{
 
+    /** the rating base */
     private static final int RATING_BASE = 100;
 
     public CTesterRating(int nbCritics, float averageScore){

@@ -37,6 +37,9 @@ public class CUserController {
         return false;
     }
 
+    /**
+     * Login for a guest
+     */
     public void loginGuest(){
         controller.setCurrentUser(new CGuest());
         new CMainMenuView(this.getController()).setVisible(true);
@@ -67,13 +70,9 @@ public class CUserController {
     }
 
     /**
-     *
-     * @return The main controller of the application
+     * unsubscribe from the application
+     * @param user the account to unsubscribe/delete
      */
-    public CController getController() {
-        return controller;
-    }
-
     public void desinscrire(AUser user){
         controller.getDatabase().removeAllForUser(user);
 
@@ -84,18 +83,50 @@ public class CUserController {
         new CLoginView(controller).setVisible(true);
     }
 
+    /**
+     * Delete an account
+     * @param user the user to delete
+     */
     public void deleteAccount(AUser user){
         controller.getDatabase().removeAllForUser(user);
     }
 
+    /**
+     * Block an account
+     * @param user the user to block
+     */
     public void blockAccount(AUser user){
         user.block();
     }
 
+    /**
+     * unblock a user
+     * @param user the user to unblock
+     */
     public void unblockAccount(AUser user){
         user.unblock();
     }
 
+    /*
+    ===================== GETTER =========================
+     */
+
+    /**
+     *
+     * @return The main controller of the application
+     */
+    public CController getController() {
+        return controller;
+    }
+
+    /*
+    ===================== FRAMES =========================
+     */
+
+    /**
+     * Display the profile of a user
+     * @param user the user to display
+     */
     public void openProfile(AUser user){
         new CProfileView(this, user).setVisible(true);
     }

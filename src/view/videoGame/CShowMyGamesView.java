@@ -9,6 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class represent all the game owned by the current user
+ */
 public class CShowMyGamesView extends JFrame{
 
     public CShowMyGamesView(CVideoGameController videoGameController) {

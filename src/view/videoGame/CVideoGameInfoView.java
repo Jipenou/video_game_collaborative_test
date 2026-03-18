@@ -46,10 +46,12 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note moyenne des joueurs : " + platform.getPlayerRating() + "</html>"));
         }
 
+        // if the current user is a player
         if(currentUser instanceof CPlayer player){
-            // if the player have this game in our collection
+            // if the current player have this game in collection
             if(player.isGameInCollection(game)) {
                 Map<CPlatform, Float> hoursPlayedOnThisGame = player.getHoursPlayedOnAGame(game);
+                // if the player has some hours played on the game
                 if(!hoursPlayedOnThisGame.isEmpty()){
                     JLabel nbHoursPlayed = new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.NOMBRE) + " d'" +
                                                        CTextPlaceHolder.HEURE_S + " jouées (" + player.getTotalHoursPlayedOnAGame(game) + "h joué au total) : ");
@@ -63,7 +65,7 @@ public class CVideoGameInfoView extends JFrame {
             }
         }
 
-        // if we have some tests
+        // if the game has test and the current user is a player
         if(!game.getTests().isEmpty() && currentUser instanceof CPlayer) {
             panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.TEST_S) + " : "));
             for(CTest test : game.getTests().values()){
@@ -77,7 +79,9 @@ public class CVideoGameInfoView extends JFrame {
                                 " " + CTextPlaceHolder.DISPONIBLE));
         }
 
+        // if the current user is a player
         if(currentUser instanceof CPlayer player){
+            // if all the tests hasn't be done
             if(!game.areAllPossibleTestsDone()){
                 JButton addTokenButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " des " +
                                                     CTextPlaceHolder.JETON_S + " sur le " + CTextPlaceHolder.JEU +
@@ -85,6 +89,7 @@ public class CVideoGameInfoView extends JFrame {
                 panel.add(addTokenButton);
                 addTokenButton.addActionListener(_ -> videoGameController.addTokenFrame(this, game));
 
+                // if the current player has placed tokens on the game
                 if(game.hasUserPlacedToken(player)){
                     JButton removeTokenButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.RETIRER) + " des " +
                                                             CTextPlaceHolder.JETON_S + " sur le " + CTextPlaceHolder.JEU +
@@ -95,7 +100,7 @@ public class CVideoGameInfoView extends JFrame {
                 }
             }
 
-            // if we dont owned this game on all platform
+            // if the current player doesn't own this game on all platform
             if (!player.getPlatformNotOwnedForGame(game).isEmpty()) {
                 String label;
                 if (!player.isGameInCollection(game)) {
@@ -111,7 +116,7 @@ public class CVideoGameInfoView extends JFrame {
             }
         }
 
-        // if there is evaluations
+        // if there is evaluations on the game
         if(!game.getEvaluations().isEmpty()) {
             panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.EVALUATION_S) + " : "));
             for(CEvaluation evaluation : game.getEvaluationsSortedByScoreThenDate()){
@@ -127,16 +132,29 @@ public class CVideoGameInfoView extends JFrame {
 
         panel.add(new JSeparator());
 
+        /* if the current user is a player,
+        and if this game is in his collection
+        and if he is not blocked
+        and if he has played the minimum of hours on the game to evaluate it
+         */
         if(currentUser instanceof CPlayer player && player.isGameInCollection(game) && !player.isBlocked() && player.getTotalHoursPlayedOnAGame(game) >= CEvaluation.NUMBER_HOURS_MINIMUM_PLAYED_TO_EVALUATE){
             JButton evalButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " une " + CTextPlaceHolder.EVALUATION);
             panel.add(evalButton);
             evalButton.addActionListener(_ -> videoGameController.addEvaluationFrame(this, game));
         }
+        /* if the current user is a tester,
+        and if this game is in his collection
+        and if there is some platform untested for this game
+        and if he is not blocked
+        and if he has played the minimum of hours on the game to test it
+         */
         if(currentUser instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty() && !tester.isBlocked() && (tester.getTotalHoursPlayedOnAGame(game) >= CTest.NUMBER_HOURS_MINIMUM_PLAYED_TO_TEST)){
             JButton testButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " un " + CTextPlaceHolder.TEST);
             panel.add(testButton);
             testButton.addActionListener(_ -> videoGameController.addTestFrame(this, game));
         }
+
+        // if the current user is a player
         if(currentUser instanceof CPlayer player){
             // if we have get this game at least on 1 platform
             //if(!player.getPlatformsForGame(game).isEmpty()){

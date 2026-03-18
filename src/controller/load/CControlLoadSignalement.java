@@ -12,6 +12,9 @@ import model.videoGame.CVideoGame;
 import java.io.*;
 import java.time.LocalDateTime;
 
+/**
+ * This class represent the control for the loading/save of signalement
+ */
 public class CControlLoadSignalement extends AControlLoad<CSignalement>{
 
     /** The path for the csv */
@@ -30,7 +33,7 @@ public class CControlLoadSignalement extends AControlLoad<CSignalement>{
     }
 
     /**
-     * load all the signalement
+     * load all the signalements
      */
     @Override
     public void load() {

@@ -20,19 +20,25 @@ public class CController {
     /** The current user in the application */
     private AUser currentUser;
 
+    /** the controller for the loading of videos games */
     private final CControlLoadVideoGame loadVideoGameController;
 
     /** the controller for the loading and save of users */
     private final CControlLoadUser loadUserController;
 
+    /** the controller for the loading and save of evaluations */
     private final CControlLoadEvaluation loadEvaluationController;
 
+    /** the controller for the loading and save of tests */
     private final CControlLoadTest loadTestController;
 
+    /** the controller for the loading and save of the games owned by users */
     private final CControlLoadGameOwned loadGameOwnedController;
 
+    /** the controller for the loading and save of signalements */
     private final CControlLoadSignalement loadSignalementController;
 
+    /** the controller for the loading and save of tokens */
     private final CControlLoadTokenOnGame loadTokenOnGameController;
 
     /** The User controller */
@@ -44,11 +50,13 @@ public class CController {
     /** The evaluation controller */
     private final CEvaluationController evaluationController;
 
+    /** The test controller */
     private final CTestController testController;
 
+    /** The admin controller */
     private final CAdminController adminController;
 
-    /** the database of the video games */
+    /** the database of the application */
     private final CDatabase database;
 
     public CController(CDatabase database){
@@ -138,18 +146,27 @@ public class CController {
         }
     }
 
+    /**
+     * Save all games owned by users to csv
+     */
     public void saveAllPlayerGames(){
         for(CPlayerGame playerGame : database.getPlayerGames()){
             loadGameOwnedController.save(playerGame);
         }
     }
 
+    /**
+     * Save all signalements to csv
+     */
     public void saveAllSignalements(){
         for(CSignalement signalement : database.getSignaledEvaluations()){
             loadSignalementController.save(signalement);
         }
     }
 
+    /**
+     * Save all tokens on games to csv
+     */
     public void saveAllTokenOnGames(){
         for(CVideoGame videoGame : database.getAllVideoGames()){
             for(CPlayer player : videoGame.getTokenOnTheGame().keySet()){
@@ -158,10 +175,28 @@ public class CController {
         }
     }
 
+    /**
+     * logout for a user connected
+     */
     public void logout(){
         this.setCurrentUser(null);
         new CLoginView(this).setVisible(true);
     }
+
+    /*
+    ===================== FRAME =========================
+     */
+
+    /**
+     * Open the main frame of the application
+     */
+    public void openMainFrame(){
+        new CMainMenuView(this).setVisible(true);
+    }
+
+    /*
+    ===================== GETTER =========================
+     */
 
     /**
      *
@@ -180,34 +215,55 @@ public class CController {
     }
 
     /**
+     *
+     * @return the user controller
+     */
+    public CUserController getUserController() {
+        return userController;
+    }
+
+    /**
+     *
+     * @return the video game controller
+     */
+    public CVideoGameController getVideoGameController() {
+        return videoGameController;
+    }
+
+    /**
+     *
+     * @return the evaluation controller
+     */
+    public CEvaluationController getEvaluationController() {
+        return evaluationController;
+    }
+
+    /**
+     *
+     * @return the test controller
+     */
+    public CTestController getTestController() {
+        return testController;
+    }
+
+    /**
+     *
+     * @return the admin controller
+     */
+    public CAdminController getAdminController() {
+        return adminController;
+    }
+
+
+    /*
+    ===================== SETTER =========================
+     */
+
+    /**
      * Set the current user connected
      * @param currentUser the user
      */
     public void setCurrentUser(AUser currentUser) {
         this.currentUser = currentUser;
-    }
-
-    public CUserController getUserController() {
-        return userController;
-    }
-
-    public void openMainFrame(){
-        new CMainMenuView(this).setVisible(true);
-    }
-
-    public CVideoGameController getVideoGameController() {
-        return videoGameController;
-    }
-
-    public CEvaluationController getEvaluationController() {
-        return evaluationController;
-    }
-
-    public CTestController getTestController() {
-        return testController;
-    }
-
-    public CAdminController getAdminController() {
-        return adminController;
     }
 }

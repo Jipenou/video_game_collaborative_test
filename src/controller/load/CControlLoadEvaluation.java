@@ -11,7 +11,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 
 /**
- * This class represent the CSV parser for the evaluations
+ * This class represent the control for the loading/save of evaluation
  */
 public class CControlLoadEvaluation extends AControlLoad<CEvaluation>{
 
@@ -105,7 +105,7 @@ public class CControlLoadEvaluation extends AControlLoad<CEvaluation>{
     }
 
 
-    /** load All the evaluations */
+    /** load All the user that have evaluated evaluations */
     public void loadEvaluationsUsers() {
         File evalFile = new File(EVALUATION_USER_VOTE_FILE);
         if(!evalFile.exists()){
@@ -147,6 +147,10 @@ public class CControlLoadEvaluation extends AControlLoad<CEvaluation>{
     }
 
 
+    /**
+     * save All the user that have evaluated evaluation
+     * @param evaluation the evaluation concerned
+     */
     public void saveEvaluationUser(CEvaluation evaluation){
         File fileSaveUserVote = new File(EVALUATION_USER_VOTE_FILE);
 

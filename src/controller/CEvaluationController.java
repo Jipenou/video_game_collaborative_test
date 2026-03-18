@@ -11,6 +11,9 @@ import view.videoGame.evaluation.CEvaluationView;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class represent the evaluation controller
+ */
 public class CEvaluationController {
 
     /** The main controller */
@@ -20,6 +23,15 @@ public class CEvaluationController {
         this.controller = controller;
     }
 
+    /**
+     * Add a new evaluation
+     * @param player the player that made the evaluation
+     * @param videoGame the video game associated
+     * @param platform the platform concerned
+     * @param text the text of the evaluation
+     * @param version the version of the game
+     * @param note the global grade of the evaluation
+     */
     public void addNewEvaluation(CPlayer player, CVideoGame videoGame, CPlatform platform, String text,
                                  String version, double note){
         CEvaluation evaluation = new CEvaluation(LocalDateTime.now(), player, videoGame, platform, text, version, note);
@@ -27,6 +39,10 @@ public class CEvaluationController {
         controller.getDatabase().addEvaluation(evaluation);
     }
 
+    /**
+     * Add a signalement on an evaluation
+     * @param evaluation the evaluation concerned
+     */
     public void addSignalement(CEvaluation evaluation){
         CTester tester = (CTester) getController().getCurrentUser();
         CSignalement signalement = new CSignalement(tester, evaluation);
@@ -34,6 +50,10 @@ public class CEvaluationController {
         getController().getDatabase().addSignalement(signalement);
     }
 
+    /**
+     * Delete an evaluation (admin only)
+     * @param evaluation the evaluation to delete
+     */
     public void deleteEvaluation(CEvaluation evaluation){
         evaluation.getPlayer().removeEvaluation(evaluation);
         controller.getDatabase().removeSignalementForEval(evaluation);
@@ -42,13 +62,28 @@ public class CEvaluationController {
 
     }
 
+    /*
+    ===================== FRAMES =========================
+     */
+
+    /**
+     * open the evaluation frame to see all evaluations
+     */
     public void openEvaluationFrame(){
         new CEvaluationView(this).setVisible(true);
     }
 
+    /**
+     * display an evaluation
+     * @param evaluation the evaluation to display
+     */
     public void displayEvaluation(CEvaluation evaluation){
         new CEvaluationInfoView(this, evaluation).setVisible(true);
     }
+
+    /*
+    ===================== GETTER =========================
+     */
 
     /**
      *

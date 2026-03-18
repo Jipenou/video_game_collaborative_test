@@ -7,6 +7,9 @@ import model.utils.CTextPlaceHolder;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represent the frame to see the information on a signalement
+ */
 public class CSignalementInfoView extends JFrame {
 
     public CSignalementInfoView(CAdminController adminController, CSignalement signalement) {

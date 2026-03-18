@@ -7,6 +7,9 @@ import model.videoGame.CEvaluation;
 import model.videoGame.CTest;
 import view.administration.*;
 
+/**
+ * This class represent the admin controller
+ */
 public class CAdminController {
 
     /** The main controller */
@@ -16,29 +19,6 @@ public class CAdminController {
         this.controller = controller;
     }
 
-    public void openAdministrationFrame(){
-        new CAdministrationView(this).setVisible(true);
-    }
-
-    public void openUsersFrame(){
-        new CAllUsersView(this).setVisible(true);
-    }
-
-    public void openSignalementFrame(){
-        new CSignalementView(this).setVisible(true);
-    }
-
-    public void viewInfoSignalement(CSignalement signalement){
-        new CSignalementInfoView(this, signalement).setVisible(true);
-    }
-
-    public void openBlockedUsersFrame(){
-        new CUsersBlockedView(this).setVisible(true);
-    }
-
-    public CController getController() {
-        return controller;
-    }
 
     public void promoteUser(CPlayer user) {
         CDatabase db = controller.getDatabase();
@@ -84,5 +64,38 @@ public class CAdminController {
         for (CEvaluation eval : oldTester.getSignaledEvaluation()) {
             newTester.signalEvaluation(eval);
         }
+    }
+
+    /*
+    ===================== FRAMES =========================
+     */
+
+    public void openAdministrationFrame(){
+        new CAdministrationView(this).setVisible(true);
+    }
+
+    public void openUsersFrame(){
+        new CAllUsersView(this).setVisible(true);
+    }
+
+    public void openSignalementFrame(){
+        new CSignalementView(this).setVisible(true);
+    }
+
+    public void viewInfoSignalement(CSignalement signalement){
+        new CSignalementInfoView(this, signalement).setVisible(true);
+    }
+
+    public void openBlockedUsersFrame(){
+        new CUsersBlockedView(this).setVisible(true);
+    }
+
+
+    /*
+    ===================== GETTER =========================
+     */
+
+    public CController getController() {
+        return controller;
     }
 }

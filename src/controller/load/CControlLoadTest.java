@@ -9,6 +9,9 @@ import model.videoGame.CVideoGame;
 import java.io.*;
 import java.time.LocalDate;
 
+/**
+ * This class represent the control for the loading/save of tests
+ */
 public class CControlLoadTest extends AControlLoad<CTest>{
     /** path to the csv */
     private static final String TEST_FILE = "./data/tests.csv";
@@ -20,7 +23,7 @@ public class CControlLoadTest extends AControlLoad<CTest>{
         this.database = database;
     }
 
-    /** load All the evaluations */
+    /** load All the tests */
     @Override
     public void load() {
         File testFile = new File(TEST_FILE);
@@ -72,8 +75,8 @@ public class CControlLoadTest extends AControlLoad<CTest>{
     }
 
     /**
-     * Save an evaluation in the csv
-     * @param test the evaluation to save
+     * Save a test in the csv
+     * @param test the test to save
      */
     @Override
     public void save(CTest test){
@@ -104,14 +107,5 @@ public class CControlLoadTest extends AControlLoad<CTest>{
     @Override
     protected String getFilePath() {
         return TEST_FILE;
-    }
-
-
-    public void clearCSV(){
-        try (FileWriter writer = new FileWriter(TEST_FILE, false)) {
-            writer.write("");
-        } catch (IOException e) {
-            throw new RuntimeException("Error while clearing CSV file : " + TEST_FILE, e);
-        }
     }
 }

@@ -10,13 +10,26 @@ import view.videoGame.CVideoGameInfoView;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represent the form to add an evaluation
+ */
 public class CAddEvaluationView extends JFrame {
+    /** the evaluation controler */
     private final CEvaluationController evaluationController;
+
+    /** the video game concerned by the evaluation */
     private final CVideoGame videoGame;
 
+    /** the box that display the platform to evaluate */
     private final JComboBox<CPlatform> platformBox;
+
+    /** the text area to write the text of the evaluation */
     private final JTextArea textArea;
-    private final JTextField scoreField;
+
+    /** the spinner to write the score */
+    private final JSpinner scoreSpinner;
+
+    /** the text area to write the version of the game tested */
     private final JTextField versionField;
 
     /** The label that react to the actions */
@@ -52,8 +65,8 @@ public class CAddEvaluationView extends JFrame {
         panel.add(versionField);
 
         panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.NOTE) + " (/10) : "));
-        scoreField = new JTextField();
-        panel.add(scoreField);
+        scoreSpinner = new JSpinner(new SpinnerNumberModel(5.0, 0.0, 10.0, 0.5));
+        panel.add(scoreSpinner);
 
         panel.add(new JLabel(CTextPlaceHolder.capitalize(CTextPlaceHolder.COMMENTAIRE) + " : "));
         textArea = new JTextArea(5,20);
@@ -92,17 +105,7 @@ public class CAddEvaluationView extends JFrame {
             return;
         }
 
-        double note;
-        try {
-            note = Double.parseDouble(scoreField.getText().trim());
-            if (note < 0 || note > 10) {
-                messageLabel.setText("La " + CTextPlaceHolder.NOTE + " doit être entre 0 et 10");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            messageLabel.setText("Veuillez entrer une " + CTextPlaceHolder.NOTE + " valide");
-            return;
-        }
+        double note = (double) scoreSpinner.getValue();
 
         CPlayer player = (CPlayer) evaluationController.getController().getCurrentUser();
 

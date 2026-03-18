@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represent the CSV parser that get video games
+ * This class represent the control for the loading of video game
  */
 public class CControlLoadVideoGame {
 

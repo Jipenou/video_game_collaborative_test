@@ -1,5 +1,4 @@
 import controller.CController;
-import controller.load.CControlLoadVideoGame;
 import model.data.CDatabase;
 import view.user.CLoginView;
 
@@ -8,7 +7,11 @@ import view.user.CLoginView;
  */
 public class Main {
     public static void main(String[] args){
+
+        // initialisation of the database
         CDatabase database = new CDatabase();
+
+        // initialisation of the main controller of the application
         CController controller = new CController(database);
 
         javax.swing.SwingUtilities.invokeLater(() -> {

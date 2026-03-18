@@ -10,6 +10,7 @@ public abstract class AUserRating {
     /** the average score of the rating */
     private final float averageScore;
 
+    /** the rating base (/10, /100 ?) */
     private final int ratingBase;
 
     public AUserRating(int nbCritics, float averageScore, int ratingBase){

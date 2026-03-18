@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class represent the frame to see all the signalements
+ */
 public class CSignalementView extends JFrame{
 
     public CSignalementView(CAdminController adminController) {

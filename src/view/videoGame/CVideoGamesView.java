@@ -10,16 +10,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class represent the frame that displayed all the video game in the application
+ */
 public class CVideoGamesView extends JFrame {
 
-    private final CVideoGameController videoGameController;
+    /** the list of all the video game */
     private final List<CVideoGame> allGames;
+
+    /** the default list to display (for the filters) */
     private final DefaultListModel<CVideoGame> listModel;
+
+    /** the list of games */
     private final JList<CVideoGame> list;
 
     public CVideoGamesView(CVideoGameController videoGameController) {
 
-        this.videoGameController = videoGameController;
         this.allGames = videoGameController.getController().getDatabase().getAllVideoGames();
         this.listModel = new DefaultListModel<>();
         this.list = new JList<>(listModel);
@@ -91,6 +97,7 @@ public class CVideoGamesView extends JFrame {
         add(panel);
     }
 
+    /** apply filter selected */
     private void applyFilters(String search, String platform, String category) {
         listModel.clear();
         allGames.stream()
@@ -100,6 +107,10 @@ public class CVideoGamesView extends JFrame {
                 .forEach(listModel::addElement);
     }
 
+    /**
+     *
+     * @return all the platforms for the video game
+     */
     private List<String> getAllPlatformNames() {
         return allGames.stream()
                 .flatMap(g -> g.getPlatforms().stream())
@@ -109,6 +120,10 @@ public class CVideoGamesView extends JFrame {
                 .toList();
     }
 
+    /**
+     *
+     * @return all the category in all videos games
+     */
     private List<String> getAllCategories() {
         return allGames.stream()
                 .map(CVideoGame::getCategory)

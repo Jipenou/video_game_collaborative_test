@@ -1,5 +1,8 @@
 package controller.load;
 
+/**
+ * An enum the field to get in the gameOwned csv
+ */
 public enum EnumGameOwnedLoad {
     PSEUDO("pseudo",0),
     PLATFORM("platform", 1),

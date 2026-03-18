@@ -1,5 +1,8 @@
 package controller.load;
 
+/**
+ * An enum the field to get in the signalement csv
+ */
 public enum EnumSignalementLoad {
     REPORTER("reporter",0),
     EVALUATOR("evaluator",1),

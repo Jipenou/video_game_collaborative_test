@@ -6,6 +6,9 @@ import model.videoGame.CVideoGame;
 
 import java.io.*;
 
+/**
+ * This class represent the control for the loading/save of the token present on a game
+ */
 public class CControlLoadTokenOnGame {
 
     /** The path for the csv */
@@ -22,7 +25,7 @@ public class CControlLoadTokenOnGame {
     }
 
     /**
-     * load all the users
+     * load all the tokens
      */
     public void loadTokenOnGame() {
         File tokenOnGameFile = new File(TOKEN_ON_FILE);
@@ -80,6 +83,9 @@ public class CControlLoadTokenOnGame {
         }
     }
 
+    /**
+     * Clear the CSV
+     */
     public void clearCSV(){
         try (FileWriter writer = new FileWriter(TOKEN_ON_FILE, false)) {
             writer.write("");

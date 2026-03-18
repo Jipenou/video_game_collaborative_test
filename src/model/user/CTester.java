@@ -40,16 +40,16 @@ public class CTester extends CPlayer{
         return signaledEvaluation.contains(evaluation);
     }
 
+    /*
+    ===================== ADD =========================
+     */
+
     /**
      * Add a signalement for an evaluation
      * @param evaluation the evaluation concerned
      */
     public void signalEvaluation(CEvaluation evaluation){
         signaledEvaluation.add(evaluation);
-    }
-
-    public void removeSignaledEvaluation(CEvaluation evaluation){
-        signaledEvaluation.remove(evaluation);
     }
 
     /**
@@ -60,6 +60,23 @@ public class CTester extends CPlayer{
         tests.add(test);
     }
 
+
+    /*
+    ===================== REMOVE =========================
+     */
+
+    /**
+     * Remove the signalement made by this tester
+     * @param evaluation the evaluation concerned by the signalement
+     */
+    public void removeSignaledEvaluation(CEvaluation evaluation){
+        signaledEvaluation.remove(evaluation);
+    }
+
+    /*
+    ===================== GETTER =========================
+     */
+
     /**
      *
      * @return the number of tests realized
@@ -68,10 +85,18 @@ public class CTester extends CPlayer{
         return tests.size();
     }
 
+    /**
+     *
+     * @return the tests of the tester
+     */
     public List<CTest> getTests() {
         return tests;
     }
 
+    /**
+     *
+     * @return a list of evaluation signaled
+     */
     public List<CEvaluation> getSignaledEvaluation() {
         return signaledEvaluation;
     }
