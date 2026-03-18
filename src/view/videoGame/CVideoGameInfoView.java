@@ -132,7 +132,7 @@ public class CVideoGameInfoView extends JFrame {
             panel.add(evalButton);
             evalButton.addActionListener(_ -> videoGameController.addEvaluationFrame(this, game));
         }
-        if(currentUser instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty() && !tester.isBlocked()){
+        if(currentUser instanceof CTester tester && tester.isGameInCollection(game) && !tester.getPlatformsNotTestedForGame(game).isEmpty() && !tester.isBlocked() && (tester.getTotalHoursPlayedOnAGame(game) >= CTest.NUMBER_HOURS_MINIMUM_PLAYED_TO_TEST)){
             JButton testButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.AJOUTER) + " un " + CTextPlaceHolder.TEST);
             panel.add(testButton);
             testButton.addActionListener(_ -> videoGameController.addTestFrame(this, game));

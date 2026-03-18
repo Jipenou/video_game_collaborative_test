@@ -16,6 +16,9 @@ public class CAddHoursToGameView extends JFrame{
     private final JComboBox<CPlatform> platformBox;
     private final JTextArea hoursToAdd;
 
+    /** The label that react to the actions */
+    private final JLabel messageLabel;
+
     public CAddHoursToGameView(CVideoGameController videoGameController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
         this.videoGameController = videoGameController;
@@ -44,19 +47,37 @@ public class CAddHoursToGameView extends JFrame{
 
         JButton submitHoursButton = new JButton(CTextPlaceHolder.capitalize(CTextPlaceHolder.ENREGISTRER));
         panel.add(submitHoursButton);
-
         submitHoursButton.addActionListener(_ -> submitHours(gameInfoView));
+
+        messageLabel = new JLabel("", SwingConstants.CENTER);
+        panel.add(messageLabel);
 
         add(panel);
     }
 
     private void submitHours(CVideoGameInfoView videoGameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
-        int heures = Integer.parseInt(hoursToAdd.getText());
 
-        videoGameController.addHoursToGame(videoGame, platform, heures);
-        dispose();
-        videoGameInfoView.dispose();
-        videoGameController.viewInfoGameFrame(videoGame);
+        if (platform == null) {
+            messageLabel.setText("Veuillez sélectionner une " + CTextPlaceHolder.PLATEFORME);
+            return;
+        }
+
+        try {
+            int heures = Integer.parseInt(hoursToAdd.getText());
+
+            if (heures <= 0) {
+                messageLabel.setText("Le " + CTextPlaceHolder.NOMBRE + " d'" + CTextPlaceHolder.HEURE_S + " doit être positif");
+                return;
+            }
+
+            videoGameController.addHoursToGame(videoGame, platform, heures);
+            dispose();
+            videoGameInfoView.dispose();
+            videoGameController.viewInfoGameFrame(videoGame);
+
+        } catch (NumberFormatException e) {
+            messageLabel.setText("Veuillez entrer un " + CTextPlaceHolder.NOMBRE + " valide");
+        }
     }
 }

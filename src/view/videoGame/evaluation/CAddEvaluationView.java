@@ -19,6 +19,9 @@ public class CAddEvaluationView extends JFrame {
     private final JTextField scoreField;
     private final JTextField versionField;
 
+    /** The label that react to the actions */
+    private final JLabel messageLabel;
+
     public CAddEvaluationView(CEvaluationController evaluationController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
 
         this.evaluationController = evaluationController;
@@ -58,8 +61,10 @@ public class CAddEvaluationView extends JFrame {
 
         JButton submitButton = new JButton( CTextPlaceHolder.capitalize(CTextPlaceHolder.VALIDER));
         panel.add(submitButton);
-
         submitButton.addActionListener(_ -> submitEvaluation(gameInfoView));
+
+        messageLabel = new JLabel("", SwingConstants.CENTER);
+        panel.add(messageLabel);
 
         add(panel);
     }
@@ -69,9 +74,35 @@ public class CAddEvaluationView extends JFrame {
      */
     private void submitEvaluation(CVideoGameInfoView gameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
-        String version = versionField.getText();
-        String text = textArea.getText();
-        double note = Integer.parseInt(scoreField.getText());
+
+        if (platform == null) {
+            messageLabel.setText("Veuillez sélectionner une " + CTextPlaceHolder.PLATEFORME);
+            return;
+        }
+
+        String version = versionField.getText().trim();
+        if (version.isEmpty()) {
+            messageLabel.setText("Veuillez entrer une " + CTextPlaceHolder.VERSION);
+            return;
+        }
+
+        String text = textArea.getText().trim();
+        if (text.isEmpty()) {
+            messageLabel.setText("Veuillez entrer un " + CTextPlaceHolder.COMMENTAIRE);
+            return;
+        }
+
+        double note;
+        try {
+            note = Double.parseDouble(scoreField.getText().trim());
+            if (note < 0 || note > 10) {
+                messageLabel.setText("La " + CTextPlaceHolder.NOTE + " doit être entre 0 et 10");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            messageLabel.setText("Veuillez entrer une " + CTextPlaceHolder.NOTE + " valide");
+            return;
+        }
 
         CPlayer player = (CPlayer) evaluationController.getController().getCurrentUser();
 

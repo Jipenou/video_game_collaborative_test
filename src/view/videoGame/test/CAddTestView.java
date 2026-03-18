@@ -22,6 +22,9 @@ public class CAddTestView extends JFrame{
     private final JTextField conditionsField;
     private final JTextField versionField;
 
+    /** The label that react to the actions */
+    private final JLabel messageLabel;
+
     private final Map<CTest.ECategory, JSpinner> categoryMap = new HashMap<>();
 
     public CAddTestView(CTestController testController, CVideoGame videoGame, CVideoGameInfoView gameInfoView) {
@@ -73,6 +76,9 @@ public class CAddTestView extends JFrame{
 
         submitButton.addActionListener(_ -> submitEvaluation(gameInfoView));
 
+        messageLabel = new JLabel("", SwingConstants.CENTER);
+        panel.add(messageLabel);
+
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         add(scrollPane);
@@ -80,9 +86,29 @@ public class CAddTestView extends JFrame{
 
     private void submitEvaluation(CVideoGameInfoView gameInfoView){
         CPlatform platform = (CPlatform) platformBox.getSelectedItem();
-        String version = versionField.getText();
-        String text = textArea.getText();
-        String conditions = conditionsField.getText();
+
+        if (platform == null) {
+            messageLabel.setText("Veuillez sélectionner une " + CTextPlaceHolder.PLATEFORME);
+            return;
+        }
+
+        String version = versionField.getText().trim();
+        if (version.isEmpty()) {
+            messageLabel.setText("Veuillez entrer une " + CTextPlaceHolder.VERSION);
+            return;
+        }
+
+        String conditions = conditionsField.getText().trim();
+        if (conditions.isEmpty()) {
+            messageLabel.setText("Veuillez entrer des " + CTextPlaceHolder.CONDITION_S);
+            return;
+        }
+
+        String text = textArea.getText().trim();
+        if (text.isEmpty()) {
+            messageLabel.setText("Veuillez entrer un " + CTextPlaceHolder.TEXTE);
+            return;
+        }
 
         CTester tester = (CTester) testController.getController().getCurrentUser();
 
