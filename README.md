@@ -12,7 +12,7 @@
 ## Installation du projet
 
 1. Téléchargez le ZIP du projet :
-   [ZIP du projet](https://drive.google.com/file/d/1sSYjzMTNJ_9TqzusoVSgadTr9n5bvUlr/view?usp=sharing)
+   [ZIP du projet](https://drive.google.com/drive/folders/1crw2itIsQm8NJwkgT-FYsBX4JCSdrJV8?usp=sharing)
 
 2. Dézippez-le dans le dossier de votre choix.
 
