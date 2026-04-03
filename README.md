@@ -33,14 +33,6 @@
 
 **ATTENTION** : Assurez-vous que le JDK 25 est correctement configuré et que `launch.bat` pointe vers le bon chemin du JAR et des fichiers de données (`data/vg_data.csv`).
 
-## Lancement du programme (MACOS)
-
-1. Ouvrez le dossier `script/`.
-2. Donnez les droits d'écriture au fichier launch.sh (chmod +x script/launch.sh)
-3. Lancez launch.sh : ./script/launch.sh
-4. Le programme devrait se lancer automatiquement.
-
-
 ---
 
 ### Lancement du programme (macOS / Linux)
