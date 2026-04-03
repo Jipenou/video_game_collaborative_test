@@ -16,10 +16,21 @@
 * Pour Linux : téléchargez-le depuis le site officiel :
   [Oracle JDK 25 pour Linux](https://www.oracle.com/java/technologies/downloads/#jdk25-linux)
     * ![java25_linux.png](documentation/image/java25_linux.png)
+    * Ou alors en ligne de commande : 
+    ```bash
+    sudo apt update
+    ```
+  ```bash
+    sudo apt install openjdk-25-jdk
+    ```
+  Vérifier le java : 
+  ```bash
+    java --version
+    ```
 
 ## Installation du projet
 
-1. Téléchargez le ZIP du projet :
+1. Téléchargez le ZIP constituant l'exécutable du projet :
    [ZIP du projet](https://drive.google.com/drive/folders/1crw2itIsQm8NJwkgT-FYsBX4JCSdrJV8?usp=sharing)
 
 2. Dézippez-le dans le dossier de votre choix.
@@ -31,7 +42,7 @@
 2. Double-cliquez sur `launch.bat`.
 3. Le programme devrait se lancer automatiquement.
 
-**ATTENTION** : Assurez-vous que le JDK 25 est correctement configuré et que `launch.bat` pointe vers le bon chemin du JAR et des fichiers de données (`data/vg_data.csv`).
+**ATTENTION** : Assurez-vous que le JDK 25 est correctement configuré et que `launch.bat` pointe vers le bon chemin du JAR.
 
 ---
 
