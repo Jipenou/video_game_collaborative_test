@@ -7,8 +7,15 @@
 * Avoir **Java 25** installé sur votre machine.
 * Pour Windows : téléchargez-le depuis le site officiel :
   [Oracle JDK 25 pour Windows](https://www.oracle.com/java/technologies/downloads/#jdk25-windows)
-  * ![dl_java25_1.png](documentation/image/dl_java25_1.png)
-  * ![dl_java25_2.png](documentation/image/dl_java25_2.png)
+  * ![java25_windows.png](documentation/image/java25_windows.png)
+
+* Pour MacOs : téléchargez-le depuis le site officiel :
+  [Oracle JDK 25 pour MacOs](https://www.oracle.com/java/technologies/downloads/#jdk25-mac)
+    * ![java25_macos.png](documentation/image/java25_macos.png)
+
+* Pour Linux : téléchargez-le depuis le site officiel :
+  [Oracle JDK 25 pour Linux](https://www.oracle.com/java/technologies/downloads/#jdk25-linux)
+    * ![java25_linux.png](documentation/image/java25_linux.png)
 
 ## Installation du projet
 
