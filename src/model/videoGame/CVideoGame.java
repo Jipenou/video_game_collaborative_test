@@ -23,9 +23,9 @@ public class CVideoGame {
     private final Character rating;
 
     /** All the platforms that handle the video game */
-    private final ArrayList<CPlatform> platforms;
+    private final List<CPlatform> platforms;
 
-    /** A map that contains the evaluation by platform as <platform, evaluation>*/
+    /** A List that contains the evaluation by platform*/
     private final List<CEvaluation> evaluations;
 
     /** A map that contains the evaluation by platform as <platform, test>*/
@@ -246,7 +246,7 @@ public class CVideoGame {
      *
      * @return all the platform that contain this video game
      */
-    public ArrayList<CPlatform> getPlatforms() {
+    public List<CPlatform> getPlatforms() {
         return platforms;
     }
 
